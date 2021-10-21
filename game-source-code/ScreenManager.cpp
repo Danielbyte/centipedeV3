@@ -1,0 +1,283 @@
+#include "ScreenManager.h"
+ScreenManager::ScreenManager():
+    bodiesToSpawn{11}, //spawn 11 body segments
+    isPlaying{false},
+    window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
+    shoot_timer{2},
+    isGameOver{false}
+{
+    initialize_screen();
+    initialize_player();
+    create_enemy();
+}
+
+void ScreenManager::initialize_player()
+{
+    if(!playerSprite_texture.loadFromFile("resources/player.png")) throw CouldNotLoadPicture{};
+    player_sprite.setTexture(playerSprite_texture);
+    player_sprite.setPosition(logic.player_object.get_Xposition(), logic.player_object.get_Yposition());
+    player_sprite.setOrigin(vector2f(player_size/2, player_size/2));
+}
+
+void ScreenManager::initialize_screen()
+{
+    Displays.loadFromFile("resources/sansation.ttf");
+    splash_screenFont.loadFromFile("resources/sansation.ttf");
+    splash_screenDisplay.setFont(splash_screenFont);
+    splash_screenDisplay.setCharacterSize(20);
+    splash_screenDisplay.setStyle(Text::Regular);
+    splash_screenDisplay.setFillColor(Color::Red);
+    splash_screenDisplay.setPosition(10,180);
+    splash_screenDisplay.setString("Welcome to Centipede++");
+
+    //game instructions set up
+    game_instructions.setFont(splash_screenFont);
+    game_instructions.setCharacterSize(20);
+    game_instructions.setStyle(Text::Regular);
+    game_instructions.setFillColor(Color::Red);
+    game_instructions.setPosition(10, 220);
+    game_instructions.setString("INSTRUCTIONS: \nPress Enter to start game!"
+                                "\nPress Escape(Esc) to quit!"
+                                "\nUse keyboard arrows to move player"
+                                "\nPress space to shoot");
+
+    playerLives_display.setFont(Displays);
+    playerLives_display.setCharacterSize(12);
+    playerLives_display.setStyle(Text::Underlined);
+    playerLives_display.setFillColor(Color::Red);
+    playerLives_display.setPosition(0,0);
+
+}
+
+void ScreenManager::run()
+{
+    //uniform game speed
+    window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
+
+    while(window.isOpen())
+    {
+        process_events();
+        if(isPlaying)
+        {
+            //needs to update screen accordingly
+            update();
+            window.draw(player_sprite);
+
+            for (auto& centipede_segments : CentipedeSprite_vector) // draw centipede (only the head for now)
+            {
+                window.draw(*centipede_segments);
+            }
+
+            for (auto& bullet : bulletSprites_vector) // draw bullets on screen
+            {
+               //(bullet) ->Draw(_window);
+               window.draw(*bullet);
+            }
+        }
+
+        else
+        {
+            window.draw(splash_screenDisplay);
+            if (!isGameOver){window.draw(game_instructions);}
+        }
+
+        window.display();
+        window.clear();
+    }
+}
+
+void ScreenManager::process_events()
+{
+    Event event;
+    while(window.pollEvent(event))
+    {
+        switch(event.type)
+        {
+        case Event::KeyPressed:
+            if(event.key.code == Keyboard::Escape)
+            {
+                window.close();
+            }
+            else
+                keyboard_handling(event.key.code, true);
+            break;
+
+        case Event::KeyReleased:
+            keyboard_handling(event.key.code, false);
+            break;
+
+        case Event::Closed:
+            window.close();
+            break;
+
+        default:
+            ;
+
+        }
+    }
+}
+
+void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
+{
+    if (shoot_timer < 2) {shoot_timer++;}
+
+    if(key == Keyboard::Enter) //player wants to play
+        isPlaying = true;
+    if(isPlaying)
+    {
+        if(key == Keyboard::Up)
+        {
+            logic.player_object.setPlayer_movement(Direction::Up, isPressed);
+        }
+        else if(key == Keyboard::Down)
+        {
+            //player should move down
+            logic.player_object.setPlayer_movement(Direction::Down, isPressed);
+        }
+        else if(key == Keyboard::Right)
+        {
+            //player should move right
+            logic.player_object.setPlayer_movement(Direction::Right, isPressed);
+        }
+        else if(key == Keyboard::Left)
+        {
+            //player should move down
+            logic.player_object.setPlayer_movement(Direction::Left, isPressed);
+        }
+        else if (key == Keyboard::Space && shoot_timer >= 2)
+        {
+            create_laserShots();
+            shoot_timer = 0;
+        }
+    }
+}
+
+void ScreenManager::update()
+{
+    auto mushGridPtr = logic.GetMushGridPtr();
+    draw_mushrooms(mushGridPtr);
+
+    logic.update_player(player_sprite);
+    logic.updateLaserShots(bulletSprites_vector);
+    logic.update_centipede(CentipedeSprite_vector);
+    logic.collisionBetween_mushAndPlayer(player_sprite);
+    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
+    updateScreen_manager();
+    update_game();
+}
+
+void ScreenManager::create_laserShots()
+{
+    logic.create_bullet(bulletSprites_vector);
+}
+
+void ScreenManager::create_enemy()
+{
+    //create enemy object via logic layer
+    logic.create_centipede(true, bodiesToSpawn, CentipedeSprite_vector);
+}
+
+void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& MushGridPtr)
+{
+    Texture mushroomTexture;
+    Sprite mushroomSprite;
+    mushroomTexture.loadFromFile("resources/mushroom.png", intRect(0,0,16,16)); // crop off the first frame only.
+    mushroomSprite.setTexture(mushroomTexture);
+
+    Texture mushroomTexture_;
+    Sprite mushroomSprite_;
+
+
+    for (int i = 0; i < 32; i++)
+    {
+        for (int j = 0; j < 30; j++)
+        {
+            if(MushGridPtr ->mushArray[i][j] != NULL)
+            {
+                auto mush_health = MushGridPtr ->mushArray[i][j] -> getMush_health();
+                if ( mush_health < 4)
+                {
+                    //std::cout << "I'm a dying mush "<< mush_health<< std::endl;
+                    if (mush_health == 3)
+                        {
+
+                            mushroomTexture_.loadFromFile("resources/mush1.png");
+                            mushroomSprite_.setTexture(mushroomTexture_);
+                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                            mushroomSprite_.setPosition(j*offset, i*offset);
+                            window.draw(mushroomSprite_);
+                        }
+                        if (mush_health == 2)
+                        {
+                            mushroomTexture_.loadFromFile("resources/mush2.png");
+                            mushroomSprite_.setTexture(mushroomTexture_);
+                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                            mushroomSprite_.setPosition(j*offset, i*offset);
+                            window.draw(mushroomSprite_);
+                        }
+
+                        if (mush_health == 1)
+                        {
+                            mushroomTexture_.loadFromFile("resources/mush3.png");
+                            mushroomSprite_.setTexture(mushroomTexture_);
+                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                            mushroomSprite_.setPosition(j*offset, i*offset);
+                            window.draw(mushroomSprite_);
+                        }
+
+                }
+                else
+                {
+                   mushroomSprite.setOrigin(vector2f(0, 0));
+                   mushroomSprite.setScale(1,1);
+                   mushroomSprite.setPosition(j*offset, i*offset);
+                   window.draw(mushroomSprite);
+                }
+            }
+        }
+    }
+}
+
+void ScreenManager::updateScreen_manager()
+{
+    auto remainingPlayer_lives = logic.player_object.getPlayer_lives();
+    std::string remainingPlayer_lives_ = std::to_string(remainingPlayer_lives);
+    playerLives_display.setString("LIVES: " + remainingPlayer_lives_);
+    window.draw(playerLives_display);
+
+}
+
+void ScreenManager::update_game()
+{
+    splash_screenDisplay.setPosition(125, 208);
+    splash_screenDisplay.setCharacterSize(40);
+
+    // Game should terminate if player lives = zero
+    // see if player is still alive
+    auto player_status = logic.player_object.getPlayer_state();
+    if(!player_status)
+    {
+        isPlaying = false;
+        isGameOver = true;
+        splash_screenDisplay.setString("YOU LOST!"
+                                       "\nGAME OVER");
+    }
+
+    auto killed_segments = logic.getKilled_segments();
+    auto centipede_size = bodiesToSpawn + 1;
+    if(killed_segments == centipede_size)
+    {
+        isPlaying = false;
+        isGameOver = true;
+        splash_screenDisplay.setString("YOU WIN!"
+                                       "\nGAME OVER");
+    }
+}
+
+//Free up resources
+ScreenManager::~ScreenManager()
+{
+    bulletSprites_vector.clear();
+    CentipedeSprite_vector.clear();
+}
