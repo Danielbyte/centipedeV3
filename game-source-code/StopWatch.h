@@ -6,12 +6,12 @@ class StopWatch
 {
 public:
     StopWatch();
-    float getTimeElapsed() const;
+    float getTimeElapsed();
     void stop();
     void restart();
 
 private:
-    float TimeTaken_ForEvent();
+    float current_time();
     float start_time;
     float stop_time;
 
