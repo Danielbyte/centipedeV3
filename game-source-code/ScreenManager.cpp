@@ -4,7 +4,8 @@ ScreenManager::ScreenManager():
     isPlaying{false},
     window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
-    isGameOver{false}
+    isGameOver{false},
+    canSpawnScorpion{false}
 {
     initialize_screen();
     initialize_player();
@@ -273,6 +274,16 @@ void ScreenManager::update_game()
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER");
     }
+}
+
+void ScreenManager::create_scorpion()
+{
+    vector2f pos_ = logic.create_scorpion();
+    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+    scorpion -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
+    scorpion -> setTexture(scorpion_texture);
+    scorpion -> setPosition(pos_);
+
 }
 
 //Free up resources

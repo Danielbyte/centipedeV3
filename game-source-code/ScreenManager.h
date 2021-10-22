@@ -17,6 +17,9 @@ class ScreenManager
     void draw_mushrooms(const shared_ptr<MushroomFieldController>&);
     void update_game();
 
+    //scorpion
+    void create_scorpion();
+
     private:
         //Number of body segments to spawn after head
         int bodiesToSpawn;
@@ -64,6 +67,12 @@ class ScreenManager
         int shoot_timer;
 
         bool isGameOver;
+
+        //scorpion
+        bool canSpawnScorpion;
+        Texture scorpion_texture;
+        shared_ptr<Sprite>scorpion;
+
 
 
 };

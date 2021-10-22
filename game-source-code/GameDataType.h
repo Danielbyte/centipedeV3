@@ -17,6 +17,8 @@ const auto Tile_offset = 8;
 const auto mushroom_size = 16;
 const auto centipedeBody_size = 16;
 const auto bullet_size = 16;
+const auto scorpion_width = 32;
+const auto scorpion_height = 16;
 
 //Define game objects
 enum class ID{player_, centipede};
