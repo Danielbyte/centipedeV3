@@ -550,6 +550,22 @@ vector2f Logic::create_scorpion()
     return _pos;
 }
 
+bool Logic::canSpawn_scorpion()
+{
+    if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
+    {
+        //if 40 seconds has elapsed, spawn scorpion
+        scorpion_watch.restart();
+        scorpion.setIfCanSpawn_scorpion(true);
+    }
+    else
+    {
+       scorpion.setIfCanSpawn_scorpion(false);
+    }
+
+    return scorpion.getIfCanSpawn_scorpion();
+}
+
 //free up resources
 Logic::~Logic()
 {

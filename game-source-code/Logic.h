@@ -9,6 +9,7 @@
 #include "SfmlDataType.h"
 #include "Centipede.h"
 #include "Scorpion.h"
+#include "StopWatch.h"
 
 class Logic
 {
@@ -39,6 +40,9 @@ class Logic
 
     //scorpion
     vector2f create_scorpion();
+    StopWatch scorpion_watch;
+    //set and get if scorpion can be spawned
+    bool canSpawn_scorpion();
 
     private:
         //int index;

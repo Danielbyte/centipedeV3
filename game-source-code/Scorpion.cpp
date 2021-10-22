@@ -2,7 +2,7 @@
 
 Scorpion::Scorpion():
     scorpion_speed{2},
-    spawnScorpion_rate{40}, //spawn scorpion after 40 seconds
+    spawnScorpion_rate{10}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
     isOffScreen{false} //scorpion initially on screen when created
 {
@@ -37,7 +37,7 @@ void Scorpion::setIfCanSpawn_scorpion(bool var)
 void Scorpion::update(float _time)
 {
     //only updating when scorpion has been created
-    if (_time > 40)
+    if (_time > spawnScorpion_rate)
     {
         pos.x -= scorpion_speed;
     }
@@ -50,4 +50,9 @@ void Scorpion::update(float _time)
     {
         isOffScreen = false;
     }
+}
+
+int Scorpion::getScorpion_spawnRate() const
+{
+    return spawnScorpion_rate;
 }
