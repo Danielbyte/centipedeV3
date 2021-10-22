@@ -388,7 +388,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             centipedeObject_pos.x = (centipedeObject) -> get_position().x;
             centipedeObject_pos.y = (centipedeObject) -> get_position().y;
 
-            auto iscollided = collision.isCollidedWithBullet(bulletSprite_pos, bullet_size/4, centipedeObject_pos, centipedeBody_size);
+            auto iscollided = collision.isCollidedWithBullet(bulletSprite_pos, bullet_size/offset, centipedeObject_pos, centipedeBody_size);
             if (iscollided)
             {
                 //set body segment to inactive
@@ -542,6 +542,12 @@ void Logic::create_bullet(vector<shared_ptr<Sprite>>& bullet)
 int Logic::getKilled_segments() const
 {
     return shotCent_segments;
+}
+
+vector2f Logic::create_scorpion()
+{
+    auto _pos = scorpion.create_scorpion();
+    return _pos;
 }
 
 //free up resources

@@ -8,6 +8,7 @@
 #include "Collision.h"
 #include "SfmlDataType.h"
 #include "Centipede.h"
+#include "Scorpion.h"
 
 class Logic
 {
@@ -36,6 +37,9 @@ class Logic
 
     int getKilled_segments() const;
 
+    //scorpion
+    vector2f create_scorpion();
+
     private:
         //int index;
         int counter;
@@ -46,6 +50,7 @@ class Logic
         //int** mushArray = 0;
 
         Collision collision;
+        Scorpion scorpion;
         int playerArea_upBound;
         int centipedeAnimationCounter;
 
@@ -68,7 +73,6 @@ class Logic
 
         // spawn a body segment behind
         void spawn_behind(vector<shared_ptr<Sprite>>&);
-
 
         //logic for the centipede
         vector2f pos;
