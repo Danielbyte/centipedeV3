@@ -388,7 +388,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             centipedeObject_pos.x = (centipedeObject) -> get_position().x;
             centipedeObject_pos.y = (centipedeObject) -> get_position().y;
 
-            auto iscollided = collision.isCollidedWithBullet(bulletSprite_pos, bullet_size, centipedeObject_pos, centipedeBody_size);
+            auto iscollided = collision.isCollidedWithBullet(bulletSprite_pos, bullet_size/4, centipedeObject_pos, centipedeBody_size);
             if (iscollided)
             {
                 //set body segment to inactive
