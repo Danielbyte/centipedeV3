@@ -3,20 +3,29 @@
 #include "SfmlDataType.h"
 #include "StopWatch.h"
 #include "GameDataType.h"
+#include "ctime"
 
 class Scorpion
 {
 public:
     Scorpion();
     //update the scorpion sprite
-    update(shared_ptr<Sprite>&);
-    move_scorpion();
+    void update(float);
+    vector2f create_scorpion();
+    void get_scorpionPos();
+    void setIfCanSpawn_scorpion(bool var);
+    bool getIfCanSpawn_scorpion() const;
 private:
     vector2f pos;
     float scorpion_speed;
+    float spawnScorpion_rate;
 
     //time to set movement of scorpion
-    StopWatch time;
+    StopWatch time_;
+    bool canCreate_scorpion;
+
+    //notify if scorpion goes out of screen to free resources
+    bool isOffScreen;
 
 };
 
