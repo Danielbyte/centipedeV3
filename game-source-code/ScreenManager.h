@@ -20,6 +20,8 @@ class ScreenManager
     //scorpion
     void create_scorpion();
 
+    shared_ptr<Sprite>scorpion{new Sprite{}};
+
     private:
         //Number of body segments to spawn after head
         int bodiesToSpawn;
@@ -71,9 +73,6 @@ class ScreenManager
         //scorpion
         bool canSpawnScorpion;
         Texture scorpion_texture;
-        shared_ptr<Sprite>scorpion;
-
-
 
 };
 #endif // SCREENMANAGER_H

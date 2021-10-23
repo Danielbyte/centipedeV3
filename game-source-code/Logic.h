@@ -41,8 +41,10 @@ class Logic
     //scorpion
     vector2f create_scorpion();
     StopWatch scorpion_watch;
+    StopWatch scorpion_watch2;
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
+    void update_scorpion(shared_ptr<Sprite>&);
 
     private:
         //int index;
@@ -101,5 +103,6 @@ class Logic
 
         //keep track of shot centipede segments
         int shotCent_segments;
+        bool created_scorpion;
 
 };

@@ -4,7 +4,8 @@ Logic::Logic():
     counter{0},
     playerArea_upBound{25},
     MushCollidedWith_bullet{false},
-    shotCent_segments{0} //Number of shot segment pieces initially zero
+    shotCent_segments{0}, //Number of shot segment pieces initially zero
+    created_scorpion{false}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     auto centipede_ptr = std::make_unique<Centipede>(Centipede());
@@ -552,11 +553,13 @@ vector2f Logic::create_scorpion()
 
 bool Logic::canSpawn_scorpion()
 {
+     //std::cout << "Time1 " << scorpion_watch.getTimeElapsed() <<std::endl;
     if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
-        //if 40 seconds has elapsed, spawn scorpion
+        //if 10 seconds has elapsed, spawn scorpion
         scorpion_watch.restart();
         scorpion.setIfCanSpawn_scorpion(true);
+        created_scorpion = true;
     }
     else
     {
@@ -564,6 +567,13 @@ bool Logic::canSpawn_scorpion()
     }
 
     return scorpion.getIfCanSpawn_scorpion();
+}
+
+void Logic::update_scorpion(shared_ptr<Sprite>& scorpion_)
+{
+    if (scorpion_watch2.getTimeElapsed() > 10)
+    {scorpion.update(scorpion_ ,scorpion_watch2.getTimeElapsed());}
+
 }
 
 //free up resources
