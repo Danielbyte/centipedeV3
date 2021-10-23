@@ -24,6 +24,7 @@ public:
     int getMush_health() const;
 
     bool getIsPoisoned() const;
+    void changeToPoison();
 
 private:
     float x_position;
@@ -34,7 +35,5 @@ private:
     int mushroom_health;
     //see if mushroom is poisoned
     bool isPoisoned;
-
-    void changeToPoison();
 };
 #endif // MUSHROOMFIELD_H

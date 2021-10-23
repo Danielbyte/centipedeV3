@@ -1,5 +1,6 @@
 #ifndef SCORPION_H
 #define SCORPION_H
+
 #include "SfmlDataType.h"
 #include "StopWatch.h"
 #include "GameDataType.h"
