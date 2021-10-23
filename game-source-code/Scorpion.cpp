@@ -1,10 +1,11 @@
 #include "Scorpion.h"
+#include "Logic.h"
 
 Scorpion::Scorpion():
     scorpion_speed{0.01},
     spawnScorpion_rate{15}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
-    isOffScreen{false}, //scorpion initially on screen when created
+    isOffScreen{true}, //scorpion initially off screen when created
     counter{0}
 {
 
@@ -12,7 +13,6 @@ Scorpion::Scorpion():
 
 vector2f Scorpion::create_scorpion()
 {
-
     //set the position of scorpion
     pos.x = (29.f)*offset; // scorpion will move from right to left
 
@@ -40,6 +40,7 @@ void Scorpion::update(shared_ptr<Sprite>& scorpion_sprite,float _time)
     //only updating when scorpion has been created
     if (_time > spawnScorpion_rate)
     {
+        isOffScreen = false;
         if (counter == 0)
         {
             if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
@@ -65,15 +66,16 @@ void Scorpion::update(shared_ptr<Sprite>& scorpion_sprite,float _time)
             counter = 0;
         }
 
-            pos.x -= 2;
-            scorpion_sprite -> setPosition(pos);
-            scorpion_sprite -> setOrigin(vector2f(0.f,0.f));
-            counter++;
+        pos.x -= 2;
+        scorpion_sprite -> setPosition(pos);
+        scorpion_sprite -> setOrigin(vector2f(0.f,0.f));
+        counter++;
     }
 
     if (pos.x <= -offset)
     {
         scorpion_sprite.reset(new Sprite);
+        isOffScreen = true;
     }
 
 }

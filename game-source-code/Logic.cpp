@@ -554,16 +554,25 @@ vector2f Logic::create_scorpion()
 bool Logic::canSpawn_scorpion()
 {
      //std::cout << "Time1 " << scorpion_watch.getTimeElapsed() <<std::endl;
+
     if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
         //if 10 seconds has elapsed, spawn scorpion
         scorpion_watch.restart();
         scorpion.setIfCanSpawn_scorpion(true);
         created_scorpion = true;
+
     }
     else
     {
        scorpion.setIfCanSpawn_scorpion(false);
+    }
+
+    if (!scorpion.getIfOffScreen())
+    {
+            //std::cout << "Scorp moving!!" << std::endl;
+            auto pos_ = scorpion.getScorpion_position();
+            ChangeToPoison(pos_);
     }
 
     return scorpion.getIfCanSpawn_scorpion();
@@ -571,9 +580,22 @@ bool Logic::canSpawn_scorpion()
 
 void Logic::update_scorpion(shared_ptr<Sprite>& scorpion_)
 {
-    if (scorpion_watch2.getTimeElapsed() > 10)
-    {scorpion.update(scorpion_ ,scorpion_watch2.getTimeElapsed());}
+    if (scorpion_watch2.getTimeElapsed() > scorpion.getScorpion_spawnRate())
+    {
+        scorpion.update(scorpion_ ,scorpion_watch2.getTimeElapsed());
 
+    }
+}
+
+void Logic::ChangeToPoison(vector2f pos_)
+{
+    int xPos = (int)(pos_.x/offset);
+    int yPos = (int)(pos_.y/offset);
+    if(mushField ->isMushroom(yPos, xPos))
+    {
+        //std::cout << "Change to poison!!" << std::endl;
+        mushField -> mushArray[yPos][xPos] -> changeToPoison();
+    }
 }
 
 //free up resources

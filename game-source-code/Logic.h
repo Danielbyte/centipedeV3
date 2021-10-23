@@ -1,3 +1,7 @@
+#ifndef LOGIC_H
+#define LOGIC_H
+
+#include "Scorpion.h"
 #include "SfmlDataType.h"
 #include "GameDataType.h"
 #include "Player.h"
@@ -8,7 +12,6 @@
 #include "Collision.h"
 #include "SfmlDataType.h"
 #include "Centipede.h"
-#include "Scorpion.h"
 #include "StopWatch.h"
 
 class Logic
@@ -82,20 +85,6 @@ class Logic
 
         //logic for the centipede
         vector2f pos;
-       /*bool up;
-        bool down;
-        bool left;
-        bool right;
-        bool isMovingLeft;
-        bool isMovingRight;
-        bool isMovingUp;
-        bool isMovingDown;
-        Direction _down;
-        Direction _up;
-        Direction _left;
-        Direction _right;
-        Direction nextMovement;
-        Direction next_nextMovement;*/
 
         Texture bullet_texture;
 
@@ -105,4 +94,9 @@ class Logic
         int shotCent_segments;
         bool created_scorpion;
 
+        void ChangeToPoison(vector2f);
+        float time;
+
 };
+
+#endif // LOGIC_H
