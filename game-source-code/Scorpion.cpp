@@ -1,7 +1,7 @@
 #include "Scorpion.h"
 
 Scorpion::Scorpion():
-    scorpion_speed{1},
+    scorpion_speed{0.01},
     spawnScorpion_rate{15}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
     isOffScreen{false}, //scorpion initially on screen when created
@@ -46,19 +46,19 @@ void Scorpion::update(shared_ptr<Sprite>& scorpion_sprite,float _time)
             scorpion_sprite -> setTexture(scorpion_texture);
         }
 
-        if (counter == 2)
+        if (counter == 5)
         {
             if(!scorpion_texture.loadFromFile("resources/scorpion2.png")) throw CouldNotLoadPicture{};
             scorpion_sprite -> setTexture(scorpion_texture);
         }
 
-        if(counter == 4)
+        if(counter == 10)
         {
             if(!scorpion_texture.loadFromFile("resources/scorpion3.png")) throw CouldNotLoadPicture{};
             scorpion_sprite -> setTexture(scorpion_texture);
         }
 
-        if(counter == 6)
+        if(counter == 15)
         {
             if(!scorpion_texture.loadFromFile("resources/scorpion4.png")) throw CouldNotLoadPicture{};
             scorpion_sprite -> setTexture(scorpion_texture);

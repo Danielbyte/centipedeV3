@@ -11,8 +11,6 @@ class MushroomField
 public:
     MushroomField(int, int);
     //overload equal operator
-    //MushroomField(MushroomField& therField) = delete;
-   // MushroomField& operator = (const MushroomField& otherField) = delete;
     //~MushroomField();
 
     //Randomly populate the field with mushrooms
@@ -25,6 +23,8 @@ public:
     //get mush health
     int getMush_health() const;
 
+    bool getIsPoisoned() const;
+
 private:
     float x_position;
     float y_position;
@@ -32,7 +32,9 @@ private:
     float horizontalPos;
     float verticalPos;
     int mushroom_health;
+    //see if mushroom is poisoned
+    bool isPoisoned;
+
+    void changeToPoison();
 };
-//vector of shared pointers to keep track of all objects in the mushroom field.
-//typedef vector<shared_ptr<MushroomField>> vectOfMush_field;
 #endif // MUSHROOMFIELD_H
