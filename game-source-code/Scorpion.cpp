@@ -1,10 +1,11 @@
 #include "Scorpion.h"
 
 Scorpion::Scorpion():
-    scorpion_speed{2},
+    scorpion_speed{1},
     spawnScorpion_rate{15}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
-    isOffScreen{false} //scorpion initially on screen when created
+    isOffScreen{false}, //scorpion initially on screen when created
+    counter{0}
 {
 
 }
@@ -20,7 +21,7 @@ vector2f Scorpion::create_scorpion()
     int max = 6;
     // randomly generate row position bearing in mind that it should not
     // be in player area.
-    pos.y = (float)((rand() % (max) + min)*offset);
+    pos.y = (float)(((rand() % max) + min)*offset);
     return pos;
 }
 
@@ -39,9 +40,35 @@ void Scorpion::update(shared_ptr<Sprite>& scorpion_sprite,float _time)
     //only updating when scorpion has been created
     if (_time > spawnScorpion_rate)
     {
-        pos.x -= 2;
-        scorpion_sprite -> setPosition(pos);
-        //std::cout << "Xpos: " << pos.x<<std::endl;
+        if (counter == 0)
+        {
+            if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+            scorpion_sprite -> setTexture(scorpion_texture);
+        }
+
+        if (counter == 2)
+        {
+            if(!scorpion_texture.loadFromFile("resources/scorpion2.png")) throw CouldNotLoadPicture{};
+            scorpion_sprite -> setTexture(scorpion_texture);
+        }
+
+        if(counter == 4)
+        {
+            if(!scorpion_texture.loadFromFile("resources/scorpion3.png")) throw CouldNotLoadPicture{};
+            scorpion_sprite -> setTexture(scorpion_texture);
+        }
+
+        if(counter == 6)
+        {
+            if(!scorpion_texture.loadFromFile("resources/scorpion4.png")) throw CouldNotLoadPicture{};
+            scorpion_sprite -> setTexture(scorpion_texture);
+            counter = 0;
+        }
+
+            pos.x -= 2;
+            scorpion_sprite -> setPosition(pos);
+            scorpion_sprite -> setOrigin(vector2f(0.f,0.f));
+            counter++;
     }
 
     if (pos.x <= -offset)
