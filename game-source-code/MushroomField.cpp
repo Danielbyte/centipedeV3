@@ -1,16 +1,13 @@
 #include "MushroomField.h"
 
 MushroomField::MushroomField(int row, int col):
-    mushroom_health{4} //mushroom health initially = 4
+    mushroom_health{4}, //mushroom health initially = 4
+    isPoisoned{false} //mushroom initially not poisoned
     {
         x_position = row*offset;
         y_position = col*offset;
-        //ptr = mushField;
         horizontalPos = x_position;
         verticalPos = y_position;
-
-        //inform array that array is alive
-        //ptr ->mushArray[row][col] = this;
     }
 
 float MushroomField::get_Xpos()
@@ -38,5 +35,15 @@ void MushroomField::decrementMush_health()
 int MushroomField::getMush_health() const
 {
     return mushroom_health;
+}
+
+void MushroomField::changeToPoison()
+{
+    isPoisoned = true;
+}
+
+bool MushroomField::getIsPoisoned() const
+{
+    return isPoisoned;
 }
 
