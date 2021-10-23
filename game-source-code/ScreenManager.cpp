@@ -72,8 +72,8 @@ void ScreenManager::run()
 
             for (auto& bullet : bulletSprites_vector) // draw bullets on screen
             {
-               //(bullet) ->Draw(_window);
-               window.draw(*bullet);
+                //(bullet) ->Draw(_window);
+                window.draw(*bullet);
             }
 
             window.draw(*scorpion);
@@ -82,7 +82,10 @@ void ScreenManager::run()
         else
         {
             window.draw(splash_screenDisplay);
-            if (!isGameOver){window.draw(game_instructions);}
+            if (!isGameOver)
+            {
+                window.draw(game_instructions);
+            }
         }
 
         window.display();
@@ -123,7 +126,10 @@ void ScreenManager::process_events()
 
 void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
 {
-    if (shoot_timer < 2) {shoot_timer++;}
+    if (shoot_timer < 2)
+    {
+        shoot_timer++;
+    }
 
     if(key == Keyboard::Enter) //player wants to play
         isPlaying = true;
@@ -211,44 +217,84 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
             if(MushGridPtr ->mushArray[i][j] != NULL)
             {
                 auto mush_health = MushGridPtr ->mushArray[i][j] -> getMush_health();
-                if ( mush_health < 4)
+                auto isPoisoned = MushGridPtr ->mushArray[i][j] -> getIsPoisoned();
+                if (isPoisoned == false)
                 {
+                    if (mush_health == 4)
+                    {
+                        mushroomSprite.setOrigin(vector2f(0, 0));
+                        mushroomSprite.setScale(1,1);
+                        mushroomSprite.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite);
+                    }
                     //std::cout << "I'm a dying mush "<< mush_health<< std::endl;
                     if (mush_health == 3)
-                        {
+                    {
 
-                            mushroomTexture_.loadFromFile("resources/mush1.png");
-                            mushroomSprite_.setTexture(mushroomTexture_);
-                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                            mushroomSprite_.setPosition(j*offset, i*offset);
-                            window.draw(mushroomSprite_);
-                        }
-                        if (mush_health == 2)
-                        {
-                            mushroomTexture_.loadFromFile("resources/mush2.png");
-                            mushroomSprite_.setTexture(mushroomTexture_);
-                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                            mushroomSprite_.setPosition(j*offset, i*offset);
-                            window.draw(mushroomSprite_);
-                        }
+                        mushroomTexture_.loadFromFile("resources/mush1.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
+                    if (mush_health == 2)
+                    {
+                        mushroomTexture_.loadFromFile("resources/mush2.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
 
-                        if (mush_health == 1)
-                        {
-                            mushroomTexture_.loadFromFile("resources/mush3.png");
-                            mushroomSprite_.setTexture(mushroomTexture_);
-                            mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                            mushroomSprite_.setPosition(j*offset, i*offset);
-                            window.draw(mushroomSprite_);
-                        }
-
+                    if (mush_health == 1)
+                    {
+                        mushroomTexture_.loadFromFile("resources/mush3.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
                 }
-                else
+
+                if(isPoisoned)
                 {
-                   mushroomSprite.setOrigin(vector2f(0, 0));
-                   mushroomSprite.setScale(1,1);
-                   mushroomSprite.setPosition(j*offset, i*offset);
-                   window.draw(mushroomSprite);
+                    if (mush_health == 4)
+                    {
+                        mushroomTexture_.loadFromFile("resources/pmush1.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
+                    if (mush_health == 3)
+                    {
+
+                        mushroomTexture_.loadFromFile("resources/pmush2.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
+                    if (mush_health == 2)
+                    {
+                        mushroomTexture_.loadFromFile("resources/pmush3.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
+
+                    if (mush_health == 1)
+                    {
+                        mushroomTexture_.loadFromFile("resources/pmush4.png");
+                        mushroomSprite_.setTexture(mushroomTexture_);
+                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
+                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        window.draw(mushroomSprite_);
+                    }
+
                 }
+
             }
         }
     }
