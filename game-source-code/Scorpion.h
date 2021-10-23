@@ -20,6 +20,8 @@ public:
 
     bool getIfOffScreen() const;
 
+    Texture scorpion_texture;
+
 private:
     vector2f pos;
     float scorpion_speed;
@@ -31,6 +33,7 @@ private:
 
     //notify if scorpion goes out of screen to free resources
     bool isOffScreen;
+    int counter;
 
 };
 
