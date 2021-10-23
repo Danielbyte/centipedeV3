@@ -10,12 +10,16 @@ class Scorpion
 public:
     Scorpion();
     //update the scorpion sprite
-    void update(float);
+    void update(shared_ptr<Sprite>&, float);
     vector2f create_scorpion();
     void get_scorpionPos();
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
     int getScorpion_spawnRate() const;
+    vector2f getScorpion_position() const;
+
+    bool getIfOffScreen() const;
+
 private:
     vector2f pos;
     float scorpion_speed;

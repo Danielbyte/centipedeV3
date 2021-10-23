@@ -75,6 +75,8 @@ void ScreenManager::run()
                //(bullet) ->Draw(_window);
                window.draw(*bullet);
             }
+
+            window.draw(*scorpion);
         }
 
         else
@@ -171,7 +173,9 @@ void ScreenManager::update()
     if (canSpawnScorpion)
     {
         std::cout << "Time for a scorp."<< std::endl;
+        create_scorpion();
     }
+    logic.update_scorpion(scorpion);
 
 
     updateScreen_manager();
@@ -293,7 +297,6 @@ void ScreenManager::create_scorpion()
     scorpion -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
     scorpion -> setTexture(scorpion_texture);
     scorpion -> setPosition(pos_);
-
 }
 
 //Free up resources
