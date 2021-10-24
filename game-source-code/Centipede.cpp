@@ -5,13 +5,17 @@ Centipede::Centipede():
     head{false},
     x_initial{14},
     y_initial{1},
-    isMovingUp{false},
-    isMovingDown{false},
-    moveDown{false},
-    moveUp{false},
-    update_counter{1},
+    up{false},
+    down{false},
+    left{true},
+    right{false},
+    wasMovingLeft{true},
+    wasMovingRight{false},
+    wasMovingUp{false},
+    wasMovingDown{true},
     isActive{true}, //centipede segment initially alive
-    counter{0}
+    counter{0},
+    counter2{0}
     {
         //set the initial position of centipede
         pos = vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
@@ -76,64 +80,9 @@ bool Centipede::getHead() const
     return head;
 }
 
-void Centipede::setIsMovingDown(bool var)
-{
-  isMovingDown = var;
-}
-
-void Centipede::setIsMovingUp(bool var)
-{
-  isMovingUp = var;
-}
-
-void Centipede::setMoveDown(bool var)
-{
-    moveDown = var;
-}
-
-void Centipede::setMoveUp(bool var)
-{
-    moveUp = var;
-}
-
-bool Centipede::getIsMovingDown() const
-{
-    return isMovingDown;
-}
-
-bool Centipede::getIsMovingUp() const
-{
-    return isMovingUp;
-}
-
-bool Centipede::getMoveDown() const
-{
-    return moveDown;
-}
-
-bool Centipede::getMoveUp() const
-{
-    return moveUp;
-}
-
 void Centipede::setCentipedeSpeed (int speed)
 {
     centipede_speed = speed;
-}
-
-void Centipede::setUpdate_counter(int var)
-{
-    update_counter -= var;
-}
-
-int Centipede::getUpdate_counter() const
-{
-    return update_counter;
-}
-
-void Centipede::resetUpdate_counter()
-{
-    update_counter = 1;
 }
 
 void Centipede::setSegment_status(bool var)
@@ -146,9 +95,9 @@ bool Centipede::getSegment_status() const
     return isActive;
 }
 
-void Centipede::set_counter(int var)
+void Centipede::increment_counter()
 {
-    counter += var;
+    counter ++;
 }
 
 int Centipede::get_counter() const
@@ -159,4 +108,29 @@ int Centipede::get_counter() const
 void Centipede::reset_counter()
 {
     counter = 0;
+}
+
+void Centipede::incrementCounter2()
+{
+    counter2++;
+}
+
+int Centipede::getCounter2() const
+{
+    return counter2;
+}
+
+bool Centipede::getDown() const
+{
+    return down;
+}
+
+bool Centipede::getUp() const
+{
+    return up;
+}
+
+void Centipede::resetCounter2()
+{
+    counter2 = 0;
 }
