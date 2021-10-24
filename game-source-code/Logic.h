@@ -50,6 +50,12 @@ class Logic
     void update_scorpion(shared_ptr<Sprite>&);
 
     private:
+        //Function to detect mushroom field collisions
+        void checkFor_mushroom(shared_ptr<Centipede>&);
+
+        //set centipede sprite movements and rotations
+        void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
+
         //int index;
         int counter;
         int centipedeSpeed;

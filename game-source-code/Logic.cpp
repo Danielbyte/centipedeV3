@@ -95,112 +95,35 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
 
     while (centipedeObject_iter != centipede_objectVector.end())
     {
-        // counter++;
-        (*centipedeObject_iter) ->set_counter(1);
 
-        //This is the part where we determine if it is head/body that is being implemented
-        isHead = (*centipedeObject_iter) ->getHead();
-        //std::cout << isHead << std::endl;
-        pos = (*centipedeObject_iter) -> get_position();
-        (*centipedeSprite_iter) -> setPosition(pos);
+        (*centipedeObject_iter) -> incrementCounter2();
 
-        int x2 = int (pos.x/offset);
-        int y2 = int (pos.y/offset);
-
-        //  if (isHead) //the head being updated
-        // {
-        if (((*centipedeObject_iter) -> get_counter()) == 1)
+        bool up_ = (*centipedeObject_iter) -> getUp();
+        bool down_ = (*centipedeObject_iter) -> getDown();
+        if(up_ | down_)
         {
-            //centipede body segment moving to the left
-            centipedeSpeed = (*centipedeObject_iter) ->getCentipede_speed();
-            pos = (*centipedeObject_iter) -> get_position();
-            if (centipedeSpeed > 0)
-            {
-                //centipede body segment hit left wall
-                if (mushField ->isMushroom(y2,x2) | (pos.x < (offset/2)) )
-                {
-                    pos = (*centipedeObject_iter) -> get_position();
-                    if (pos.y >= (windowHeight - offset/2))
-                    {
-                        (*centipedeObject_iter) -> setIsMovingUp(true);
-                        ismovingUp = (*centipedeObject_iter) -> getIsMovingUp();
-                    }
-
-                    if ((*centipedeObject_iter)->getIsMovingUp())
-                    {
-                        //decrease rows
-                        (*centipedeObject_iter) -> setMoveDown(true);
-                        moveDown = (*centipedeObject_iter) ->getMoveDown();
-                    }
-                    else
-                    {
-                        //increase row position
-                        (*centipedeObject_iter) -> setMoveUp(true);
-                        moveUp = (*centipedeObject_iter) ->getMoveUp();
-                    }
-
-                    if (pos.y < playerArea_upBound * offset) //centipede at upper bound of player area
-                    {
-                        (*centipedeObject_iter) -> setIsMovingUp(false);
-                        ismovingUp = (*centipedeObject_iter) -> getIsMovingUp();
-                    }
-                    //change direction
-                    (*centipedeObject_iter) -> setCentipedeSpeed(-1*centipedeSpeed);
-                    //std::cout << centipedeSpeed << std::endl;
-                }
-            }
-
-            //centipede body segment moving to the right
-            else
-            {
-                pos = (*centipedeObject_iter) -> get_position();
-                if ((mushField ->isMushroom(y2, x2)) | (pos.x >= (windowWidth - (offset/2)))) // centipede body segment hit right border
-                {
-
-                    if (pos.y >= (windowHeight - offset/2))
-                    {
-                        (*centipedeObject_iter) -> setIsMovingUp(true);
-                        ismovingUp = (*centipedeObject_iter) -> getIsMovingUp();
-                    }
-
-                    if (((*centipedeObject_iter) -> getIsMovingUp()) == false)
-                    {
-                        // increase row
-                        (*centipedeObject_iter) -> setMoveUp(true);
-                        moveUp = (*centipedeObject_iter) ->getMoveUp();
-                    }
-                    else
-                    {
-                        //decrease row
-                        (*centipedeObject_iter) -> setMoveDown(true);
-                        moveDown = (*centipedeObject_iter) ->getMoveDown();
-                    }
-
-                    if (pos.y < (playerArea_upBound * offset +1))
-                    {
-                        (*centipedeObject_iter) -> setIsMovingUp(false);
-                        ismovingUp = (*centipedeObject_iter) ->getIsMovingUp();
-                    }
-                    // change Direction
-                    (*centipedeObject_iter) -> setCentipedeSpeed(-1*centipedeSpeed);
-                    //std::cout << centipedeSpeed << std::endl;
-                }
-
-            }
-            //counter = 0;
+            (*centipedeObject_iter) -> increment_counter();
+        }
+        else
+        {
             (*centipedeObject_iter) -> reset_counter();
-            if (moveDown == false && moveUp == false)
-            {
-                pos.x -= centipedeSpeed;
-                (*centipedeObject_iter) -> set_Xpos(pos); //move centipede to the side.
-            }
-            centipedeSpeed = (*centipedeObject_iter) ->getCentipede_speed();
-            movement_update(centipede_objectVector, centipedeSprite_vector, distance(centipede_objectVector.begin(), centipedeObject_iter));
+        }
+
+        auto counter2_ = (*centipedeObject_iter) -> getCounter2();
+        if(counter2_ >= 1)
+        {
+            checkFor_mushroom(*centipedeObject_iter);
+            (*centipedeObject_iter) -> resetCounter2();
         }
 
         ++centipedeObject_iter;
         ++centipedeSprite_iter;
     }
+}
+
+void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
+{
+
 }
 
 
@@ -450,57 +373,6 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
 
 }
 
-void Logic::movement_update(vector<shared_ptr<Centipede>>& centipedeObject, vector<shared_ptr<Sprite>>& centSprite,int index)
-{
-    if (moveUp)
-    {
-        //move up
-        (centipedeObject.at(index)) -> move_up();
-        pos = (centipedeObject.at(index)) -> get_position();
-        (centipedeObject.at(index)) -> setUpdate_counter(1);
-        update_counter = (centipedeObject.at(index)) ->getUpdate_counter();
-
-        if (centipedeSpeed > 0)
-        {
-            (centSprite.at(index)) -> rotate(-180);
-        }
-        else
-        {
-            (centSprite.at(index)) -> rotate(180);
-        }
-    }
-
-    else if (moveDown)
-    {
-        (centipedeObject.at(index)) -> move_down();
-        pos = (centipedeObject.at(index)) -> get_position();
-        (centipedeObject.at(index)) -> setUpdate_counter(1);
-        update_counter = (centipedeObject.at(index)) -> getUpdate_counter();
-
-        if (centipedeSpeed > 0)
-        {
-            (centSprite.at(index)) -> rotate(-180);
-        }
-        else
-        {
-            (centSprite.at(index)) -> rotate(180);
-        }
-    }
-
-    if ((centipedeObject.at(index) -> getUpdate_counter()) <= 0) //stop moving up and down after
-    {
-        (centipedeObject.at(index)) ->setMoveDown(false);
-        moveDown = (centipedeObject.at(index)) -> getMoveDown();
-        (centipedeObject.at(index)) ->setMoveUp(false);
-        moveUp = (centipedeObject.at(index)) ->getMoveUp();
-        //moveDown = false;
-        //moveUp = false;
-        (centipedeObject.at(index)) -> resetUpdate_counter();
-        update_counter = (centipedeObject.at(index)) ->getUpdate_counter();
-        //std::cout << "updated body counter" << std::endl;
-    }
-}
-
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object
@@ -553,7 +425,7 @@ vector2f Logic::create_scorpion()
 
 bool Logic::canSpawn_scorpion()
 {
-     //std::cout << "Time1 " << scorpion_watch.getTimeElapsed() <<std::endl;
+    //std::cout << "Time1 " << scorpion_watch.getTimeElapsed() <<std::endl;
 
     if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
@@ -565,14 +437,14 @@ bool Logic::canSpawn_scorpion()
     }
     else
     {
-       scorpion.setIfCanSpawn_scorpion(false);
+        scorpion.setIfCanSpawn_scorpion(false);
     }
 
     if (!scorpion.getIfOffScreen())
     {
-            //std::cout << "Scorp moving!!" << std::endl;
-            auto pos_ = scorpion.getScorpion_position();
-            ChangeToPoison(pos_);
+        //std::cout << "Scorp moving!!" << std::endl;
+        auto pos_ = scorpion.getScorpion_position();
+        ChangeToPoison(pos_);
     }
 
     return scorpion.getIfCanSpawn_scorpion();
@@ -582,7 +454,7 @@ void Logic::update_scorpion(shared_ptr<Sprite>& scorpion_)
 {
     if (scorpion_watch2.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
-        scorpion.update(scorpion_ ,scorpion_watch2.getTimeElapsed());
+        scorpion.update(scorpion_,scorpion_watch2.getTimeElapsed());
 
     }
 }
