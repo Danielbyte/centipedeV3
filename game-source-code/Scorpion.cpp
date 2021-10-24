@@ -14,7 +14,7 @@ Scorpion::Scorpion():
 vector2f Scorpion::create_scorpion()
 {
     //set the position of scorpion
-    pos.x = (29.f)*offset; // scorpion will move from right to left
+    pos.x = (30.f)*offset; // scorpion will move from right to left
 
     srand(time(0));
     int min = 2;
