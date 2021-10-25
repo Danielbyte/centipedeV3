@@ -2,35 +2,43 @@
 #include "Logic.h"
 
 Scorpion::Scorpion():
-    scorpion_speed{0.01},
-    spawnScorpion_rate{8}, //spawn scorpion after 10 seconds
+    scorpion_speed{2},
+    spawnScorpion_rate{4}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
     isOffScreen{true}, //scorpion initially off screen when created
-    counter{0}
+    counter{0},
+    control{0}
 {
 
 }
 
 vector2f Scorpion::create_scorpion(const vector<shared_ptr<Centipede>>& centipede_object)
 {
+    control++;
     //set the position of scorpion
     pos.x = (30.f)*offset; // scorpion will move from right to left
 
     srand(time(0));
-    int min = 2;
-    int max = 12;
+    int min = 5;
+    int max = 10;
     // randomly generate row position bearing in mind that it should not
     // be in player area.
-    for (auto centipede : centipede_object)
+    if (control == 1)
     {
-        pos.y = (float)(((rand() % max) + min)*offset);
-        auto pos_ = centipede -> get_position();
-        if (pos.y == pos_.y)
-        {
-            pos.y = (float)(((rand() % max) + min)*offset);
-        }
+        pos.y = 160.f;
+    }
+    if (control == 2)
+    {
+        pos.y = 176.f;
 
     }
+
+    if (control == 3)
+    {
+        pos.y = 208.f;
+        control = 0;
+    }
+
     return pos;
 }
 
@@ -75,7 +83,7 @@ void Scorpion::update(shared_ptr<Sprite>& scorpion_sprite,float _time)
             counter = 0;
         }
 
-        pos.x -= 2;
+        pos.x -= scorpion_speed;
         scorpion_sprite -> setPosition(pos);
         scorpion_sprite -> setOrigin(vector2f(0.f,0.f));
         counter++;

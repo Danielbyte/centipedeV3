@@ -533,7 +533,6 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             {
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
-                //std::cout << "Bullet collided with centipede!!" <<std::endl;
             }
 
         }
@@ -550,8 +549,6 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
         {
             //update number of killed bodies
             ++shotCent_segments;
-            //std::cout << "shot bodies: " << shotCent_segments << std::endl;
-            //point to the next body segment
 
             auto newCent_sprite = ++centSprite_iter;
             //decrement the iterator.
@@ -561,6 +558,8 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             {
                 (*newCent_sprite) -> setOrigin(vector2f(centipedeBody_size/2.f, centipedeBody_size/2.f));
                 (*newCent_sprite) -> setTexture(centipede_texture);
+                // set to head
+                (*centObject_iter) -> setHead(true);
             }
             //capture position to spawn mushroom
             vector2f posToSpawnMushroom;
@@ -593,7 +592,6 @@ void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object
     bool _ishead = false;
-
     while (bodySegmentsTo_spawn > 0)
     {
         shared_ptr<Centipede>body_ptr(new Centipede());
