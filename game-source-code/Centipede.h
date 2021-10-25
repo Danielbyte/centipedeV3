@@ -37,11 +37,34 @@ public:
     void reset_counter();
 
     void incrementCounter2();
-    int getCounter2() const;
     void resetCounter2();
 
-    bool getDown() const;
+    //sets and getters for mark movement booleans
     bool getUp() const;
+    bool getDown() const;
+    bool getLeft() const;
+    bool getRight() const;
+
+    bool getWasMovingLeft() const;
+    bool getWasMovingRight() const;
+    bool getWasMovingUp() const;
+    bool getWasMovingDown() const;
+
+    void setUp(bool);
+    void setDown(bool);
+    void setLeft(bool);
+    void setRight(bool);
+
+    void setWasMovingLeft(bool);
+    void setWasMovingRight(bool);
+    void setWasMovingUp(bool);
+
+    void setWasMovingDown(bool);
+    int getCounter2() const;
+
+    bool getIsCentipedePoisoned() const;
+    void setToPoisoned();
+    void cure_from_poison();
 
 private:
     vector2f pos;
@@ -61,7 +84,6 @@ private:
     bool wasMovingUp;
     bool wasMovingDown;
 
-
     //int update_counter;
     //variable to get state of segment
     bool isActive;
@@ -70,6 +92,10 @@ private:
 
     //counter to update collisions of centipede
      int counter2;
+
+     //get if centipede is poisoned
+     bool isCentipedePoisoned;
+
 
 
 
