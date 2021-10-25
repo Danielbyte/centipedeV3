@@ -13,6 +13,7 @@
 #include "SfmlDataType.h"
 #include "Centipede.h"
 #include "StopWatch.h"
+#include "centipedeAnimation.h"
 
 class Logic
 {
@@ -50,6 +51,7 @@ class Logic
     void update_scorpion(shared_ptr<Sprite>&);
 
     private:
+        centipedeAnimation animation;
         //Function to detect mushroom field collisions
         void checkFor_mushroom(shared_ptr<Centipede>&);
 
