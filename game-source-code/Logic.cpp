@@ -94,7 +94,7 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
 
     while (centipedeObject_iter != centipede_objectVector.end())
     {
-
+        animation.Animate((*centipedeObject_iter), (*centipedeSprite_iter));
         (*centipedeObject_iter) -> incrementCounter2();
 
         bool up_ = (*centipedeObject_iter) -> getUp();
@@ -559,7 +559,8 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
                 (*newCent_sprite) -> setOrigin(vector2f(centipedeBody_size/2.f, centipedeBody_size/2.f));
                 (*newCent_sprite) -> setTexture(centipede_texture);
                 // set to head
-                (*centObject_iter) -> setHead(true);
+                auto body_segment_behind = (centObject_iter + 1);
+                (*body_segment_behind) -> setHead(true);
             }
             //capture position to spawn mushroom
             vector2f posToSpawnMushroom;
