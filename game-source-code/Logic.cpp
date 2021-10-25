@@ -294,6 +294,54 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
     }
 }
 
+void Logic::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& centSprite_ptr)
+{
+    auto down_ = centipede_ptr -> getDown();
+    auto up_ = centipede_ptr -> getUp();
+    auto left_ = centipede_ptr -> getLeft();
+    auto right_ = centipede_ptr -> getRight();
+    auto wasMovingLeft = centipede_ptr -> getWasMovingLeft();
+    auto wasMovingRight = centipede_ptr -> getWasMovingRight();
+
+    if(down_)
+    {
+        if(wasMovingRight)
+        {
+            centSprite_ptr -> rotate(180);
+        }
+        else
+        {
+            centSprite_ptr -> rotate(-180);
+        }
+
+        centipede_ptr -> move_down();
+    }
+
+    else if(up_)
+    {
+        if(wasMovingLeft)
+        {
+            centSprite_ptr -> rotate(-180);
+        }
+        else
+        {
+            centSprite_ptr -> rotate(180);
+        }
+
+        centipede_ptr -> move_up();
+    }
+
+    else if(left_)
+    {
+        centipede_ptr -> move_left();
+    }
+
+    else if(right_)
+    {
+        centipede_ptr -> move_right();
+    }
+}
+
 shared_ptr<MushroomFieldController> Logic::GetMushGridPtr() const
 {
     return mushField;
