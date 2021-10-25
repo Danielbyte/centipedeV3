@@ -29,7 +29,7 @@ vector2f Centipede::get_position() const
 
 void Centipede::move_down()
 {
-    pos.y -= offset;
+    pos.y += offset;
 }
 
 void Centipede::move_left()
@@ -48,7 +48,7 @@ void Centipede::move_right()
 
 void Centipede::move_up()
 {
-    pos.y += offset;
+    pos.y -= offset;
 }
 
 void Centipede::set_position(vector2f position)

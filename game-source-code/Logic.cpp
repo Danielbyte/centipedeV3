@@ -2,7 +2,7 @@
 
 Logic::Logic():
     counter{0},
-    playerArea_upBound{25},
+    playerArea_upBound{376},
     MushCollidedWith_bullet{false},
     shotCent_segments{0}, //Number of shot segment pieces initially zero
     created_scorpion{false}
@@ -89,7 +89,6 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
 
 void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
 {
-
     auto centipedeObject_iter = centipede_objectVector.begin();
     auto centipedeSprite_iter = centipedeSprite_vector.begin();
 
@@ -115,6 +114,10 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
             checkFor_mushroom(*centipedeObject_iter);
             (*centipedeObject_iter) -> resetCounter2();
         }
+
+        Movement((*centipedeObject_iter),(*centipedeSprite_iter));
+        auto pos_ = (*centipedeObject_iter) -> get_position();
+        (*centipedeSprite_iter) -> setPosition(pos_);
 
         ++centipedeObject_iter;
         ++centipedeSprite_iter;
