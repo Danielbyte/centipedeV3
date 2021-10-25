@@ -37,6 +37,8 @@ private:
     bool isOffScreen;
     int counter;
 
+    int control;
+
 };
 
 #endif // SCORPION_H
