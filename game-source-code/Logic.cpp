@@ -108,7 +108,7 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
         }
 
         auto counter2_ = (*centipedeObject_iter) -> getCounter2();
-        if(counter2_ >= 1)
+        if(counter2_ >= 8)
         {
             checkFor_mushroom(*centipedeObject_iter);
             (*centipedeObject_iter) -> resetCounter2();
@@ -138,17 +138,17 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY, newX)) | (pos_.x < offset/2) | (centipede_poisoned))
+            if((mushField->isMushroom(newY, newX - 1)) | (pos_.x < offset) | (centipede_poisoned))
             {
                 centipede_ptr -> setDown(true);
                 centipede_ptr -> setLeft(false);
                 centipede_ptr -> setWasMovingLeft(true);
             }
             //See if there is a poisoned mushroom on the left
-            if(mushField -> mushArray[newY][newX] != NULL)
+            if(mushField -> mushArray[newY][newX - 1] != NULL)
             {
-                auto isMushPoisoned = mushField -> mushArray[newY][newX] -> getIsPoisoned();
-                if((newX > 0) && isMushPoisoned)
+                auto isMushPoisoned = mushField -> mushArray[newY][newX - 1] -> getIsPoisoned();
+                if(((newX - 1) > 0) && isMushPoisoned)
                 {
                     (centipede_ptr) -> setToPoisoned();
                 }
@@ -159,17 +159,17 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY,newX)) | (pos_.x >= (windowWidth - offset/2)) | (centipede_poisoned))
+            if((mushField->isMushroom(newY,newX + 1)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
             {
                 (centipede_ptr) -> setDown(true);
                 (centipede_ptr) -> setRight(false);
                 (centipede_ptr) -> setWasMovingRight(true);
             }
 
-            if(mushField -> mushArray[newY][newX] != NULL)
+            if(mushField -> mushArray[newY][newX + 1] != NULL)
             {
-                auto isMushPoisoned = mushField -> mushArray[newY][newX] -> getIsPoisoned();
-                if((newX > 0) && (isMushPoisoned))
+                auto isMushPoisoned = mushField -> mushArray[newY][newX + 1] -> getIsPoisoned();
+                if(((newX + 1) > 0) && (isMushPoisoned))
                 {
                     (centipede_ptr) -> setToPoisoned();
                 }
@@ -180,7 +180,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         auto counter_ = centipede_ptr -> get_counter();
         if(down_ & (counter_ >= 1))
         {
-            if(pos_.y < windowHeight)
+            if(pos_.y < windowHeight - 8)
             {
                 auto wasGoingRight = centipede_ptr -> getWasMovingRight();
                 if(wasGoingRight)
@@ -229,7 +229,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if ((mushField -> isMushroom(newY, newX)) | (pos_.x <= offset/2) | (centipede_poisoned))
+            if ((mushField -> isMushroom(newY, newX - 1)) | (pos_.x <= offset) | (centipede_poisoned))
             {
                 //std::cout << "Came here! " <<std::endl;
                 centipede_ptr -> setUp(true);
@@ -242,7 +242,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField -> isMushroom(newY, newX)) | (pos_.x >= (windowWidth - offset/2)) | (centipede_poisoned))
+            if((mushField -> isMushroom(newY, newX + 1)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
             {
                 centipede_ptr -> setUp(true);
                 centipede_ptr -> setRight(false);
@@ -310,11 +310,11 @@ void Logic::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& c
     {
         if(wasMovingRight)
         {
-            centSprite_ptr -> rotate(180);
+            centSprite_ptr -> rotate(22.5);
         }
         else
         {
-            centSprite_ptr -> rotate(-180);
+            centSprite_ptr -> rotate(-22.5);
         }
 
         centipede_ptr -> move_down();
@@ -324,11 +324,11 @@ void Logic::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& c
     {
         if(wasMovingLeft)
         {
-            centSprite_ptr -> rotate(-180);
+            centSprite_ptr -> rotate(-22.5);
         }
         else
         {
-            centSprite_ptr -> rotate(180);
+            centSprite_ptr -> rotate(22.5);
         }
 
         centipede_ptr -> move_up();
