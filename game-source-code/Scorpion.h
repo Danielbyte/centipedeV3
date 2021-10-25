@@ -4,6 +4,7 @@
 #include "SfmlDataType.h"
 #include "StopWatch.h"
 #include "GameDataType.h"
+#include "Centipede.h"
 #include "ctime"
 
 class Scorpion
@@ -12,7 +13,7 @@ public:
     Scorpion();
     //update the scorpion sprite
     void update(shared_ptr<Sprite>&, float);
-    vector2f create_scorpion();
+    vector2f create_scorpion(const vector<shared_ptr<Centipede>>&);
     void get_scorpionPos();
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
