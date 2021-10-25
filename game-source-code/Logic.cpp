@@ -94,7 +94,6 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
 
     while (centipedeObject_iter != centipede_objectVector.end())
     {
-        animation.Animate((*centipedeObject_iter), (*centipedeSprite_iter));
         (*centipedeObject_iter) -> incrementCounter2();
 
         bool up_ = (*centipedeObject_iter) -> getUp();
@@ -118,6 +117,7 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
         Movement((*centipedeObject_iter),(*centipedeSprite_iter));
         auto pos_ = (*centipedeObject_iter) -> get_position();
         (*centipedeSprite_iter) -> setPosition(pos_);
+        animation.Animate((*centipedeObject_iter), (*centipedeSprite_iter));
 
         ++centipedeObject_iter;
         ++centipedeSprite_iter;
