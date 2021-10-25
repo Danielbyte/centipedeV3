@@ -15,7 +15,8 @@ Centipede::Centipede():
     wasMovingDown{true},
     isActive{true}, //centipede segment initially alive
     counter{0},
-    counter2{0}
+    counter2{0},
+    isCentipedePoisoned{false}
     {
         //set the initial position of centipede
         pos = vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
@@ -133,4 +134,89 @@ bool Centipede::getUp() const
 void Centipede::resetCounter2()
 {
     counter2 = 0;
+}
+
+bool Centipede::getRight() const
+{
+    return right;
+}
+
+bool Centipede::getWasMovingDown() const
+{
+    return wasMovingDown;
+}
+
+bool Centipede::getWasMovingUp() const
+{
+    return wasMovingUp;
+}
+
+bool Centipede::getWasMovingLeft() const
+{
+    return wasMovingLeft;
+}
+
+bool Centipede::getWasMovingRight() const
+{
+    return wasMovingRight;
+}
+
+void Centipede::setUp(bool var)
+{
+    up = var;
+}
+
+void Centipede::setDown(bool var)
+{
+    down = var;
+}
+
+void Centipede::setLeft(bool var)
+{
+    left = var;
+}
+
+void Centipede::setRight(bool var)
+{
+    right = var;
+}
+
+void Centipede::setWasMovingDown(bool var)
+{
+    wasMovingDown = var;
+}
+
+void Centipede::setWasMovingLeft(bool var)
+{
+    wasMovingLeft = var;
+}
+
+void Centipede::setWasMovingRight(bool var)
+{
+    wasMovingRight = var;
+}
+
+void Centipede::setWasMovingUp(bool var)
+{
+    wasMovingUp = var;
+}
+
+bool Centipede::getLeft() const
+{
+    return left;
+}
+
+void Centipede::setToPoisoned()
+{
+    isCentipedePoisoned = true;
+}
+
+bool Centipede::getIsCentipedePoisoned() const
+{
+    return isCentipedePoisoned;
+}
+
+void Centipede::cure_from_poison()
+{
+    isCentipedePoisoned = false;
 }
