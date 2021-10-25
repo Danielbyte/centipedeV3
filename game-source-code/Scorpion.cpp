@@ -3,7 +3,7 @@
 
 Scorpion::Scorpion():
     scorpion_speed{0.01},
-    spawnScorpion_rate{15}, //spawn scorpion after 10 seconds
+    spawnScorpion_rate{8}, //spawn scorpion after 10 seconds
     canCreate_scorpion{false},
     isOffScreen{true}, //scorpion initially off screen when created
     counter{0}
@@ -11,17 +11,26 @@ Scorpion::Scorpion():
 
 }
 
-vector2f Scorpion::create_scorpion()
+vector2f Scorpion::create_scorpion(const vector<shared_ptr<Centipede>>& centipede_object)
 {
     //set the position of scorpion
     pos.x = (30.f)*offset; // scorpion will move from right to left
 
     srand(time(0));
     int min = 2;
-    int max = 6;
+    int max = 12;
     // randomly generate row position bearing in mind that it should not
     // be in player area.
-    pos.y = (float)(((rand() % max) + min)*offset);
+    for (auto centipede : centipede_object)
+    {
+        pos.y = (float)(((rand() % max) + min)*offset);
+        auto pos_ = centipede -> get_position();
+        if (pos.y == pos_.y)
+        {
+            pos.y = (float)(((rand() % max) + min)*offset);
+        }
+
+    }
     return pos;
 }
 

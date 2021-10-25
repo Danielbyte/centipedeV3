@@ -630,7 +630,7 @@ int Logic::getKilled_segments() const
 
 vector2f Logic::create_scorpion()
 {
-    auto _pos = scorpion.create_scorpion();
+    auto _pos = scorpion.create_scorpion(centipede_objectVector);
     return _pos;
 }
 
