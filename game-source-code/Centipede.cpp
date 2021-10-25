@@ -16,7 +16,8 @@ Centipede::Centipede():
     isActive{true}, //centipede segment initially alive
     counter{0},
     counter2{0},
-    isCentipedePoisoned{false}
+    isCentipedePoisoned{false},
+    animation_loop{0}
     {
         //set the initial position of centipede
         pos = vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
@@ -219,4 +220,17 @@ bool Centipede::getIsCentipedePoisoned() const
 void Centipede::cure_from_poison()
 {
     isCentipedePoisoned = false;
+}
+
+void Centipede::increment_animation()
+{
+    animation_loop++;
+}
+int Centipede::get_anime_loop() const
+{
+    return animation_loop;
+}
+void Centipede::reset_animation_loop()
+{
+    animation_loop = 0;
 }
