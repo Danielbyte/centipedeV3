@@ -11,6 +11,7 @@ public:
     centipedeAnimation(){};
     void Animate (shared_ptr<Centipede>&, shared_ptr<Sprite>&);
     Texture segment_texture;
+    Texture head_texture;
     private:
 };
 #endif // CENTIPEDEANIMATION_H
