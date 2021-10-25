@@ -66,6 +66,10 @@ public:
     void setToPoisoned();
     void cure_from_poison();
 
+    void increment_animation();
+    int get_anime_loop() const;
+    void reset_animation_loop();
+
 private:
     vector2f pos;
     int centipede_speed;
@@ -95,6 +99,9 @@ private:
 
      //get if centipede is poisoned
      bool isCentipedePoisoned;
+
+     //set Animation
+     int animation_loop;
 
 
 
