@@ -1,4 +1,4 @@
-#ifndef MUSHROOM_H
+/*#ifndef MUSHROOM_H
 #define MUSHROOM_H
 
 #include "SfmlDataType.h"
@@ -28,4 +28,4 @@ private:
 
 
 };
-#endif // MUSHROOM_H
+#endif // MUSHROOM_H*/

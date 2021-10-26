@@ -24,6 +24,8 @@ public:
     void setIfCanSpawnSpider(bool);
     bool getIfCanSpawnSpider() const;
 
+    vector2f get_position() const;
+
 private:
     int xFastMovementSpeed;
     int xSlowMovementSpeed;

@@ -188,6 +188,7 @@ void ScreenManager::update()
     {
         //time to create a spider!
         std::cout << "Time for a spider!" << std::endl;
+        create_spider();
     }
 
 
@@ -204,6 +205,26 @@ void ScreenManager::create_enemy()
 {
     //create enemy object via logic layer
     logic.create_centipede(true, bodiesToSpawn, CentipedeSprite_vector);
+}
+
+void ScreenManager::create_scorpion()
+{
+    vector2f pos_ = logic.create_scorpion();
+    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+    scorpion -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
+    scorpion -> setTexture(scorpion_texture);
+    scorpion -> setPosition(pos_);
+}
+
+void ScreenManager::create_spider()
+{
+    vector2f pos_ = logic.create_spider();
+    auto spider_sprite = std::make_shared<Sprite>(Sprite());
+    if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
+    spider_sprite -> setOrigin(vector2f(0.f, 0.f));
+    spider_sprite -> setTexture(spider_texture);
+    spider_sprite -> setPosition(pos_);
+    spider_sprite_vector.push_back(spider_sprite);
 }
 
 void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& MushGridPtr)
@@ -341,15 +362,6 @@ void ScreenManager::update_game()
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER");
     }
-}
-
-void ScreenManager::create_scorpion()
-{
-    vector2f pos_ = logic.create_scorpion();
-    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
-    scorpion -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
-    scorpion -> setTexture(scorpion_texture);
-    scorpion -> setPosition(pos_);
 }
 
 //Free up resources
