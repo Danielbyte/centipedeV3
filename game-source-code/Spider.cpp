@@ -1,13 +1,13 @@
 #include "Spider.h"
 
-Spider::Spider(Direction dir):
+Spider::Spider():
     xFastMovementSpeed{2},
     xSlowMovementSpeed{1},
     yMovementSpeed{2},
     counter{0},
-    spiderSpawnRate{15} // spawn after every 15 secs
+    spiderSpawnRate{15}, // spawn after every 15 secs
+    canSpawnSpider{false}
     {
-        set_starting_direction(dir);
         int x = 25;
         int y = 26;
         pos = vector2f(x*offset, y*offset);
@@ -48,3 +48,17 @@ int Spider::getYMovementSpeed() const
     return yMovementSpeed;
 }
 
+int Spider::getSpideSpawnRate() const
+{
+    return spiderSpawnRate;
+}
+
+void Spider::setIfCanSpawnSpider(bool var)
+{
+    canSpawnSpider = var;
+}
+
+bool Spider::getIfCanSpawnSpider() const
+{
+    return canSpawnSpider;
+}
