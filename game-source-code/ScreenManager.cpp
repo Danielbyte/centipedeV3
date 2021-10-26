@@ -76,6 +76,12 @@ void ScreenManager::run()
             }
 
             window.draw(*scorpion);
+
+            //output spider
+            for (auto& spider : spider_sprite_vector)
+            {
+                window.draw(*spider);
+            }
         }
 
         else
@@ -190,6 +196,8 @@ void ScreenManager::update()
         std::cout << "Time for a spider!" << std::endl;
         create_spider();
     }
+
+    logic.update_spider(spider_sprite_vector);
 
 
     updateScreen_manager();
