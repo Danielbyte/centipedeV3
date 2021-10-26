@@ -8,6 +8,7 @@ class Spider
 {
 public:
     //The plan is to get spider moving from left to right in random chances
+    Spider(Direction);
     void set_starting_direction(Direction);
     Direction get_starting_direction() const;
 
@@ -15,6 +16,7 @@ public:
     void setXSlowMoventSpeed();
     int getXFastMovementSpeed() const;
     int getXSlowMovementSpeed() const;
+    int getYMovementSpeed() const;
 
 private:
     int xFastMovementSpeed;
@@ -22,6 +24,8 @@ private:
     int yMovementSpeed;
     int counter;
     vector2f pos;
+    int spiderSpawnRate;
+    Direction start_direction;
 
 };
 #endif // SPIDER_H

@@ -635,7 +635,6 @@ vector2f Logic::create_scorpion()
 
 bool Logic::canSpawn_scorpion()
 {
-    //std::cout << "Time1 " << scorpion_watch.getTimeElapsed() <<std::endl;
 
     if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
@@ -652,7 +651,6 @@ bool Logic::canSpawn_scorpion()
 
     if (!scorpion.getIfOffScreen())
     {
-        //std::cout << "Scorp moving!!" << std::endl;
         auto pos_ = scorpion.getScorpion_position();
         ChangeToPoison(pos_);
     }
@@ -675,7 +673,6 @@ void Logic::ChangeToPoison(vector2f pos_)
     int yPos = (int)(pos_.y/offset);
     if(mushField ->isMushroom(yPos, xPos))
     {
-        //std::cout << "Change to poison!!" << std::endl;
         mushField -> mushArray[yPos][xPos] -> changeToPoison();
     }
 }
