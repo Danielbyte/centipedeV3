@@ -49,16 +49,19 @@ class Logic
     StopWatch scorpion_watch;
     StopWatch scorpion_watch2;
 
-    //spider watches
-    StopWatch spider_watch;
-
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
     void update_scorpion(shared_ptr<Sprite>&);
 
+    //spider watches
+    StopWatch spider_watch;
+    //update spider
     void update_spider(vector <shared_ptr<Spider>>&);
-
+    //vector of shared pointer to spider
+    vector<shared_ptr<Spider>>spider_object;
     bool getIfCanSpawnSpider();
+
+    vector2f create_spider();
 
     private:
         //Object for the Spider logic and update

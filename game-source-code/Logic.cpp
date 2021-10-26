@@ -133,7 +133,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY, newX)) | (pos_.x < offset) | (centipede_poisoned))
+            if(((mushField->isMushroom(newY, newX - 1)) || (mushField->isMushroom(newY, newX))) | (pos_.x < offset) | (centipede_poisoned))
             {
                 centipede_ptr -> setDown(true);
                 centipede_ptr -> setLeft(false);
@@ -154,7 +154,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY,newX)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
+            if(((mushField->isMushroom(newY,newX + 1)) || (mushField->isMushroom(newY,newX))) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
             {
                 (centipede_ptr) -> setDown(true);
                 (centipede_ptr) -> setRight(false);
@@ -224,7 +224,8 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if ((mushField -> isMushroom(newY, newX)) | (pos_.x <= offset) | (centipede_poisoned))
+            if (((mushField -> isMushroom(newY, newX)) || (mushField -> isMushroom(newY, newX - 1))) | (pos_.x <= offset)
+                 | (centipede_poisoned))
             {
                 //std::cout << "Came here! " <<std::endl;
                 centipede_ptr -> setUp(true);
@@ -237,7 +238,8 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField -> isMushroom(newY, newX)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
+            if((mushField -> isMushroom(newY, newX + 1)) || (pos_.x >= (windowWidth - offset)) | (centipede_poisoned) |
+               (mushField -> isMushroom(newY, newX)))
             {
                 centipede_ptr -> setUp(true);
                 centipede_ptr -> setRight(false);
@@ -613,7 +615,7 @@ void Logic::create_bullet(vector<shared_ptr<Sprite>>& bullet)
     bullet_sprite ->setTexture(bullet_texture);
     bullet_sprite ->setPosition(bullet_pos);
     auto bullet_offset = 22;
-    bullet_sprite ->setOrigin(bullet_size/2, bullet_offset);
+    bullet_sprite ->setOrigin(bullet_size/2, bullet_offset/2);
     bullet.push_back(bullet_sprite);
 }
 
@@ -689,6 +691,12 @@ bool Logic::getIfCanSpawnSpider()
 
     return spider.getIfCanSpawnSpider();
 
+}
+
+vector2f Logic::create_spider()
+{
+    vector2f pos_ = spider.get_position();
+    return pos_;
 }
 
 //free up resources

@@ -23,8 +23,8 @@ class ScreenManager
     shared_ptr<Sprite>scorpion{new Sprite{}};
 
     //spider
-    vector<shared_ptr<Spider>>spider_object;
-    vector <shared_ptr<Sprite>>spider_sprite;
+    void create_spider();
+    vector <shared_ptr<Sprite>>spider_sprite_vector;
 
     private:
         //Number of body segments to spawn after head
