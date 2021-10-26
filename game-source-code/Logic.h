@@ -44,19 +44,26 @@ class Logic
 
     int getKilled_segments() const;
 
-    //scorpion
+    //scorpion watsches
     vector2f create_scorpion();
     StopWatch scorpion_watch;
     StopWatch scorpion_watch2;
+
+    //spider watches
+    StopWatch spider_watch;
+
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
     void update_scorpion(shared_ptr<Sprite>&);
 
     void update_spider(vector <shared_ptr<Spider>>&);
 
+    bool getIfCanSpawnSpider();
+
     private:
         //Object for the Spider logic and update
-        SpiderController spider;
+        SpiderController spider_control;
+        Spider spider;
         centipedeAnimation animation;
         //Function to detect mushroom field collisions
         void checkFor_mushroom(shared_ptr<Centipede>&);
@@ -110,6 +117,9 @@ class Logic
 
         void ChangeToPoison(vector2f);
         float time;
+
+        //a flag for spawning a spider
+        bool canSpawnSpider;
 
 };
 

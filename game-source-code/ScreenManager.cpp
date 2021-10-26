@@ -4,8 +4,7 @@ ScreenManager::ScreenManager():
     isPlaying{false},
     window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
-    isGameOver{false},
-    canSpawnScorpion{false}
+    isGameOver{false}
 {
     initialize_screen();
     initialize_player();
@@ -178,10 +177,18 @@ void ScreenManager::update()
 
     if (canSpawnScorpion)
     {
-        std::cout << "Time for a scorp."<< std::endl;
+        //std::cout << "Time for a scorp."<< std::endl;
         create_scorpion();
     }
     logic.update_scorpion(scorpion);
+
+    //spider updates
+    auto canSpawnSpider = logic.getIfCanSpawnSpider();
+    if(canSpawnSpider)
+    {
+        //time to create a spider!
+        std::cout << "Time for a spider!" << std::endl;
+    }
 
 
     updateScreen_manager();

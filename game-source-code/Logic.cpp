@@ -5,7 +5,8 @@ Logic::Logic():
     playerArea_upBound{376},
     MushCollidedWith_bullet{false},
     shotCent_segments{0}, //Number of shot segment pieces initially zero
-    created_scorpion{false}
+    created_scorpion{false},
+    canSpawnSpider{false}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     auto centipede_ptr = std::make_unique<Centipede>(Centipede());
@@ -44,12 +45,6 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
 
     if (isHead) //centipede head that is being constructed
     {
-        ismovingUp = false;
-        ismovingDown = false;
-        moveDown = false;
-        moveUp = false;
-        //update_counter = 1;
-
         auto centipede_object = std::make_shared<Centipede>(Centipede());
         pos = centipede_object ->get_position();
         centipede_object ->setHead(true);
@@ -138,7 +133,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY, newX - 1)) | (pos_.x < offset) | (centipede_poisoned))
+            if((mushField->isMushroom(newY, newX)) | (pos_.x < offset) | (centipede_poisoned))
             {
                 centipede_ptr -> setDown(true);
                 centipede_ptr -> setLeft(false);
@@ -159,7 +154,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField->isMushroom(newY,newX + 1)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
+            if((mushField->isMushroom(newY,newX)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
             {
                 (centipede_ptr) -> setDown(true);
                 (centipede_ptr) -> setRight(false);
@@ -178,7 +173,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
 
         auto down_ = centipede_ptr -> getDown();
         auto counter_ = centipede_ptr -> get_counter();
-        if(down_ & (counter_ >= 1))
+        if(down_ & (counter_ >= 8))
         {
             if(pos_.y < windowHeight - 8)
             {
@@ -229,7 +224,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(left_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if ((mushField -> isMushroom(newY, newX - 1)) | (pos_.x <= offset) | (centipede_poisoned))
+            if ((mushField -> isMushroom(newY, newX)) | (pos_.x <= offset) | (centipede_poisoned))
             {
                 //std::cout << "Came here! " <<std::endl;
                 centipede_ptr -> setUp(true);
@@ -242,7 +237,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         if(right_)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if((mushField -> isMushroom(newY, newX + 1)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
+            if((mushField -> isMushroom(newY, newX)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned))
             {
                 centipede_ptr -> setUp(true);
                 centipede_ptr -> setRight(false);
@@ -252,7 +247,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
 
         auto up_ = centipede_ptr -> getUp();
         auto counter_ = centipede_ptr -> get_counter();
-        if (up_ & (counter_>= 1))
+        if (up_ & (counter_>= 8))
         {
             if(pos_.y > playerArea_upBound)
             {
@@ -488,7 +483,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
                     objectPos.y = row*offset;
                     bulletPos.x = (*laserIter) -> getPosition().x;
                     bulletPos.y = (*laserIter) -> getPosition().y;
-                    auto MushCollidedWith_bullet = collision.isCollidedWithBullet(bulletPos, bullet_size/8, objectPos, mushroom_size);
+                    auto MushCollidedWith_bullet = collision.isCollidedWithBullet(bulletPos, bullet_size/offset, objectPos, mushroom_size);
                     if (MushCollidedWith_bullet)
                     {
 
@@ -663,7 +658,7 @@ void Logic::update_scorpion(shared_ptr<Sprite>& scorpion_)
     if (scorpion_watch2.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
         scorpion.update(scorpion_,scorpion_watch2.getTimeElapsed());
-
+        spider.setIfCanSpawnSpider(true);
     }
 }
 
@@ -675,6 +670,25 @@ void Logic::ChangeToPoison(vector2f pos_)
     {
         mushField -> mushArray[yPos][xPos] -> changeToPoison();
     }
+}
+
+bool Logic::getIfCanSpawnSpider()
+{
+    if(spider_watch.getTimeElapsed() > spider.getSpideSpawnRate())
+    {
+        //after 10 seconds , restart timer
+        spider_watch.restart();
+        spider.setIfCanSpawnSpider(true);
+    }
+    else
+    {
+        spider.setIfCanSpawnSpider(false);
+    }
+
+    //this is the part where we determine if off screen
+
+    return spider.getIfCanSpawnSpider();
+
 }
 
 //free up resources
