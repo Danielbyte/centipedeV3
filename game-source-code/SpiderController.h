@@ -3,13 +3,14 @@
 #include "Spider.h"
 #include "SfmlDataType.h"
 #include "GameDataType.h"
+#include <ctime>
 
 
 class SpiderController
 {
 public:
     SpiderController(){};
-    update_spider(vector<shared_ptr<Spider>>&);
+    void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
 private:
 
 };

@@ -56,9 +56,9 @@ class Logic
     //spider watches
     StopWatch spider_watch;
     //update spider
-    void update_spider(vector <shared_ptr<Spider>>&);
+    void update_spider(vector <shared_ptr<Sprite>>&);
     //vector of shared pointer to spider
-    vector<shared_ptr<Spider>>spider_object;
+    vector<shared_ptr<Spider>>spider_object_vector;
     bool getIfCanSpawnSpider();
 
     vector2f create_spider();
