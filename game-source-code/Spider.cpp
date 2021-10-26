@@ -1,1 +1,50 @@
+#include "Spider.h"
+
+Spider::Spider(Direction dir):
+    xFastMovementSpeed{2},
+    xSlowMovementSpeed{1},
+    yMovementSpeed{2},
+    counter{0},
+    spiderSpawnRate{15} // spawn after every 15 secs
+    {
+        set_starting_direction(dir);
+        int x = 25;
+        int y = 26;
+        pos = vector2f(x*offset, y*offset);
+    }
+
+void Spider::set_starting_direction(Direction dir)
+{
+    start_direction = dir;
+}
+
+Direction Spider::get_starting_direction() const
+{
+    return start_direction;
+}
+
+void Spider::setXFastMovementSpeed()
+{
+    xFastMovementSpeed = xFastMovementSpeed * -1;
+}
+
+void Spider::setXSlowMoventSpeed()
+{
+    xSlowMovementSpeed = xSlowMovementSpeed * -1;
+}
+
+int Spider::getXFastMovementSpeed() const
+{
+    return xFastMovementSpeed;
+}
+
+int Spider::getXSlowMovementSpeed() const
+{
+    return xSlowMovementSpeed;
+}
+
+int Spider::getYMovementSpeed() const
+{
+    return yMovementSpeed;
+}
 
