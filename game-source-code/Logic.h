@@ -14,6 +14,8 @@
 #include "Centipede.h"
 #include "StopWatch.h"
 #include "centipedeAnimation.h"
+#include "Spider.h"
+#include "SpiderController.h"
 
 class Logic
 {
@@ -50,7 +52,11 @@ class Logic
     bool canSpawn_scorpion();
     void update_scorpion(shared_ptr<Sprite>&);
 
+    void update_spider(vector <shared_ptr<Spider>>&);
+
     private:
+        //Object for the Spider logic and update
+        SpiderController spider;
         centipedeAnimation animation;
         //Function to detect mushroom field collisions
         void checkFor_mushroom(shared_ptr<Centipede>&);

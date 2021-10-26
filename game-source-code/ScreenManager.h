@@ -5,6 +5,7 @@
 #include "Logic.h"
 #include "MushroomField.h"
 #include <map>
+#include "Spider.h"
 
 
 class ScreenManager
@@ -16,6 +17,8 @@ class ScreenManager
     void run();
     void draw_mushrooms(const shared_ptr<MushroomFieldController>&);
     void update_game();
+    vector<shared_ptr<Spider>>spider_object;
+    vector <shared_ptr<Sprite>>spider_sprite;
 
     //scorpion
     void create_scorpion();
