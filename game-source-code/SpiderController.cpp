@@ -28,25 +28,43 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
 
     while(spiderObj_iter != spider_obj.end())
     {
-        selection = rand() % 4;
-        if (selection == 0)
+        //if there are no more movement instructions, generate new
+        if (movement_logic.empty())
         {
-            move_up();
+            selection = rand() % 4;
+            if (selection == 0)
+            {
+                move_up();
+            }
+
+            else if (selection == 1)
+            {
+                move_down();
+            }
+
+            else if (selection ==2)
+            {
+                move_diagonal_up();
+            }
+
+            else if (selection == 3)
+            {
+                move_diagonal_down();
+            }
         }
 
-        else if (selection == 1)
+        //if there are still instructions to be given, execute those
+        if (!movement_logic.empty())
         {
-            move_down();
-        }
+            //get the first instruction
+            logic_position = movement_logic.front();
+            //if spider is above upper bound limit, then control it back
+            auto pos_ = (*spiderObj_iter) -> get_position();
+            if(pos_.y + logic_position.y > max_pos)
+            {
 
-        else if (selection ==2)
-        {
-            move_diagonal_up();
-        }
+            }
 
-        else if (selection == 3)
-        {
-            move_diagonal_down();
         }
         ++spiderObj_iter;
         ++spiderSprite_iter;
@@ -129,4 +147,12 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
 
     //initially move spider diagonally downwards
     move_diagonal_down();
+}
+
+void SpiderController::delete_queue()
+{
+    while(!movement_logic.empty())
+    {
+        movement_logic.pop();
+    }
 }
