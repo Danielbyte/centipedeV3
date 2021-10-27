@@ -63,6 +63,9 @@ class Logic
 
     vector2f create_spider();
 
+    //collision between spider and mushroom
+    void collision_between_mush_and_spider();
+
     private:
         //Object for the Spider logic and update
         SpiderController spider_control;

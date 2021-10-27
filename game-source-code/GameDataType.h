@@ -20,6 +20,12 @@ const auto bullet_size = 16;
 const auto scorpion_width = 32;
 const auto scorpion_height = 16;
 
+const auto mushHeight = 16;
+const auto mushWidth = 16;
+
+const auto spiderHeight = 16;
+const auto spiderWidth = 30;
+
 //Define game objects
 enum class ID{player_, centipede};
 

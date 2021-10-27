@@ -45,3 +45,27 @@ bool Collision::isCollidedWithBullet(vector2d bulletPos, float bulletSize, vecto
         return false;
     }
 }
+
+bool Collision::collision_detect(vector2f obj1Pos, float obj1Width, float obj1Height, vector2f obj2Pos, float obj2Width, float obj2Height)
+{
+    //object 1 box
+    auto left_side1 = obj1Pos.x;
+    auto right_side1 = left_side1 + obj1Width;
+    auto top_side1 = obj1Pos.y;
+    auto bottom_side1 = top_side1 + obj1Height;
+
+    //object 2 box
+    auto left_side2 = obj2Pos.x;
+    auto right_side2 = left_side2 + obj2Width;
+    auto top_side2 = obj2Pos.y;
+    auto bottom_side2 = top_side2 + obj2Height;
+
+    if(right_side1>left_side2 && left_side1<right_side2 && bottom_side1>top_side2 && top_side1<bottom_side2)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}

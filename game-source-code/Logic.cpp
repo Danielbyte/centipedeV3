@@ -225,7 +225,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
             if (((mushField -> isMushroom(newY, newX)) | (mushField -> isMushroom(newY, newX - 1))) | (pos_.x <= offset)
-                 | (centipede_poisoned))
+                    | (centipede_poisoned))
             {
                 //std::cout << "Came here! " <<std::endl;
                 centipede_ptr -> setUp(true);
@@ -239,7 +239,7 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         {
             auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
             if((mushField -> isMushroom(newY, newX + 1)) | (pos_.x >= (windowWidth - offset)) | (centipede_poisoned) |
-               (mushField -> isMushroom(newY, newX)))
+                    (mushField -> isMushroom(newY, newX)))
             {
                 centipede_ptr -> setUp(true);
                 centipede_ptr -> setRight(false);
@@ -345,6 +345,37 @@ void Logic::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& c
 shared_ptr<MushroomFieldController> Logic::GetMushGridPtr() const
 {
     return mushField;
+}
+
+void Logic::collision_between_mush_and_spider()
+{
+    for (int row = 0; row < 32; row++)
+    {
+        for (int col = 0; col < 30; col++)
+        {
+            if (mushField -> isMushroom(row, col))
+            {
+                if(!spider_object_vector.empty())
+                {
+                    //This vector always contains one spider
+                    auto spider_iter = spider_object_vector.begin();
+                    vector2f mushPos;
+                    vector2f spiderPos;
+                    mushPos.x = (float)(col*offset);
+                    mushPos.y = (float)(row*offset);
+
+                    spiderPos = (*spider_iter) -> get_position();
+
+                    auto isCollided = collision.collision_detect(spiderPos,spiderWidth,spiderHeight,mushPos,mushWidth,mushHeight);
+                    if(isCollided)
+                    {
+                        std::cout << "Spider collided with mush!" << std::endl;
+                    }
+                }
+
+            }
+        }
+    }
 }
 
 void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
@@ -464,6 +495,9 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
             return;
         }
     }
+
+    //collision between mushroom and spider
+
 
 }
 

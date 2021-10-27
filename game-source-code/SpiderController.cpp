@@ -22,7 +22,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
 
     if(isNew)
     {
-        std::cout << "I'm new!" << std::endl;
+        //std::cout << "I'm new!" << std::endl;
         //should initialize the spider
         initialize_movement(*spiderObj_iter);
     }
@@ -87,6 +87,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
             else if (pos_.y + logic_position.y > min_pos)
             {
                 //delete these instructions and move spider straight up or diagonally
+                delete_queue();
                 auto moveUp_option = (int)(rand() % 2);
                 if (moveUp_option == 0)
                 {
