@@ -505,9 +505,44 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
         }
     }
 
-    //collision between mushroom and spider
 
+}
 
+void Logic::collision_between_player_and_spider(Sprite& player_sprite)
+{
+    vector2f playePos;
+    vector2f spiderPos;
+
+    playePos.x = player_object.get_Xposition();
+    playePos.y = player_object.get_Yposition();
+
+    auto spider_iter = spider_object_vector.begin();
+    if(!spider_object_vector.empty())
+    {
+        spiderPos = (*spider_iter) -> get_position();
+        auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,spiderPos,spiderWidth,spiderHeight);
+        if (isCollided)
+        {
+            player_object.decrement_lives();
+                        //reset player position
+            vector2f playerPos;
+            playerPos.x = 16;
+            playerPos.y = 504 ;
+            //update the player object position
+            player_object.set_Xposition(playerPos.x);
+            player_object.set_Yposition(playerPos.y);
+            //Update the player sprite
+            player_sprite.setPosition(vector2f(playerPos));
+
+                        //update player status. dead or alive.
+            auto remainingLives = player_object.getPlayer_lives();
+            if(remainingLives == 0)
+            {
+                player_object.setPlayer_state(false);
+            }
+            return;
+        }
+    }
 }
 
 void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector)

@@ -26,6 +26,9 @@ const auto mushWidth = 16;
 const auto spiderHeight = 16;
 const auto spiderWidth = 30;
 
+const auto playerWidth = 16;
+const auto playerHeight = 16;
+
 //Define game objects
 enum class ID{player_, centipede};
 
