@@ -22,6 +22,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
 
     if(isNew)
     {
+        std::cout << "I'm new!" << std::endl;
         //should initialize the spider
         initialize_movement(*spiderObj_iter);
     }
@@ -98,7 +99,16 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
                 }
             }
 
+            //This is where we get to update our spider object accordingly
+            pos_.x += logic_position.x;
+            pos_.y += logic_position.y;
+            (*spiderObj_iter) -> set_position(pos_);
+            movement_logic.pop();
         }
+
+        //update the spider sprite
+        auto pos_ = (*spiderObj_iter) -> get_position();
+        (*spiderSprite_iter) -> setPosition(pos_);
         ++spiderObj_iter;
         ++spiderSprite_iter;
     }
@@ -178,6 +188,8 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
 
     }
 
+    //Spider is no longer new but old
+    spider_object -> setToOld();
     //initially move spider diagonally downwards
     move_diagonal_down();
 }
