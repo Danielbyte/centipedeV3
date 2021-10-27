@@ -23,7 +23,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
     if(isNew)
     {
         //should initialize the spider
-        initialize_movement();
+        initialize_movement(*spiderObj_iter);
     }
 
     while(spiderObj_iter != spider_obj.end())
@@ -62,7 +62,7 @@ void SpiderController::move_diagonal_up()
     auto queue_size = (rand() % max_instruction) + min_instruction;
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
-        logic_position.x = spider_speed*direction;
+        logic_position.x = spider_speed*direction_marker;
         logic_position.y = -spider_speed;
         movement_logic.push(logic_position);
     }
@@ -73,13 +73,39 @@ void SpiderController::move_diagonal_down()
     auto queue_size = (rand() % max_instruction) + min_instruction;
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
-        logic_position.x = spider_speed*direction;
+        logic_position.x = spider_speed*direction_marker;
         logic_position.y = spider_speed;
         movement_logic.push(logic_position);
     }
 }
 
-void SpiderController::initialize_movement()
+void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
 {
+    int dir = rand() % 2;
+    if (dir == 0)
+    {
+        //moving left
+        direction = Direction::Left;
+        direction_marker = -1;
+        vector2f pos_;
+        //place spider on the right (will move from right to left)
+        pos_.x = right_pos;
+        pos_.y = spawn_height;
+        spider_object -> set_position(pos_);
+        std::cout << "moving left!"<< std::endl;
+    }
 
+    if (dir == 1)
+    {
+        //moving right
+        direction = Direction::Right;
+        direction_marker = 1;
+        vector2f pos_;
+        //place spider on the left (will move from left to right)
+        pos_.x = left_pos;
+        pos_.y = spawn_height;
+        spider_object -> set_position(pos_);
+        std::cout << "moving right!"<< std::endl;
+
+    }
 }

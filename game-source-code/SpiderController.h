@@ -38,13 +38,14 @@ private:
     //maximum instruction given to spider per orde
     int max_instruction;
 
-    void initialize_movement();
+    void initialize_movement(shared_ptr<Spider>&);
 
     //if spider is moving left or right
     bool isToRight;
 
     //updates if centipede moves left or right
-    int direction;
+    int direction_marker;
+    Direction direction;
 
 };
 #endif // SPIDERCONTROLLER_H
