@@ -26,6 +26,12 @@ public:
 
     vector2f get_position() const;
 
+    void decrement_counter();
+    void set_counter(int);
+    int get_counter() const;
+
+    void set_position(vector2f);
+
 private:
     int xFastMovementSpeed;
     int xSlowMovementSpeed;

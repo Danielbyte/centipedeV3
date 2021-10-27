@@ -5,7 +5,7 @@ Spider::Spider():
     xSlowMovementSpeed{1},
     yMovementSpeed{2},
     counter{0},
-    spiderSpawnRate{10}, // spawn after every 15 secs
+    spiderSpawnRate{15}, // spawn after every 15 secs
     canSpawnSpider{false}
     {
         int x = 25;
@@ -66,4 +66,27 @@ bool Spider::getIfCanSpawnSpider() const
 vector2f Spider::get_position() const
 {
     return pos;
+}
+
+void Spider::decrement_counter()
+{
+    if(counter > 0)
+    {
+        counter--;
+    }
+}
+
+int Spider::get_counter() const
+{
+    return counter;
+}
+
+void Spider::set_counter(int var)
+{
+    counter = var;
+}
+
+void Spider::set_position(vector2f pos_)
+{
+    pos = pos_;
 }
