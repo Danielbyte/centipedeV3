@@ -62,6 +62,8 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
             auto pos_ = (*spiderObj_iter) -> get_position();
             if(pos_.y + logic_position.y > max_pos)
             {
+                //first empty the previous instructions, they wrong
+                delete_queue();
                 //let the spider move down
                 auto moveDown_option = rand() % 2;
                 if (moveDown_option == 0)
@@ -77,6 +79,23 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
                 }
                 //update to latest movement logic
                 logic_position = movement_logic.front();
+            }
+
+            //else if the spider moves below the lower bound limit, then control it back
+            else if (pos_.y + logic_position.y > min_pos)
+            {
+                //delete these instructions and move spider straight up or diagonally
+                auto moveUp_option = rand() % 2;
+                if (moveUp_option == 0)
+                {
+                    //just move straight up
+                    move_up();
+                }
+                if (moveUp_option == 1)
+                {
+                    // do so diagonally my friend
+                    move_diagonal_up();
+                }
             }
 
         }
