@@ -12,6 +12,7 @@ public:
     SpiderController();
     void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
 private:
+
     void move_up();
     void move_down();
     void move_diagonal_up();
@@ -46,6 +47,8 @@ private:
     //updates if centipede moves left or right
     int direction_marker;
     Direction direction;
+
+    void delete_queue();
 
 };
 #endif // SPIDERCONTROLLER_H
