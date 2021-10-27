@@ -61,7 +61,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
             logic_position = movement_logic.front();
             //if spider is above upper bound limit, then control it back
             auto pos_ = (*spiderObj_iter) -> get_position();
-            if(pos_.y + logic_position.y > max_pos)
+            if(pos_.y + logic_position.y < max_pos)
             {
                 //first empty the previous instructions, they wrong
                 delete_queue();
@@ -71,6 +71,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
                 {
                     //just move straight down
                     move_down();
+                    //std::cout << "y pos: " << pos_.y << std::endl;
                 }
 
                 else if (moveDown_option == 1)

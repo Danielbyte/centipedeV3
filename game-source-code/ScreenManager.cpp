@@ -229,7 +229,7 @@ void ScreenManager::create_spider()
     vector2f pos_ = logic.create_spider();
     auto spider_sprite = std::make_shared<Sprite>(Sprite());
     if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
-    spider_sprite -> setOrigin(vector2f(0.f, 0.f));
+    spider_sprite -> setOrigin(vector2f(30.f/2, 16.f/2));
     spider_sprite -> setTexture(spider_texture);
     spider_sprite -> setPosition(pos_);
     spider_sprite_vector.push_back(spider_sprite);
