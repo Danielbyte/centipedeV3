@@ -369,7 +369,16 @@ void Logic::collision_between_mush_and_spider()
                     auto isCollided = collision.collision_detect(spiderPos,spiderWidth,spiderHeight,mushPos,mushWidth,mushHeight);
                     if(isCollided)
                     {
-                        std::cout << "Spider collided with mush!" << std::endl;
+                        //Abuti spider should OCCASIONALLY chow SOME of the mushes
+                        auto spiderIsHungry = (*spider_iter) -> getIsHungry();
+                        auto lunch_time_ = (*spider_iter) -> getSpider_lunch_time();
+                        if(spiderIsHungry && (lunch_time.getTimeElapsed() >= lunch_time_))
+                        {
+                            lunch_time.restart();
+                            mushField ->mushArray[row][col] = NULL;
+                            return;
+                        }
+
                     }
                 }
 
