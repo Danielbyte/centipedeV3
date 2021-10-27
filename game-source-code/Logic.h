@@ -127,6 +127,9 @@ class Logic
         //a flag for spawning a spider
         bool canSpawnSpider;
 
+        //timer to set when spider gets hungry
+        StopWatch lunch_time;
+
 };
 
 #endif // LOGIC_H

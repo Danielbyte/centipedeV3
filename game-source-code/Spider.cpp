@@ -7,7 +7,8 @@ Spider::Spider():
     counter{0},
     spiderSpawnRate{15}, // spawn after every 15 secs
     canSpawnSpider{false},
-    isNew{true}
+    isNew{true},
+    lunch_time{5} //lunch time is 5 sec
     {}
 
 void Spider::set_starting_direction(Direction dir)
@@ -96,4 +97,25 @@ bool Spider::getIsNew() const
 void Spider::setToOld()
 {
     isNew = false;
+}
+
+bool Spider::getIsHungry()
+{
+    int decision = (int)(rand() % 2);
+
+    if (decision == 0)
+    {
+        isHungry = false;
+    }
+    else if (decision == 1)
+    {
+        isHungry = true;
+    }
+
+    return isHungry;
+}
+
+float Spider::getSpider_lunch_time() const
+{
+    return lunch_time;
 }

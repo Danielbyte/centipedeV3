@@ -3,6 +3,7 @@
 
 #include "GameDataType.h"
 #include "SfmlDataType.h"
+#include <ctime>
 
 class Spider
 {
@@ -33,6 +34,8 @@ public:
     void set_position(vector2f);
     bool getIsNew() const;
     void setToOld();
+    bool getIsHungry();
+    float getSpider_lunch_time() const;
 
 private:
     int xFastMovementSpeed;
@@ -46,6 +49,12 @@ private:
 
     //variable to let centipede controller if it is a new spider
     bool isNew;
+
+    //variable to see if abuti spider needs to eat
+    bool isHungry;
+
+    //lunch time
+    float lunch_time;
 
 };
 #endif // SPIDER_H
