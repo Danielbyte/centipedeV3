@@ -9,9 +9,14 @@
 class SpiderController
 {
 public:
-    SpiderController(){};
+    SpiderController();
     void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
 private:
+    void move_up();
+    void move_down();
+    void move_diagonal_up();
+    void move_diagonal_down();
+    int selection;
 
 };
 #endif // SPIDERCONTROLLER_H
