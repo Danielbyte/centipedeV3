@@ -177,13 +177,13 @@ void ScreenManager::update()
     logic.update_centipede(CentipedeSprite_vector);
     logic.collisionBetween_mushAndPlayer(player_sprite);
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
+    logic.collision_between_mush_and_spider();
 
     //scorpion updates
     auto canSpawnScorpion = logic.canSpawn_scorpion();
 
     if (canSpawnScorpion)
     {
-        //std::cout << "Time for a scorp."<< std::endl;
         create_scorpion();
     }
     logic.update_scorpion(scorpion);
@@ -193,7 +193,6 @@ void ScreenManager::update()
     if(canSpawnSpider)
     {
         //time to create a spider!
-        std::cout << "Time for a spider!" << std::endl;
         create_spider();
     }
 
