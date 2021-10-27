@@ -28,6 +28,26 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
 
     while(spiderObj_iter != spider_obj.end())
     {
+        selection = rand() % 4;
+        if (selection == 0)
+        {
+            move_up();
+        }
+
+        else if (selection == 1)
+        {
+            move_down();
+        }
+
+        else if (selection ==2)
+        {
+            move_diagonal_up();
+        }
+
+        else if (selection == 3)
+        {
+            move_diagonal_down();
+        }
         ++spiderObj_iter;
         ++spiderSprite_iter;
     }
@@ -92,7 +112,6 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
         pos_.x = right_pos;
         pos_.y = spawn_height;
         spider_object -> set_position(pos_);
-        std::cout << "moving left!"<< std::endl;
     }
 
     if (dir == 1)
@@ -105,7 +124,9 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
         pos_.x = left_pos;
         pos_.y = spawn_height;
         spider_object -> set_position(pos_);
-        std::cout << "moving right!"<< std::endl;
 
     }
+
+    //initially move spider diagonally downwards
+    move_diagonal_down();
 }
