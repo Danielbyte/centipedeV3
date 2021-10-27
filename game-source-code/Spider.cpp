@@ -6,12 +6,9 @@ Spider::Spider():
     yMovementSpeed{2},
     counter{0},
     spiderSpawnRate{15}, // spawn after every 15 secs
-    canSpawnSpider{false}
-    {
-        int x = 25;
-        int y = 26;
-        pos = vector2f(x*offset, y*offset);
-    }
+    canSpawnSpider{false},
+    isNew{true}
+    {}
 
 void Spider::set_starting_direction(Direction dir)
 {
@@ -89,4 +86,14 @@ void Spider::set_counter(int var)
 void Spider::set_position(vector2f pos_)
 {
     pos = pos_;
+}
+
+bool Spider::getIsNew() const
+{
+    return isNew;
+}
+
+void Spider::setToOld(bool var)
+{
+    isNew = var;
 }
