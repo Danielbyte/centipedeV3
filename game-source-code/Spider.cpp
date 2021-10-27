@@ -93,7 +93,7 @@ bool Spider::getIsNew() const
     return isNew;
 }
 
-void Spider::setToOld(bool var)
+void Spider::setToOld()
 {
-    isNew = var;
+    isNew = false;
 }

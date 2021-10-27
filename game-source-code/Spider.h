@@ -32,7 +32,7 @@ public:
 
     void set_position(vector2f);
     bool getIsNew() const;
-    void setToOld(bool);
+    void setToOld();
 
 private:
     int xFastMovementSpeed;
