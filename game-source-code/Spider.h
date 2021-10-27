@@ -31,6 +31,8 @@ public:
     int get_counter() const;
 
     void set_position(vector2f);
+    bool getIsNew() const;
+    void setToOld(bool);
 
 private:
     int xFastMovementSpeed;
@@ -41,6 +43,9 @@ private:
     int spiderSpawnRate;
     Direction start_direction;
     bool canSpawnSpider;
+
+    //variable to let centipede controller if it is a new spider
+    bool isNew;
 
 };
 #endif // SPIDER_H

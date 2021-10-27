@@ -19,8 +19,8 @@ vector2f Scorpion::create_scorpion(const vector<shared_ptr<Centipede>>& centiped
     pos.x = (30.f)*offset; // scorpion will move from right to left
 
     srand(time(0));
-    int min = 5;
-    int max = 10;
+    //int min = 5;
+    //int max = 10;
     // randomly generate row position bearing in mind that it should not
     // be in player area.
     if (control == 1)
