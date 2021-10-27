@@ -62,7 +62,21 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
             auto pos_ = (*spiderObj_iter) -> get_position();
             if(pos_.y + logic_position.y > max_pos)
             {
+                //let the spider move down
+                auto moveDown_option = rand() % 2;
+                if (moveDown_option == 0)
+                {
+                    //just move straight down
+                    move_down();
+                }
 
+                else if (moveDown_option == 1)
+                {
+                    //move down in a diagonal fashion
+                    move_diagonal_down();
+                }
+                //update to latest movement logic
+                logic_position = movement_logic.front();
             }
 
         }
