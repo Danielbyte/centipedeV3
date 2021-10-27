@@ -32,7 +32,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
         //if there are no more movement instructions, generate new
         if (movement_logic.empty())
         {
-            selection = rand() % 4;
+            selection = (int)(rand() % 4);
             if (selection == 0)
             {
                 move_up();
@@ -66,7 +66,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
                 //first empty the previous instructions, they wrong
                 delete_queue();
                 //let the spider move down
-                auto moveDown_option = rand() % 2;
+                auto moveDown_option = (int)(rand() % 2);
                 if (moveDown_option == 0)
                 {
                     //just move straight down
@@ -86,7 +86,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
             else if (pos_.y + logic_position.y > min_pos)
             {
                 //delete these instructions and move spider straight up or diagonally
-                auto moveUp_option = rand() % 2;
+                auto moveUp_option = (int)(rand() % 2);
                 if (moveUp_option == 0)
                 {
                     //just move straight up
@@ -109,6 +109,21 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
         //update the spider sprite
         auto pos_ = (*spiderObj_iter) -> get_position();
         (*spiderSprite_iter) -> setPosition(pos_);
+
+        if(pos_.x < -offset && direction == Direction::Left)
+        {
+            spider_obj.erase(spiderObj_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+
+        if (pos_.x > (windowWidth + offset) && (direction == Direction::Right))
+        {
+            spider_obj.erase(spiderObj_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+
         ++spiderObj_iter;
         ++spiderSprite_iter;
     }
@@ -116,7 +131,7 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
 
 void SpiderController::move_up()
 {
-    auto queue_size = (rand() % max_instruction) + min_instruction;
+    auto queue_size = (int)((rand() % max_instruction) + min_instruction);
 
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
@@ -128,7 +143,7 @@ void SpiderController::move_up()
 
 void SpiderController::move_down()
 {
-    auto queue_size = (rand() % max_instruction) + min_instruction;
+    auto queue_size = (int)((rand() % max_instruction) + min_instruction);
 
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
@@ -140,7 +155,7 @@ void SpiderController::move_down()
 
 void SpiderController::move_diagonal_up()
 {
-    auto queue_size = (rand() % max_instruction) + min_instruction;
+    auto queue_size = (int)((rand() % max_instruction) + min_instruction);
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
         logic_position.x = spider_speed*direction_marker;
@@ -151,7 +166,7 @@ void SpiderController::move_diagonal_up()
 
 void SpiderController::move_diagonal_down()
 {
-    auto queue_size = (rand() % max_instruction) + min_instruction;
+    auto queue_size = (int)((rand() % max_instruction) + min_instruction);
     for (auto instruction = 0; instruction < queue_size; instruction++)
     {
         logic_position.x = spider_speed*direction_marker;
@@ -162,7 +177,7 @@ void SpiderController::move_diagonal_down()
 
 void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
 {
-    int dir = rand() % 2;
+    int dir = (int)(rand() % 2);
     if (dir == 0)
     {
         //moving left
