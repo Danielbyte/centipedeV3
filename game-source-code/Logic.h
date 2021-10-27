@@ -66,6 +66,9 @@ class Logic
     //collision between spider and mushroom
     void collision_between_mush_and_spider();
 
+    //collision between player and Spider
+    void collision_between_player_and_spider(Sprite&);
+
     private:
         //Object for the Spider logic and update
         SpiderController spider_control;
