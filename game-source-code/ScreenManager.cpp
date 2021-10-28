@@ -192,7 +192,7 @@ void ScreenManager::update()
 
     //spider updates
     auto canSpawnSpider = logic.getIfCanSpawnSpider();
-    if(canSpawnSpider)
+    if(canSpawnSpider && (spider_sprite_vector.empty()))
     {
         //time to create a spider!
         create_spider();
