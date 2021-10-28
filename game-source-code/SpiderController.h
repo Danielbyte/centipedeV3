@@ -11,6 +11,7 @@ class SpiderController
 public:
     SpiderController();
     void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
+    Texture spider_texture;
 private:
 
     void move_up();
@@ -49,6 +50,7 @@ private:
     Direction direction;
 
     void delete_queue();
+    void Animate_spider(shared_ptr<Sprite>&, shared_ptr<Spider>&);
 
 };
 #endif // SPIDERCONTROLLER_H

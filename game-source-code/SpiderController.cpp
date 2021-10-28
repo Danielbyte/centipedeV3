@@ -1,7 +1,7 @@
 #include "SpiderController.h"
 
 SpiderController::SpiderController():
-    spider_speed{2},
+    spider_speed{1},
     left_pos{-8},
     right_pos{488},
     spawn_height{312},
@@ -111,6 +111,8 @@ void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, 
         //update the spider sprite
         auto pos_ = (*spiderObj_iter) -> get_position();
         (*spiderSprite_iter) -> setPosition(pos_);
+        //set animation for scorpion
+        Animate_spider((*spiderSprite_iter), (*spiderObj_iter));
 
         if(pos_.x < -offset && direction == Direction::Left)
         {
@@ -217,4 +219,60 @@ void SpiderController::delete_queue()
     {
         movement_logic.pop();
     }
+}
+
+void SpiderController::Animate_spider(shared_ptr<Sprite>& spider_sprite, shared_ptr<Spider>& spider_object)
+{
+    auto counter = spider_object -> get_counter();
+    if (counter == 0)
+    {
+        spider_texture.loadFromFile("resources/spider1.png");
+        spider_sprite -> setTexture(spider_texture);
+
+    }
+
+    if (counter == 8)
+    {
+        spider_texture.loadFromFile("resources/spider2.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 16)
+    {
+        spider_texture.loadFromFile("resources/spider3.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 24)
+    {
+        spider_texture.loadFromFile("resources/spider4.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 32)
+    {
+        spider_texture.loadFromFile("resources/spider5.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 40)
+    {
+        spider_texture.loadFromFile("resources/spider6.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 48)
+    {
+        spider_texture.loadFromFile("resources/spider7.png");
+        spider_sprite -> setTexture(spider_texture);
+    }
+
+    if (counter == 56)
+    {
+        spider_texture.loadFromFile("resources/spider8.png");
+        spider_sprite -> setTexture(spider_texture);
+        spider_object -> reset_counter();
+    }
+
+    spider_object -> increment_counter();
 }
