@@ -1,12 +1,13 @@
 #ifndef DDTBOMBSCONTROLLER_H
 #define DDTBOMBSCONTROLLER_H
 
-#include <ctime>
+#include "ctime"
+#include <cstdlib>
 
 class DDTBombsController
 {
 public:
-    DDTBombs();
+    DDTBombsController();
     bool getIfCanCreateBomb() const;
     void setIfCanCreateBomb();
 private:

@@ -16,6 +16,8 @@
 #include "centipedeAnimation.h"
 #include "Spider.h"
 #include "SpiderController.h"
+#include "DDTBombs.h"
+#include "DDTBombsController.h"
 
 class Logic
 {
@@ -77,6 +79,9 @@ class Logic
         SpiderController spider_control;
         Spider spider;
         centipedeAnimation animation;
+
+        DDTBombsController bomb_controller;
+
         //Function to detect mushroom field collisions
         void checkFor_mushroom(shared_ptr<Centipede>&);
 
