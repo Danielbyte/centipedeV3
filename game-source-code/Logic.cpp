@@ -664,6 +664,36 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
 
 }
 
+void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet, vector<shared_ptr<Sprite>>& spider)
+{
+    auto spider_iter = spider_object_vector.begin();
+    auto spiderSprite_iter = spider.begin();
+    if(!spider_object_vector.empty())
+    {
+        auto bullet_iter = bullet.begin();
+        while (bullet_iter != bullet.end())
+        {
+            vector2f bulletPos;
+            vector2f spiderPos;
+            bulletPos.x = (*bullet_iter) -> getPosition().x;
+            bulletPos.y = (*bullet_iter) -> getPosition().y;
+
+            spiderPos = (*spider_iter) -> get_position();
+
+            auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,spiderPos,spiderWidth,spiderHeight);
+            if(isCollided)
+            {
+                bullet.erase(bullet_iter);
+                spider_object_vector.erase(spider_iter);
+                spider.erase(spiderSprite_iter);
+                return;
+            }
+
+            ++bullet_iter;
+        }
+    }
+}
+
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object

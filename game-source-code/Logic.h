@@ -69,6 +69,9 @@ class Logic
     //collision between player and Spider
     void collision_between_player_and_spider(Sprite&);
 
+    //collision between bullet and spider
+    void collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
+
     private:
         //Object for the Spider logic and update
         SpiderController spider_control;

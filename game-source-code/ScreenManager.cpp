@@ -179,6 +179,7 @@ void ScreenManager::update()
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
     logic.collision_between_mush_and_spider();
     logic.collision_between_player_and_spider(player_sprite);
+    logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
 
     //scorpion updates
     auto canSpawnScorpion = logic.canSpawn_scorpion();
