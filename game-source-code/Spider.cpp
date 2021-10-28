@@ -66,12 +66,9 @@ vector2f Spider::get_position() const
     return pos;
 }
 
-void Spider::decrement_counter()
+void Spider::increment_counter()
 {
-    if(counter > 0)
-    {
-        counter--;
-    }
+        counter++;
 }
 
 int Spider::get_counter() const
@@ -79,9 +76,9 @@ int Spider::get_counter() const
     return counter;
 }
 
-void Spider::set_counter(int var)
+void Spider::reset_counter()
 {
-    counter = var;
+    counter = 0;
 }
 
 void Spider::set_position(vector2f pos_)
