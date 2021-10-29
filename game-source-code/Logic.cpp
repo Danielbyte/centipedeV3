@@ -694,6 +694,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
     }
 }
 
+
+
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object
@@ -830,14 +832,13 @@ bool Logic::getIfCanSpawnBomb()
     //only max 4 bombs allowed
     auto number_of_bombs = vector_of_bomb_objects.size();
     auto max_bombs = 4;
+
     if ((bomb_check.getTimeElapsed() >= check_time) && (number_of_bombs < max_bombs) && (canCreateBomb))
     {
-        std::cout << "The time: "<< bomb_check.getTimeElapsed()<< std::endl;
         bomb_check.restart();
-        std::cout << "Yay, can spawn bomb!" << std::endl;
         return true;
-
     }
+
     else
     {
         return false;
@@ -851,7 +852,6 @@ vector2f Logic::create_bomb()
     auto bomb_object = std::make_shared<DDTBombs>(pos_);
     vector_of_bomb_objects.push_back(bomb_object);
     return pos_;
-    std::cout << "came here" << std::endl;
 }
 
 //free up resources

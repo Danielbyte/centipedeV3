@@ -39,7 +39,7 @@ void DDTBombsController::generate_position(shared_ptr<MushroomFieldController>& 
     //do not generate on position where there is a mushroom
     while (mushField ->isMushroom(row, col))
     {
-        auto row = (rand() % 25) + 6;
+        auto row = (rand() % 20) + 6;
         auto col =(rand() % 20) + 6;
     }
 
