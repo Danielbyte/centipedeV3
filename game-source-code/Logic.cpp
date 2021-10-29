@@ -821,15 +821,37 @@ bool Logic::getIfCanSpawnBomb()
 {
     //variable to set when logic should query the
     //bomb controller to create bomb;
-    float check_time = 10; //check after every 10 seconds
+    float check_time = 5; //check after every 10 seconds
 
     //query bomb controller if willing to spawn bomb
     bomb_controller.setIfCanCreateBomb();
-    auto canCreateBullet = bomb_controller.getIfCanCreateBomb();
-    if ((bomb_check.getTimeElapsed() >= check_time) && canCreateBullet)
+    auto canCreateBomb = bomb_controller.getIfCanCreateBomb();
+
+    //only max 4 bombs allowed
+    auto number_of_bombs = vector_of_bomb_objects.size();
+    auto max_bombs = 4;
+    if ((bomb_check.getTimeElapsed() >= check_time) && (number_of_bombs < max_bombs) && (canCreateBomb))
     {
+        std::cout << "The time: "<< bomb_check.getTimeElapsed()<< std::endl;
+        bomb_check.restart();
         std::cout << "Yay, can spawn bomb!" << std::endl;
+        return true;
+
     }
+    else
+    {
+        return false;
+    }
+}
+
+void Logic::create_bomb()
+{
+    //create dummy bomb for now
+     vector2f temp;
+     temp.x = 0.f;
+     temp.y - 0.f;
+    auto bomb_object = std::make_shared<DDTBombs>(temp);
+    vector_of_bomb_objects.push_back(bomb_object);
 }
 
 //free up resources

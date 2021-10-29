@@ -202,6 +202,11 @@ void ScreenManager::update()
 
     //query logic if can spawn bomb
     auto canSpawnBomb = logic.getIfCanSpawnBomb();
+    if(canSpawnBomb)
+    {
+        //request logic to create bomb
+        logic.create_bomb();
+    }
 
 
     updateScreen_manager();
