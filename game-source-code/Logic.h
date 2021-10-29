@@ -78,6 +78,8 @@ class Logic
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
     bool getIfCanSpawnBomb();
 
+    void create_bomb();
+
     private:
         //Object for the Spider logic and update
         SpiderController spider_control;
