@@ -24,6 +24,10 @@ class ScreenManager
     void create_spider();
     vector <shared_ptr<Sprite>>spider_sprite_vector;
 
+    vector<shared_ptr<Sprite>>DDTBombs_spiteVector;
+    vector <shared_ptr<Sprite>> bulletSprites_vector;
+    vector <shared_ptr<Sprite>> CentipedeSprite_vector;
+
     private:
         //Number of body segments to spawn after head
         int bodiesToSpawn;
@@ -61,10 +65,10 @@ class ScreenManager
         Texture playerSprite_texture;
         Sprite player_sprite;
         Texture centipedeHead_texture;
-        vector <shared_ptr<Sprite>> CentipedeSprite_vector;
+
 
         //Laser shots
-        vector <shared_ptr<Sprite>> bulletSprites_vector;
+
         Texture bullet_texture;
         Sprite bullet_sprite;
 
@@ -80,7 +84,6 @@ class ScreenManager
         Texture spider_texture;
 
         //bombs
-        vector<shared_ptr<Sprite>>DDTBombs_spiteVector;
         Texture bomb_texture;
 
         void create_bomb();

@@ -88,7 +88,8 @@ class Logic
         SpiderController spider_control;
         Spider spider;
         centipedeAnimation animation;
-
+        Collision collision;
+        Scorpion scorpion;
         DDTBombsController bomb_controller;
 
         //Function to detect mushroom field collisions
@@ -101,8 +102,6 @@ class Logic
         int centipedeSpeed;
         shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
 
-        Collision collision;
-        Scorpion scorpion;
         int playerArea_upBound;
         int centipedeAnimationCounter;
 

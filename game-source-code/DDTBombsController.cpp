@@ -33,18 +33,30 @@ bool DDTBombsController::getIfCanCreateBomb() const
 
 void DDTBombsController::generate_position(shared_ptr<MushroomFieldController>& mushField)
 {
+    std::cout<< "start" << std::endl;
     auto row = (rand() % 20) + 6;
     auto col =(rand() % 20) + 6;
+   /* if (!mushField ->isMushroom(row, col))
+    {
+        return;
+    }
+
+
 
     //do not generate on position where there is a mushroom
+    std::cout << "Came!" << std::endl;
+    bool isGenerated = false;
     while (mushField ->isMushroom(row, col))
     {
+        std::cout << "Caame!" << std::endl;
         auto row = (rand() % 20) + 6;
         auto col =(rand() % 20) + 6;
-    }
+    }*/
 
     pos.x = col*offset;
     pos.y = row*offset;
+
+    std::cout << "ended" << std::endl;
 }
 
 vector2f DDTBombsController::getGeneratedPosition() const
