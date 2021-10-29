@@ -2,7 +2,8 @@
 #define DDTBOMBSCONTROLLER_H
 
 #include "ctime"
-#include <cstdlib>
+#include "GameDataType.h"
+#include "DDTBombs.h"
 
 class DDTBombsController
 {

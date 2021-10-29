@@ -4,9 +4,7 @@
 #include "SfmlDataType.h"
 #include "Logic.h"
 #include "MushroomField.h"
-#include <map>
 #include "Spider.h"
-
 
 class ScreenManager
 {
@@ -81,5 +79,8 @@ class ScreenManager
         //spider
         Texture spider_texture;
 
+        //bombs
+        vector<shared_ptr<Sprite>>DDTBombs_spiteVector;
+        Texture bomb_texture;
 };
 #endif // SCREENMANAGER_H
