@@ -31,6 +31,20 @@ const auto playerHeight = 16;
 
 const auto bulletWidth = 16;
 const auto bulletHeight = 16;
+const auto bomb1Height = 16;
+const auto bomb1Width = 16;
+const auto bomb2Width = 32;
+const auto bomb2Height = 32;
+const auto bomb3Width = 48;
+const auto bomb3Height = 48;
+const auto bomb4Width = 64;
+const auto bomb4Height = 64;
+const auto bomb5Width = 80;
+const auto bomb5Height = 80;
+const auto bomb6Width = 96;
+const auto bomb6Height = 96;
+const auto lastHeight = 32;
+const auto lastWidth = 32;
 
 //Define game objects
 enum class ID{player_, centipede};
