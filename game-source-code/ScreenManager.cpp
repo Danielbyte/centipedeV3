@@ -82,6 +82,12 @@ void ScreenManager::run()
             {
                 window.draw(*spider);
             }
+
+            //draw bombs
+            for(auto& bomb : DDTBombs_spiteVector)
+            {
+                window.draw(*bomb);
+            }
         }
 
         else
@@ -205,7 +211,7 @@ void ScreenManager::update()
     if(canSpawnBomb)
     {
         //request logic to create bomb
-        logic.create_bomb();
+        create_bomb();
     }
 
 
@@ -242,6 +248,17 @@ void ScreenManager::create_spider()
     spider_sprite -> setTexture(spider_texture);
     spider_sprite -> setPosition(pos_);
     spider_sprite_vector.push_back(spider_sprite);
+}
+
+void ScreenManager::create_bomb()
+{
+    vector2f pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    bomb_sprite ->setTexture(bomb_texture);
+    bomb_sprite -> setOrigin(vector2f(16.f/2, 16.f/2));
+    bomb_sprite -> setPosition(pos);
+    DDTBombs_spiteVector.push_back(bomb_sprite);
 }
 
 void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& MushGridPtr)

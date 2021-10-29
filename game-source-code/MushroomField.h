@@ -29,7 +29,7 @@ public:
 private:
     float x_position;
     float y_position;
-    MushroomFieldController* ptr;
+   // MushroomFieldController* ptr;
     float horizontalPos;
     float verticalPos;
     int mushroom_health;

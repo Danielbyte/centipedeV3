@@ -82,5 +82,7 @@ class ScreenManager
         //bombs
         vector<shared_ptr<Sprite>>DDTBombs_spiteVector;
         Texture bomb_texture;
+
+        void create_bomb();
 };
 #endif // SCREENMANAGER_H

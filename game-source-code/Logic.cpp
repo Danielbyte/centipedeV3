@@ -821,7 +821,7 @@ bool Logic::getIfCanSpawnBomb()
 {
     //variable to set when logic should query the
     //bomb controller to create bomb;
-    float check_time = 5; //check after every 10 seconds
+    float check_time = 5; //check after every 5 seconds
 
     //query bomb controller if willing to spawn bomb
     bomb_controller.setIfCanCreateBomb();
@@ -844,14 +844,14 @@ bool Logic::getIfCanSpawnBomb()
     }
 }
 
-void Logic::create_bomb()
+vector2f Logic::create_bomb()
 {
-    //create dummy bomb for now
-     vector2f temp;
-     temp.x = 0.f;
-     temp.y - 0.f;
-    auto bomb_object = std::make_shared<DDTBombs>(temp);
+    bomb_controller.generate_position(mushField);
+    auto pos_ = bomb_controller.getGeneratedPosition();
+    auto bomb_object = std::make_shared<DDTBombs>(pos_);
     vector_of_bomb_objects.push_back(bomb_object);
+    return pos_;
+    std::cout << "came here" << std::endl;
 }
 
 //free up resources
