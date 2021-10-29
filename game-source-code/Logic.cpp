@@ -817,6 +817,21 @@ void Logic::update_spider(vector<shared_ptr<Sprite>>& spider_sprite)
     }
 }
 
+bool Logic::getIfCanSpawnBomb()
+{
+    //variable to set when logic should query the
+    //bomb controller to create bomb;
+    float check_time = 10; //check after every 10 seconds
+
+    //query bomb controller if willing to spawn bomb
+    bomb_controller.setIfCanCreateBomb();
+    auto canCreateBullet = bomb_controller.getIfCanCreateBomb();
+    if ((bomb_check.getTimeElapsed() >= check_time) && canCreateBullet)
+    {
+        std::cout << "Yay, can spawn bomb!" << std::endl;
+    }
+}
+
 //free up resources
 Logic::~Logic()
 {

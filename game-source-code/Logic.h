@@ -74,6 +74,10 @@ class Logic
     //collision between bullet and spider
     void collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
 
+    //DDT object vector
+    vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
+    bool getIfCanSpawnBomb();
+
     private:
         //Object for the Spider logic and update
         SpiderController spider_control;
@@ -88,13 +92,9 @@ class Logic
         //set centipede sprite movements and rotations
         void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
 
-        //int index;
         int counter;
         int centipedeSpeed;
         shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
-        //vectOfMush_field mushroom;
-        //void getMushroomField_vectors();
-        //int** mushArray = 0;
 
         Collision collision;
         Scorpion scorpion;
@@ -140,6 +140,11 @@ class Logic
 
         //timer to set when spider gets hungry
         StopWatch lunch_time;
+
+        //DDT bombs
+        //check if bomb controller is willing to create a bomb
+        //after some certain time
+        StopWatch bomb_check;
 
 };
 

@@ -200,6 +200,9 @@ void ScreenManager::update()
 
     logic.update_spider(spider_sprite_vector);
 
+    //query logic if can spawn bomb
+    auto canSpawnBomb = logic.getIfCanSpawnBomb();
+
 
     updateScreen_manager();
     update_game();
