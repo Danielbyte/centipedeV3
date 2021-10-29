@@ -700,8 +700,6 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
 {
 
     //First we need to have bombs on the field
-    auto bomb_sprite_iter = bomb_sprite.begin();
-    auto bomb_object_iter = vector_of_bomb_objects.begin();
     auto bullet_sprite_iter = bullet_sprite.begin();
     while (bullet_sprite_iter != bullet_sprite.end())
     {
@@ -724,6 +722,28 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
         }
         ++bullet_sprite_iter;
     }
+
+    //Now it is time to Explode my guy!
+    auto bomb_obj_iter = vector_of_bomb_objects.begin();
+    auto bomb_sprite_iter = bomb_sprite.begin();
+    while (bomb_obj_iter != vector_of_bomb_objects.end())
+    {
+        //if this bomb object is marked for an explosion
+        if((*bomb_obj_iter) -> getIfcanExplode())
+        {
+            //This is the part where we do some animations (bomb Animation class)
+            vector_of_bomb_objects.erase(bomb_obj_iter);
+            bomb_sprite.erase(bomb_sprite_iter);
+        }
+
+        else
+        {
+            ++bomb_obj_iter;
+            ++bomb_sprite_iter;
+        }
+    }
+
+    return;
 }
 
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
