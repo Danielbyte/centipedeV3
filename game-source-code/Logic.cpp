@@ -694,7 +694,37 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
     }
 }
 
+void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite)
+{
+    auto bullet_sprite_iter = bullet_sprite.begin();
+    auto bomb_sprite_iter = bomb_sprite.begin();
+    auto bomb_object_iter = vector_of_bomb_objects.begin();
+    //First we need to have bombs on the field
+    if(!vector_of_bomb_objects.empty() && (!bullet_sprite.empty()))
+    {
+        while (bomb_object_iter != vector_of_bomb_objects.end())
+        {
+            //vector2f bulletPos;
+            vector2f bombPos = (*bomb_sprite_iter) -> getPosition();
+            vector2f bulletPos = (*bullet_sprite_iter) -> getPosition();
+            auto isCollided = collision.collision_detect(bombPos,bomb1Width,bomb1Height,bulletPos,bulletWidth,bulletHeight);
 
+            if(isCollided)
+            {
+                //do all of that good staff
+                std::cout << "Explosion!!" << std::endl;
+                bullet_sprite.erase(bullet_sprite_iter);
+                vector_of_bomb_objects.erase(bomb_object_iter);
+                bomb_sprite.erase(bomb_sprite_iter);
+                return;
+            }
+
+            ++bomb_object_iter;
+            ++bullet_sprite_iter;
+            ++bomb_sprite_iter;
+        }
+    }
+}
 
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
