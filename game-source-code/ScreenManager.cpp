@@ -184,9 +184,10 @@ void ScreenManager::update()
     logic.collisionBetween_mushAndPlayer(player_sprite);
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
     logic.collision_between_mush_and_spider();
+    logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector);
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
-    logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector);
+
 
     //scorpion updates
     auto canSpawnScorpion = logic.canSpawn_scorpion();
@@ -215,9 +216,11 @@ void ScreenManager::update()
         create_bomb();
     }
 
+    //std::cout<< "Here" <<std::endl;
 
     updateScreen_manager();
     update_game();
+    //std::cout << "Malasti" << std::endl;
 }
 
 void ScreenManager::create_laserShots()
@@ -245,7 +248,7 @@ void ScreenManager::create_spider()
     vector2f pos_ = logic.create_spider();
     auto spider_sprite = std::make_shared<Sprite>(Sprite());
     if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
-    spider_sprite -> setOrigin(vector2f(0.f, 0.f));
+    spider_sprite -> setOrigin(vector2f(spiderWidth/2.f, spiderHeight/2.f));
     spider_sprite -> setTexture(spider_texture);
     spider_sprite -> setPosition(pos_);
     spider_sprite_vector.push_back(spider_sprite);

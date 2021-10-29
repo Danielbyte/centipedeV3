@@ -524,7 +524,7 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
         if (isCollided)
         {
             player_object.decrement_lives();
-                        //reset player position
+            //reset player position
             vector2f playerPos;
             playerPos.x = 16;
             playerPos.y = 504 ;
@@ -534,7 +534,7 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
             //Update the player sprite
             player_sprite.setPosition(vector2f(playerPos));
 
-                        //update player status. dead or alive.
+            //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
             if(remainingLives == 0)
             {
@@ -608,6 +608,8 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             {
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
+                laser.erase(iter2);
+                return;
             }
 
         }
@@ -696,33 +698,31 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
 
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite)
 {
-    auto bullet_sprite_iter = bullet_sprite.begin();
+
+    //First we need to have bombs on the field
     auto bomb_sprite_iter = bomb_sprite.begin();
     auto bomb_object_iter = vector_of_bomb_objects.begin();
-    //First we need to have bombs on the field
-    if(!vector_of_bomb_objects.empty() && (!bullet_sprite.empty()))
+    auto bullet_sprite_iter = bullet_sprite.begin();
+    while (bullet_sprite_iter != bullet_sprite.end())
     {
-        while (bomb_object_iter != vector_of_bomb_objects.end())
+        for (auto& bomb : vector_of_bomb_objects)
         {
-            //vector2f bulletPos;
-            vector2f bombPos = (*bomb_sprite_iter) -> getPosition();
-            vector2f bulletPos = (*bullet_sprite_iter) -> getPosition();
+            vector2f bulletPos;
+            vector2f bombPos;
+            bulletPos = (*bullet_sprite_iter) -> getPosition();
+            bombPos = bomb -> get_position();
             auto isCollided = collision.collision_detect(bombPos,bomb1Width,bomb1Height,bulletPos,bulletWidth,bulletHeight);
 
             if(isCollided)
             {
-                //do all of that good staff
-                std::cout << "Explosion!!" << std::endl;
+                std::cout << "Collided!" << std::endl;
+                //This bomb should explode Hle!!
+                bomb -> setExplosion(true);
                 bullet_sprite.erase(bullet_sprite_iter);
-                vector_of_bomb_objects.erase(bomb_object_iter);
-                bomb_sprite.erase(bomb_sprite_iter);
                 return;
             }
-
-            ++bomb_object_iter;
-            ++bullet_sprite_iter;
-            ++bomb_sprite_iter;
         }
+        ++bullet_sprite_iter;
     }
 }
 
@@ -879,8 +879,10 @@ vector2f Logic::create_bomb()
 {
     bomb_controller.generate_position(mushField);
     auto pos_ = bomb_controller.getGeneratedPosition();
-    auto bomb_object = std::make_shared<DDTBombs>(pos_);
+    auto bomb_object = std::make_shared<DDTBombs>();
+    bomb_object -> set_position(pos_);
     vector_of_bomb_objects.push_back(bomb_object);
+    //std::cout << "bomb Xpos: " << pos_.x << " bomb Ypos: " << pos_.y <<std::endl;
     return pos_;
 }
 
