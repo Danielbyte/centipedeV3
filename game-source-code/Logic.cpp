@@ -696,7 +696,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
     }
 }
 
-void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite)
+void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
+                                              vector<shared_ptr<Sprite>>& spider_sprite)
 {
     //First we need to have bombs on the field
     auto bullet_sprite_iter = bullet_sprite.begin();
@@ -722,7 +723,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
         ++bullet_sprite_iter;
     }
 
-    bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField);
+    bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField, spider_object_vector,spider_sprite);
     return;
 }
 

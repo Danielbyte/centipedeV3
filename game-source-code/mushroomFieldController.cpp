@@ -1,7 +1,7 @@
 #include "MushroomFieldController.h"
 
 MushroomFieldController::MushroomFieldController():
-    percentage_chance{7}
+    percentage_chance{6}
     {
         create_mushrooms();
     }
