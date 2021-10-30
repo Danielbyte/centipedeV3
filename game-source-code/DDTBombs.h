@@ -15,9 +15,14 @@ public:
     int getNumberOfBombs() const;
     void setExplosion(bool);
     bool getIfcanExplode() const;
+    void increment_counter();
+    int get_counter() const;
+    void reset_counter();
 private:
     vector2f pos;
     bool canExplode;
+    //variable to create animations
+    int counter;
 
     //keep track of the number of bombs
     static int number_of_bombs;

@@ -34,6 +34,7 @@ class Logic
     //creates objects to be placed in the mushroom field.
     void create_mushrooms();
     void CheckMovementAhead();
+    Texture bomb_texture;
 
     void collisionBetween_mushAndPlayer(Sprite&);
     Texture centipede_texture;
@@ -82,6 +83,8 @@ class Logic
     bool getIfCanSpawnBomb();
 
     vector2f create_bomb();
+
+    void update_explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&);
 
     private:
         //Object for the Spider logic and update
