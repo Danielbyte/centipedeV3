@@ -64,7 +64,8 @@ vector2f DDTBombsController::getGeneratedPosition() const
     return pos;
 }
 
-void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite)
+void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite,
+                                   shared_ptr<MushroomFieldController>& mushField)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -79,6 +80,10 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.setSmooth(true);
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
+
+                //check collision between explosion and mushroom
+                explosion_and_mush((*bombSprite_iter), mushField);
+
             }
 
             if (counter == 5)
@@ -124,5 +129,11 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
         ++bomb_iter;
         ++bombSprite_iter;
     }
+}
+
+void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>& mushField)
+{
+    //should kill mushroom within radious
+    std::cout << "Destroy mush within Radius" << std::endl;
 }
 

@@ -23,6 +23,7 @@ public:
     void SpawnMushroomAt_position(int, int);
 
 private:
+
 //    vectOfMush_field mushrooms_;
 
     //variable to control the frequency of

@@ -722,7 +722,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
         ++bullet_sprite_iter;
     }
 
-    bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite);
+    bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField);
     return;
 }
 
@@ -861,7 +861,7 @@ bool Logic::getIfCanSpawnBomb()
 
     //only max 4 bombs allowed
     auto number_of_bombs = vector_of_bomb_objects.size();
-    auto max_bombs = 4;
+    auto max_bombs = 4ul;
 
     if ((bomb_check.getTimeElapsed() >= check_time) && (number_of_bombs < max_bombs) && (canCreateBomb))
     {
