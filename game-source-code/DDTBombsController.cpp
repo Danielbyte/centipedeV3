@@ -191,8 +191,32 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
             spider_sprite.erase(spiderSprite_iter);
             return;
         }
-    }
 
+        isCollided = third_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if(isCollided)
+        {
+            spider_obj.erase(spiderObject_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+
+        isCollided = second_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if(isCollided)
+        {
+            spider_obj.erase(spiderObject_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+
+        isCollided = first_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if(isCollided)
+        {
+            spider_obj.erase(spiderObject_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+    }
+    return;
 }
 
 //Quadrant collisions(general)
@@ -201,6 +225,37 @@ bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos, float obj1
 {
     obj2Width = obj2Width/2;
     obj2Height = obj2Height/2;
+    isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
+    return isCollided;
+}
+
+bool DDTBombsController::third_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
+        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+{
+    obj2Width = obj2Width/2;
+    obj2Height = obj2Height/2;
+    obj2Pos.x = obj2Pos.x - 32;
+    isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
+    return isCollided;
+}
+
+bool DDTBombsController::second_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
+        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+{
+    obj2Width = obj2Width/2;
+    obj2Height = obj2Height/2;
+    obj2Pos.x = obj2Pos.x - 32;
+    obj2Pos.y = obj2Pos.y - 32;
+    isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
+    return isCollided;
+}
+
+bool DDTBombsController::first_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
+        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+{
+    obj2Width = obj2Width/2;
+    obj2Height = obj2Height/2;
+    obj2Pos.y = obj2Pos.y - 32;
     isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
     return isCollided;
 }
