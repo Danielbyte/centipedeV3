@@ -1,7 +1,8 @@
 #include "DDTBombs.h"
 
 DDTBombs::DDTBombs():
-    canExplode{false}
+    canExplode{false},
+    counter{0}
 {}
 
 //zero bombs initially
@@ -35,4 +36,19 @@ int DDTBombs::getNumberOfBombs() const
 void DDTBombs::set_position(vector2f pos_)
 {
     pos = pos_;
+}
+
+int DDTBombs::get_counter() const
+{
+    return counter;
+}
+
+void DDTBombs::reset_counter()
+{
+    counter = 0;
+}
+
+void DDTBombs::increment_counter()
+{
+    counter++;
 }

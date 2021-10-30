@@ -16,6 +16,7 @@ public:
     void generate_position(shared_ptr<MushroomFieldController>&);
     vector2f getGeneratedPosition() const;
     Texture bomb_texture;
+    void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&);
 private:
     vector2f pos;
     bool canCreateBomb;

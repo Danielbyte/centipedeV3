@@ -260,7 +260,7 @@ void ScreenManager::create_bomb()
     auto bomb_sprite = std::make_shared<Sprite>(Sprite());
     if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
     bomb_sprite ->setTexture(bomb_texture);
-    bomb_sprite -> setOrigin(vector2f(0.f, 0.f));
+    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
     bomb_sprite -> setPosition(pos);
     DDTBombs_spiteVector.push_back(bomb_sprite);
 }
