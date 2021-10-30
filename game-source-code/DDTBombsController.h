@@ -25,5 +25,6 @@ private:
     bool canCreateBomb;
     void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&);
     void fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
+    void third_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
 };
 #endif // DDTBOMBSCONTROLLER_H
