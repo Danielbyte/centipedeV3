@@ -80,9 +80,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.setSmooth(true);
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
-
                 //check collision between explosion and mushroom
-                explosion_and_mush((*bombSprite_iter), mushField);
+                //explosion_and_mush((*bombSprite_iter), mushField);
 
             }
 
@@ -91,6 +90,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb3.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(3,3);
+                //check collision between explosion and mushroom(radius 2)
+                //explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 15)
@@ -98,6 +99,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb2.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
+                //check collision between explosion and mushroom
+                // explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 20)
@@ -105,6 +108,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb3.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(3,3);
+                //check collision between explosion and mushroom
+                //explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 25)
@@ -112,6 +117,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb4.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(4,4);
+                //check collision between explosion and mushroom(final radius)
+                explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 30)
@@ -142,18 +149,33 @@ void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, sha
             {
                 vector2f mushPos;
                 vector2f explosion_pos = bomb_sprite -> getPosition();
+                explosion_pos.x = explosion_pos.x;
+                explosion_pos.y = explosion_pos.y;
                 auto explosion_width = bomb_sprite -> getGlobalBounds().width;
                 auto explosion_height = bomb_sprite -> getGlobalBounds().height;
                 mushPos.x = col*offset;
                 mushPos.y = row*offset;
-                auto isCollided = collision.collision_detect(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height);
-
-                if(isCollided)
-                {
-                    mushField -> mushArray[row][col] = NULL;
-                }
+                //void fourth quadrant collisisns
+                fourth_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField);
             }
         }
     }
+
+    return;
+}
+
+void DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
+        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
+{
+    bool isCollided;
+    obj2Width = obj2Width/2;
+    obj2Height = obj2Height/2;
+    isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
+    if(isCollided)
+    {
+        mushField -> mushArray[row][col] = NULL;
+    }
+
+    return;
 }
 
