@@ -30,6 +30,9 @@ private:
 
     //Quadrant collisions for spider
     bool fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
+    bool third_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
+    bool second_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
+    bool first_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
 
     //Quadrant collisions specific to mushrooms
     void fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
