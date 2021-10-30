@@ -26,6 +26,12 @@ private:
     vector2f pos;
     bool canCreateBomb;
     void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&);
+    void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&);
+
+    //Quadrant collisions for spider
+    bool fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
+
+    //Quadrant collisions specific to mushrooms
     void fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
     void third_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
     void second_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);

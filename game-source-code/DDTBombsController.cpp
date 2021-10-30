@@ -120,6 +120,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 (*bombSprite_iter) -> setScale(4,4);
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField);
+                explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
             }
 
             if (counter == 30)
@@ -168,6 +169,43 @@ void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, sha
     return;
 }
 
+void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Spider>>& spider_obj,
+        vector<shared_ptr<Sprite>>& spider_sprite)
+{
+    //these vectors will either have one spider object/sprite nothing
+    auto spiderObject_iter = spider_obj.begin();
+    auto spiderSprite_iter = spider_sprite.begin();
+    if(!spider_obj.empty())
+    {
+        bool isCollided;
+        vector2f SpiderPos;
+        vector2f explosion_pos;
+        SpiderPos = (*spiderSprite_iter) -> getPosition();
+        explosion_pos = bomb_sprite -> getPosition();
+        auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+        auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+        isCollided = fourth_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if(isCollided)
+        {
+            spider_obj.erase(spiderObject_iter);
+            spider_sprite.erase(spiderSprite_iter);
+            return;
+        }
+    }
+
+}
+
+//Quadrant collisions(general)
+bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
+        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+{
+    obj2Width = obj2Width/2;
+    obj2Height = obj2Height/2;
+    isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
+    return isCollided;
+}
+
+//Quadrant collisions specific to mushrooms
 void DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
         vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
 {
