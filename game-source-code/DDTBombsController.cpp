@@ -64,7 +64,8 @@ vector2f DDTBombsController::getGeneratedPosition() const
     return pos;
 }
 
-void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite)
+void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite,
+                                   shared_ptr<MushroomFieldController>& mushField)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -79,6 +80,10 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.setSmooth(true);
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
+
+                //check collision between explosion and mushroom
+                explosion_and_mush((*bombSprite_iter), mushField);
+
             }
 
             if (counter == 5)
@@ -123,6 +128,32 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
         }
         ++bomb_iter;
         ++bombSprite_iter;
+    }
+}
+
+void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, shared_ptr<MushroomFieldController>& mushField)
+{
+    //should kill mushroom within radious
+    for (auto row = 0; row < 32; row++)
+    {
+        for (auto col = 0; col < 30; col++)
+        {
+            if (mushField->isMushroom(row, col))
+            {
+                vector2f mushPos;
+                vector2f explosion_pos = bomb_sprite -> getPosition();
+                auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+                auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+                mushPos.x = col*offset;
+                mushPos.y = row*offset;
+                auto isCollided = collision.collision_detect(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height);
+
+                if(isCollided)
+                {
+                    mushField -> mushArray[row][col] = NULL;
+                }
+            }
+        }
     }
 }
 
