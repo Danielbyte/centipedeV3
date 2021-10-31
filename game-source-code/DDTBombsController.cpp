@@ -134,7 +134,6 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
             }
 
             (*bomb_iter) -> increment_counter();
-            //std::cout << "counter: "<<counter << std::endl;
 
         }
         ++bomb_iter;
@@ -237,34 +236,56 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
         isCollided = first_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
-            std::cout << "hit!" <<std::endl;
             segment -> is_hit(true);
         }
 
         isCollided = second_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
-            std::cout << "hit!" <<std::endl;
             segment -> is_hit(true);
         }
 
         isCollided = third_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
-            std::cout << "hit!" <<std::endl;
             segment -> is_hit(true);
         }
 
         isCollided = fourth_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
-            std::cout << "hit!" <<std::endl;
             segment -> is_hit(true);
         }
 
     }
 
     //The next step is to wipe out all the destroyed centipede segments and update
+    auto centipede_obj_iter = centipede_obj.begin();
+    auto centipede_sprite_iter = centipede_sprite.begin();
+    while(centipede_obj_iter != centipede_obj.end())
+    {
+        if((*centipede_obj_iter) -> get_is_hit())
+        {
+            //point to the segment behing
+            auto behind_ptr = (centipede_obj_iter + 1);
+            if(behind_ptr != centipede_obj.end())
+            {
+                (*behind_ptr) -> setHead(true);
+                //let the centipedeAnimation take care of the sprite
+                //since it knows how to update head and bodies respectively.
+                //Yaaay!!
+            }
+
+            centipede_obj.erase(centipede_obj_iter);
+            centipede_sprite.erase(centipede_sprite_iter);
+        }
+
+        else
+        {
+            ++centipede_obj_iter;
+            ++centipede_sprite_iter;
+        }
+    }
 }
 
 //Quadrant collisions(general)
