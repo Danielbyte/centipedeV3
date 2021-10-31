@@ -12,7 +12,7 @@ Scorpion::Scorpion():
 
 }
 
-vector2f Scorpion::create_scorpion(const vector<shared_ptr<Centipede>>& centipede_object)
+vector2f Scorpion::create_scorpion()
 {
     control++;
     //set the position of scorpion
