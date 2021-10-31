@@ -13,7 +13,7 @@ public:
     Scorpion();
     //update the scorpion sprite
     void update(shared_ptr<Sprite>&, float);
-    vector2f create_scorpion(const vector<shared_ptr<Centipede>>&);
+    vector2f create_scorpion();
     void get_scorpionPos();
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
