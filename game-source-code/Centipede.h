@@ -70,6 +70,12 @@ public:
     int get_anime_loop() const;
     void reset_animation_loop();
 
+    //get is segment hit by explosion
+    bool get_is_hit() const;
+
+    //set segment if hit by explosion
+    void is_hit(bool);
+
 private:
     vector2f pos;
     int centipede_speed;
@@ -95,16 +101,16 @@ private:
     int counter;
 
     //counter to update collisions of centipede
-     int counter2;
+    int counter2;
 
-     //get if centipede is poisoned
-     bool isCentipedePoisoned;
+    //get if centipede is poisoned
+    bool isCentipedePoisoned;
 
-     //set Animation
-     int animation_loop;
+    //set Animation
+    int animation_loop;
 
-
-
+    //mark segment if is hit by explosion
+    bool isHit;
 
 };
 #endif // CENTIPEDE_H
