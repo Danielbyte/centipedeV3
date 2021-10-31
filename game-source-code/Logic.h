@@ -18,6 +18,7 @@
 #include "SpiderController.h"
 #include "DDTBombs.h"
 #include "DDTBombsController.h"
+#include "ScorpionController.h"
 
 class Logic
 {
@@ -47,14 +48,15 @@ class Logic
 
     int getKilled_segments() const;
 
-    //scorpion watsches
+    //scorpion watches
+    vector<shared_ptr<Scorpion>>scorpion_object;
     vector2f create_scorpion();
     StopWatch scorpion_watch;
     StopWatch scorpion_watch2;
 
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
-    void update_scorpion(shared_ptr<Sprite>&);
+    void update_scorpion(vector<shared_ptr<Sprite>>&);
 
     //spider watches
     StopWatch spider_watch;
@@ -77,7 +79,7 @@ class Logic
 
     //collision between bomb and bullet
     void collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
-                                           vector<shared_ptr<Sprite>>&, shared_ptr<Sprite>&);
+                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
@@ -93,7 +95,11 @@ class Logic
         Spider spider;
         centipedeAnimation animation;
         Collision collision;
+
+        //Scorpion
         Scorpion scorpion;
+        ScorpionController control_scorpion;
+
         DDTBombsController bomb_controller;
 
         //Function to detect mushroom field collisions

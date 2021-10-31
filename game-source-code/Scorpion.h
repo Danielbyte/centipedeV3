@@ -11,18 +11,15 @@ class Scorpion
 {
 public:
     Scorpion();
-    //update the scorpion sprite
-    void update(shared_ptr<Sprite>&, float);
-    vector2f create_scorpion();
-    void get_scorpionPos();
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
     int getScorpion_spawnRate() const;
     vector2f getScorpion_position() const;
 
     bool getIfOffScreen() const;
-
-    Texture scorpion_texture;
+    void reset_counter();
+    void increment_counter();
+    int get_counter() const;
 
 private:
     vector2f pos;
@@ -36,7 +33,6 @@ private:
     //notify if scorpion goes out of screen to free resources
     bool isOffScreen;
     int counter;
-
     int control;
 
 };
