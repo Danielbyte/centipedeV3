@@ -697,8 +697,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
 }
 
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
-                                              vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
-                                              shared_ptr<Sprite>& scorpion_sprite)
+        vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
+        vector<shared_ptr<Sprite>>& scorpion_sprite)
 {
     //First we need to have bombs on the field
     auto bullet_sprite_iter = bullet_sprite.begin();
@@ -769,13 +769,13 @@ int Logic::getKilled_segments() const
 
 vector2f Logic::create_scorpion()
 {
-    auto _pos = scorpion.create_scorpion();
+    auto scorpion_object = std::make_shared<Scorpion>();
+    auto _pos = scorpion_object -> getScorpion_position();
     return _pos;
 }
 
 bool Logic::canSpawn_scorpion()
 {
-
     if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
     {
         //if 10 seconds has elapsed, spawn scorpion
@@ -789,25 +789,25 @@ bool Logic::canSpawn_scorpion()
         scorpion.setIfCanSpawn_scorpion(false);
     }
 
-    if (!scorpion.getIfOffScreen())
+   /* if (!scorpion.getIfOffScreen())
     {
         auto pos_ = scorpion.getScorpion_position();
         ChangeToPoison(pos_);
-    }
+    }*/
 
     return scorpion.getIfCanSpawn_scorpion();
 }
 
-void Logic::update_scorpion(shared_ptr<Sprite>& scorpion_)
+void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion)
 {
-    if (scorpion_watch2.getTimeElapsed() > scorpion.getScorpion_spawnRate())
+    //only update if we have a scorpion
+    if (!scorpion.empty())
     {
-        scorpion.update(scorpion_,scorpion_watch2.getTimeElapsed());
-        scorpion.setIfCanSpawn_scorpion(true);
+        control_scorpion.update_scorpion(scorpion_object,scorpion,mushField);
     }
 }
 
-void Logic::ChangeToPoison(vector2f pos_)
+/*void Logic::ChangeToPoison(vector2f pos_)
 {
     int xPos = (int)(pos_.x/offset);
     int yPos = (int)(pos_.y/offset);
@@ -815,7 +815,7 @@ void Logic::ChangeToPoison(vector2f pos_)
     {
         mushField -> mushArray[yPos][xPos] -> changeToPoison();
     }
-}
+}*/
 
 bool Logic::getIfCanSpawnSpider()
 {

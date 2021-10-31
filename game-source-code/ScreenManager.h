@@ -18,7 +18,8 @@ class ScreenManager
 
     //scorpion
     void create_scorpion();
-    shared_ptr<Sprite>scorpion{new Sprite{}};
+    //decided to put shared pointer in a vector to be able to delete it.
+    vector<shared_ptr<Sprite>>scorpion_sprite_vector;
 
     //spider
     void create_spider();

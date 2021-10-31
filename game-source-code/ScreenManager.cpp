@@ -74,8 +74,11 @@ void ScreenManager::run()
                 //(bullet) ->Draw(_window);
                 window.draw(*bullet);
             }
-
-            window.draw(*scorpion);
+            //draw scorpion
+            for (auto& scorpion_ : scorpion_sprite_vector)
+            {
+                window.draw(*scorpion_);
+            }
 
             //output spider
             for (auto& spider : spider_sprite_vector)
@@ -187,7 +190,7 @@ void ScreenManager::update()
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
-                                            CentipedeSprite_vector, scorpion);
+                                            CentipedeSprite_vector, scorpion_sprite_vector);
 
 
     //scorpion updates
@@ -197,7 +200,7 @@ void ScreenManager::update()
     {
         create_scorpion();
     }
-    logic.update_scorpion(scorpion);
+    logic.update_scorpion(scorpion_sprite_vector);
 
     //spider updates
     auto canSpawnSpider = logic.getIfCanSpawnSpider();
@@ -238,10 +241,12 @@ void ScreenManager::create_enemy()
 void ScreenManager::create_scorpion()
 {
     vector2f pos_ = logic.create_scorpion();
+    auto scorpion_sprite = std::make_shared<Sprite>(Sprite());
     if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
-    scorpion -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
-    scorpion -> setTexture(scorpion_texture);
-    scorpion -> setPosition(pos_);
+    scorpion_sprite -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
+    scorpion_sprite -> setTexture(scorpion_texture);
+    scorpion_sprite -> setPosition(pos_);
+    scorpion_sprite_vector.push_back(scorpion_sprite);
 }
 
 void ScreenManager::create_spider()

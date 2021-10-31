@@ -20,7 +20,7 @@ public:
     vector2f getGeneratedPosition() const;
     Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&,shared_ptr<MushroomFieldController>&,vector<shared_ptr<Spider>>&,
-                   vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&, shared_ptr<Sprite>&);
+                   vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
 
 private:
     Collision collision;
@@ -29,8 +29,9 @@ private:
     void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&);
     void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&);
     void explosion_and_centipede(shared_ptr<Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&);
+    void explosion_and_scorpion(shared_ptr<Sprite>&, vector<shared_ptr<Sprite>>&);
 
-    //Quadrant collisions for spider
+    //Quadrant collisions(General this one)
     bool fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
     bool third_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
     bool second_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);

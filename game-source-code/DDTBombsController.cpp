@@ -33,16 +33,12 @@ bool DDTBombsController::getIfCanCreateBomb() const
 
 void DDTBombsController::generate_position(shared_ptr<MushroomFieldController>& mushField)
 {
-    std::cout<< "start" << std::endl;
     auto row = (rand() % 20) + 6;
     auto col =(rand() % 20) + 6;
     /* if (!mushField ->isMushroom(row, col))
      {
          return;
      }
-
-
-
      //do not generate on position where there is a mushroom
      std::cout << "Came!" << std::endl;
      bool isGenerated = false;
@@ -52,11 +48,8 @@ void DDTBombsController::generate_position(shared_ptr<MushroomFieldController>& 
          auto row = (rand() % 20) + 6;
          auto col =(rand() % 20) + 6;
      }*/
-
     pos.x = col*offset;
     pos.y = row*offset;
-
-    std::cout << "ended" << std::endl;
 }
 
 vector2f DDTBombsController::getGeneratedPosition() const
@@ -67,7 +60,7 @@ vector2f DDTBombsController::getGeneratedPosition() const
 void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite,
                                    shared_ptr<MushroomFieldController>& mushField, vector<shared_ptr<Spider>>& spiderObj,
                                    vector<shared_ptr<Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
-                                   vector<shared_ptr<Sprite>>& centipedeSpite,shared_ptr<Sprite>& scorpion_sprite)
+                                   vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Sprite>>& scorpion_sprite)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -82,9 +75,6 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.setSmooth(true);
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
-                //check collision between explosion and mushroom
-                //explosion_and_mush((*bombSprite_iter), mushField);
-
             }
 
             if (counter == 5)
@@ -92,8 +82,6 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb3.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(3,3);
-                //check collision between explosion and mushroom(radius 2)
-                //explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 15)
@@ -101,8 +89,6 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb2.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(2,2);
-                //check collision between explosion and mushroom
-                // explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 20)
@@ -110,8 +96,6 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 bomb_texture.loadFromFile("resources/bomb3.png");
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(3,3);
-                //check collision between explosion and mushroom
-                //explosion_and_mush((*bombSprite_iter), mushField);
             }
 
             if (counter == 25)
@@ -123,6 +107,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_mush((*bombSprite_iter), mushField);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
+                explosion_and_scorpion((*bombSprite_iter), scorpion_sprite);
             }
 
             if (counter == 30)
@@ -286,6 +271,52 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
             ++centipede_sprite_iter;
         }
     }
+}
+
+void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Sprite>>& scorpion_sprite)
+{
+    bool isCollided;
+    vector2f explosion_pos;
+    vector2f scorpion_pos;
+
+    //scorpion will always have on object
+    auto scorpion_sprite_iter = scorpion_sprite.begin();
+
+    explosion_pos = bomb_sprite -> getPosition();
+    scorpion_pos = (*scorpion_sprite_iter) -> getPosition();
+
+    auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+    auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+
+    isCollided = first_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        scorpion_sprite.erase(scorpion_sprite_iter);
+        return;
+    }
+
+    isCollided = second_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        scorpion_sprite.erase(scorpion_sprite_iter);
+        return;
+    }
+
+    isCollided = third_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        scorpion_sprite.erase(scorpion_sprite_iter);
+        return;
+    }
+
+    isCollided = fourth_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        scorpion_sprite.erase(scorpion_sprite_iter);
+        return;
+    }
+
+    return;
 }
 
 //Quadrant collisions(general)
