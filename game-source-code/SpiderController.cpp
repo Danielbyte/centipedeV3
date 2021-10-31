@@ -4,9 +4,9 @@ SpiderController::SpiderController():
     spider_speed{1},
     left_pos{-(Tile_offset)},
     right_pos{488},
-    spawn_height{312},
-    max_pos{312},
-    min_pos{488},
+    spawn_height{376},
+    max_pos{376},
+    min_pos{496},
     min_instruction{9},
     max_instruction{32}
 

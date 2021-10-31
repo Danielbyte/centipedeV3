@@ -8,6 +8,7 @@
 #include "SfmlDataType.h"
 #include "Collision.h"
 #include "Spider.h"
+#include "Centipede.h"
 
 class DDTBombsController
 {
@@ -19,7 +20,7 @@ public:
     vector2f getGeneratedPosition() const;
     Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&,shared_ptr<MushroomFieldController>&,vector<shared_ptr<Spider>>&,
-                   vector<shared_ptr<Sprite>>&);
+                   vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&);
 
 private:
     Collision collision;
