@@ -23,6 +23,9 @@ const auto scorpion_height = 16;
 const auto mushHeight = 16;
 const auto mushWidth = 16;
 
+const auto centWidth = 16;
+const auto centHeight = 16;
+
 const auto spiderHeight = 16;
 const auto spiderWidth = 30;
 

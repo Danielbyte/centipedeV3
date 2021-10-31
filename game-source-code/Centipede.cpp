@@ -17,7 +17,8 @@ Centipede::Centipede():
     counter{0},
     counter2{0},
     isCentipedePoisoned{false},
-    animation_loop{0}
+    animation_loop{0},
+    isHit{false} //centipede initially not hit by bomb
     {
         //set the initial position of centipede
         pos = vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
@@ -233,4 +234,13 @@ int Centipede::get_anime_loop() const
 void Centipede::reset_animation_loop()
 {
     animation_loop = 0;
+}
+
+void Centipede::is_hit(bool var)
+{
+    isHit = var;
+}
+bool Centipede::get_is_hit() const
+{
+    return isHit;
 }

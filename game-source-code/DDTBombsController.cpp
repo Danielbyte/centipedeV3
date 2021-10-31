@@ -122,6 +122,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
+                explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
             }
 
             if (counter == 30)
@@ -218,6 +219,52 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
         }
     }
     return;
+}
+
+void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Centipede>>& centipede_obj,
+        vector<shared_ptr<Sprite>>& centipede_sprite)
+{
+    for(auto& segment : centipede_obj)
+    {
+        bool isCollided;
+        vector2f explosion_pos;
+        vector2f segment_pos;
+        segment_pos = segment -> get_position();
+        explosion_pos = bomb_sprite -> getPosition();
+        auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+        auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+
+        isCollided = first_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            std::cout << "hit!" <<std::endl;
+            segment -> is_hit(true);
+        }
+
+        isCollided = second_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            std::cout << "hit!" <<std::endl;
+            segment -> is_hit(true);
+        }
+
+        isCollided = third_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            std::cout << "hit!" <<std::endl;
+            segment -> is_hit(true);
+        }
+
+        isCollided = fourth_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            std::cout << "hit!" <<std::endl;
+            segment -> is_hit(true);
+        }
+
+    }
+
+    //The next step is to wipe out all the destroyed centipede segments and update
 }
 
 //Quadrant collisions(general)
