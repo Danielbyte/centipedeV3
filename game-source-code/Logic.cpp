@@ -646,6 +646,11 @@ vector2f Logic::create_flea()
     return pos_;
 }
 
+void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite)
+{
+    flea_control.update_flea(flea_object,flea_sprite,mushField);
+}
+
 //free up resources
 Logic::~Logic()
 {

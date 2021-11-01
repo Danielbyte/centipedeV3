@@ -230,8 +230,15 @@ void ScreenManager::update()
     auto canSpawnFlea = logic.getIfCanSpawnFlea();
     if(canSpawnFlea && (FleaSprite_vector.empty()))
     {
-        std::cout << "need to spawn flea!" << std::endl;
+        //std::cout << "need to spawn flea!" << std::endl;
         create_flea();
+    }
+
+    if(!FleaSprite_vector.empty())
+    {
+        //std::cout<< "I need to update flea" << std::endl;
+        //ask the logic to update flea
+        logic.update_flea(FleaSprite_vector);
     }
 
 
