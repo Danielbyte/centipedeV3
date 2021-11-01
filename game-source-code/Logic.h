@@ -94,6 +94,8 @@ class Logic
 
     bool getIfCanSpawnFlea();
     vector2f create_flea();
+    void update_flea(vector<shared_ptr<Sprite>>&);
+    vector<shared_ptr<Flea>>flea_object;
 
     private:
         //Object for the Spider logic and update
