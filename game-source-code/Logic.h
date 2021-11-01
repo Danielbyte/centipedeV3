@@ -79,7 +79,7 @@ class Logic
 
     //collision between bomb and bullet
     void collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
-                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
+                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, Sprite&);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;

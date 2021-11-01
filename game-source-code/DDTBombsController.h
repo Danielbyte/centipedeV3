@@ -10,6 +10,7 @@
 #include "Spider.h"
 #include "Centipede.h"
 #include "Scorpion.h"
+#include "Player.h"
 
 class DDTBombsController
 {
@@ -22,7 +23,7 @@ public:
     Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&,shared_ptr<MushroomFieldController>&,vector<shared_ptr<Spider>>&,
                    vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&,vector<shared_ptr<Scorpion>>&,
-                   vector<shared_ptr<Sprite>>&);
+                   vector<shared_ptr<Sprite>>&,Player&,Sprite&);
 
 private:
     Collision collision;
