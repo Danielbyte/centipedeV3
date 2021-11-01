@@ -35,19 +35,7 @@ void DDTBombsController::generate_position(shared_ptr<MushroomFieldController>& 
 {
     auto row = (rand() % 20) + 6;
     auto col =(rand() % 20) + 6;
-    /* if (!mushField ->isMushroom(row, col))
-     {
-         return;
-     }
-     //do not generate on position where there is a mushroom
-     std::cout << "Came!" << std::endl;
-     bool isGenerated = false;
-     while (mushField ->isMushroom(row, col))
-     {
-         std::cout << "Caame!" << std::endl;
-         auto row = (rand() % 20) + 6;
-         auto col =(rand() % 20) + 6;
-     }*/
+
     pos.x = col*offset;
     pos.y = row*offset;
 }
@@ -215,7 +203,8 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
         bool isCollided;
         vector2f explosion_pos;
         vector2f segment_pos;
-        segment_pos = segment -> get_position();
+        segment_pos.x = (segment -> get_position().x) - Tile_offset;
+        segment_pos.y = (segment -> get_position().y) - Tile_offset;
         explosion_pos = bomb_sprite -> getPosition();
         auto explosion_width = bomb_sprite -> getGlobalBounds().width;
         auto explosion_height = bomb_sprite -> getGlobalBounds().height;
