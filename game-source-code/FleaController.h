@@ -15,6 +15,8 @@ private:
 public:
     void spawn_mushroom(vector2f, shared_ptr<MushroomFieldController>&);
     bool set_if_can_spawn_flea(shared_ptr<MushroomFieldController>&);
+    //minimum mushrooms that can be at player area
+    int min_mushrooms;
 
 };
 #endif // FLEACONTROLLER_H
