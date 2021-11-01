@@ -3,39 +3,12 @@
 
 Scorpion::Scorpion():
     scorpion_speed{2},
-    spawnScorpion_rate{5}, //spawn scorpion after 10 seconds
+    spawnScorpion_rate{5}, //spawn scorpion after 5 seconds
     canCreate_scorpion{false},
     counter{0},
     control{0}
 {
-    pos.x = (30.f)*offset;
-    pos.y = 160.f;
 }
-
-/*vector2f Scorpion::create_scorpion()
-{
-    //set the position of scorpion
-    pos.x = (30.f)*offset; // scorpion will move from right to left
-
-    srand(time(0));
-    // randomly generate row position bearing in mind that it should not
-    // be in player area.
-    if (control == 1)
-    {
-        pos.y = 160.f;
-    }
-    if (control == 2)
-    {
-        pos.y = 176.f;
-
-    }
-
-    if (control == 3)
-    {
-        pos.y = 208.f;
-        control = 0;
-    }
-}*/
 
 bool Scorpion::getIfCanSpawn_scorpion() const
 {
