@@ -15,6 +15,6 @@ public:
 
 private:
     vector2f pos;
-    //variable for animation
+    void animate_scorpion(vector<shared_ptr<Scorpion>>&, vector<shared_ptr<Sprite>>&);
 };
 #endif // SCORPIONCONTROLLER_H

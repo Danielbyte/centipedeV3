@@ -3,12 +3,19 @@
 void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<Sprite>>&scorpion_sprite,
         shared_ptr<MushroomFieldController>& mushField)
 {
+    animate_scorpion(scorpionObj, scorpion_sprite);
     //only updating when scorpion has been created
+    //auto scorpion_sprite_iter = scorpion_sprite.begin();
+    //auto scorpionObj_iter = scorpionObj.begin();
+
+
+}
+
+void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<Sprite>>& scorpion_sprite)
+{
     auto scorpion_sprite_iter = scorpion_sprite.begin();
     auto scorpionObj_iter = scorpionObj.begin();
-
-   auto counter = (*scorpionObj_iter) -> get_counter();
-    //isOffScreen = false;
+    auto counter = (*scorpionObj_iter) -> get_counter();
     if (counter == 0)
     {
         if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
@@ -45,8 +52,7 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
         return;
     }
 
-     (*scorpionObj_iter)-> set_position(pos);
+    (*scorpionObj_iter)-> set_position(pos);
     (*scorpion_sprite_iter) -> setPosition(pos);
-    (*scorpion_sprite_iter) -> setOrigin(vector2f(0.f,0.f));
     (*scorpionObj_iter)-> increment_counter();
 }
