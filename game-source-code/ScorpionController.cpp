@@ -5,9 +5,13 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
 {
     animate_scorpion(scorpionObj, scorpion_sprite);
     //only updating when scorpion has been created
-    //auto scorpion_sprite_iter = scorpion_sprite.begin();
-    //auto scorpionObj_iter = scorpionObj.begin();
-
+    if(!scorpionObj.empty())
+    {
+        auto scorpion_sprite_iter = scorpion_sprite.begin();
+        auto scorpionObj_iter = scorpionObj.begin();
+        vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
+        poison_mushroom(pos_, mushField);
+    }
 
 }
 
@@ -55,4 +59,14 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     (*scorpionObj_iter)-> set_position(pos);
     (*scorpion_sprite_iter) -> setPosition(pos);
     (*scorpionObj_iter)-> increment_counter();
+}
+
+void ScorpionController::poison_mushroom(vector2f pos_, shared_ptr<MushroomFieldController>& mushField)
+{
+    int xPos = (int)(pos_.x/offset);
+    int yPos = (int)(pos_.y/offset);
+    if(mushField ->isMushroom(yPos, xPos))
+    {
+        mushField -> mushArray[yPos][xPos] -> changeToPoison();
+    }
 }
