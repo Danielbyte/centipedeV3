@@ -12,6 +12,7 @@ Logic::Logic():
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     auto centipede_ptr = std::make_unique<Centipede>(Centipede());
     centipedeSpeed = centipede_ptr ->getCentipede_speed();
+    isHit = false;
 }
 
 void Logic::update_player(Sprite& player_sprite)
@@ -133,13 +134,28 @@ void Logic::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr)
         auto left_ = centipede_ptr ->getLeft();
         if(left_)
         {
-            auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
-            if(((mushField->isMushroom(newY, newX - 1)) | (mushField->isMushroom(newY, newX))) | (pos_.x < offset) | (centipede_poisoned))
+            if (isHit)
             {
-                centipede_ptr -> setDown(true);
-                centipede_ptr -> setLeft(false);
-                centipede_ptr -> setWasMovingLeft(true);
+                auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
+                if(((mushField->isMushroom(newY, newX))) | (pos_.x < offset) | (centipede_poisoned))
+                {
+                    centipede_ptr -> setDown(true);
+                    centipede_ptr -> setLeft(false);
+                    centipede_ptr -> setWasMovingLeft(true);
+                }
             }
+
+            else if(isHit == false)
+            {
+                auto centipede_poisoned = centipede_ptr -> getIsCentipedePoisoned();
+                if(((mushField->isMushroom(newY, newX - 1))) | (pos_.x < offset) | (centipede_poisoned))
+                {
+                    centipede_ptr -> setDown(true);
+                    centipede_ptr -> setLeft(false);
+                    centipede_ptr -> setWasMovingLeft(true);
+                }
+            }
+
             //See if there is a poisoned mushroom on the left
             if(mushField -> mushArray[newY][newX - 1] != NULL)
             {
@@ -548,8 +564,8 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
 
 void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
 {
-    vector2d bulletPos;
-    vector2d objectPos;
+    vector2f bulletPos;
+    vector2f objectPos;
     auto laserIter = laser.begin();
     while (laserIter != laser.end())
     {
@@ -562,9 +578,9 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
                 {
                     objectPos.x = col*offset;
                     objectPos.y = row*offset;
-                    bulletPos.x = (*laserIter) -> getPosition().x;
-                    bulletPos.y = (*laserIter) -> getPosition().y;
-                    auto MushCollidedWith_bullet = collision.isCollidedWithBullet(bulletPos, bullet_size/offset, objectPos, mushroom_size);
+                    bulletPos.x = ((*laserIter) -> getPosition().x) - bullet_offset;
+                    bulletPos.y = ((*laserIter) -> getPosition().y) - Tile_offset;
+                    auto MushCollidedWith_bullet = collision.collision_detect(objectPos,mushWidth,mushHeight,bulletPos,bulletWidth,bulletHeight);
                     if (MushCollidedWith_bullet)
                     {
 
@@ -593,24 +609,31 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
     {
         for (auto& centipedeObject : centipede_objectVector)
         {
-            vector2d bulletSprite_pos;
-            vector2d centipedeObject_pos;
+            vector2f bulletSprite_pos;
+            vector2f centipedeObject_pos;
 
             //current position of laser bullet
-            bulletSprite_pos.x = (*iter2) -> getPosition().x;
-            bulletSprite_pos.y = (*iter2) -> getPosition().y;
+            bulletSprite_pos.x = ((*iter2) -> getPosition().x) - bullet_offset;
+            bulletSprite_pos.y = ((*iter2) -> getPosition().y) - Tile_offset;
 
             //updated position of centipede segment
             centipedeObject_pos.x = (centipedeObject) -> get_position().x;
+            centipedeObject_pos.x = centipedeObject_pos.x - Tile_offset;
             centipedeObject_pos.y = (centipedeObject) -> get_position().y;
+            centipedeObject_pos.y = centipedeObject_pos.y - Tile_offset;
 
-            auto iscollided = collision.isCollidedWithBullet(bulletSprite_pos, bullet_size/offset, centipedeObject_pos, centipedeBody_size);
+            auto iscollided = collision.collision_detect(bulletSprite_pos,bulletWidth,bulletHeight,centipedeObject_pos,centWidth,centHeight);
             if (iscollided)
             {
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
                 laser.erase(iter2);
+                isHit = true;
                 return;
+            }
+            else
+            {
+                isHit = false;
             }
 
         }
@@ -678,8 +701,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
         {
             vector2f bulletPos;
             vector2f spiderPos;
-            bulletPos.x = (*bullet_iter) -> getPosition().x;
-            bulletPos.y = (*bullet_iter) -> getPosition().y;
+            bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
+            bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
 
             spiderPos = (*spider_iter) -> get_position();
 
@@ -709,8 +732,11 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
         {
             vector2f bulletPos;
             vector2f bombPos;
-            bulletPos = (*bullet_sprite_iter) -> getPosition();
-            bombPos = bomb -> get_position();
+            bulletPos.x = ((*bullet_sprite_iter) -> getPosition().x) - bullet_offset;
+            bulletPos.y = ((*bullet_sprite_iter) -> getPosition().y) - Tile_offset;
+
+            bombPos.x = (bomb -> get_position().x) - Tile_offset;
+            bombPos.y = (bomb -> get_position().y) - Tile_offset;
             auto isCollided = collision.collision_detect(bombPos,bomb1Width,bomb1Height,bulletPos,bulletWidth,bulletHeight);
 
             if(isCollided)
@@ -751,15 +777,14 @@ void Logic::create_bullet(vector<shared_ptr<Sprite>>& bullet)
     //bullet object
     vector2f bullet_pos;
     bullet_pos.x = player_object.get_Xposition();
-    bullet_pos.y = player_object.get_Yposition();
+    bullet_pos.y = player_object.get_Yposition() - Tile_offset;
 
     //bullet sprite setup
     auto bullet_sprite = std::make_shared<Sprite>(Sprite());
     if(!bullet_texture.loadFromFile("resources/bullet.png")) throw CouldNotLoadPicture{};
     bullet_sprite ->setTexture(bullet_texture);
     bullet_sprite ->setPosition(bullet_pos);
-    auto bullet_offset = 22;
-    bullet_sprite ->setOrigin(bullet_size/2, bullet_offset/2);
+    bullet_sprite ->setOrigin(bulletWidth/2, bulletHeight/2);
     bullet.push_back(bullet_sprite);
 }
 
@@ -774,7 +799,10 @@ vector2f Logic::create_scorpion()
     auto _pos = control_scorpion.position_to_spawn_scorpion(control);
     (scorpion_object) -> set_position(_pos);
     control++;
-    if(control > 2){control = 0;}
+    if(control > 2)
+    {
+        control = 0;
+    }
     scorpion_object_vector.push_back(scorpion_object);
     return _pos;
 }

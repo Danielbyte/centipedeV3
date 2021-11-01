@@ -19,6 +19,7 @@ const auto centipedeBody_size = 16;
 const auto bullet_size = 16;
 const auto scorpion_width = 32;
 const auto scorpion_height = 16;
+const auto bullet_offset = 1;
 
 const auto mushHeight = 16;
 const auto mushWidth = 16;
@@ -32,7 +33,7 @@ const auto spiderWidth = 30;
 const auto playerWidth = 16;
 const auto playerHeight = 16;
 
-const auto bulletWidth = 16;
+const auto bulletWidth = 2;
 const auto bulletHeight = 16;
 const auto bomb1Height = 16;
 const auto bomb1Width = 16;

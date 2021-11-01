@@ -117,6 +117,8 @@ class Logic
 
         //variables for centipede creation
         bool isHead;
+        //Notify if hit by bullet to control how centipede detects collissions
+        bool isHit;
         int bodySegmentsTo_spawn;
         //variables to see if centipede moving up or down
         bool ismovingUp;
