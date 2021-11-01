@@ -19,6 +19,7 @@
 #include "DDTBombs.h"
 #include "DDTBombsController.h"
 #include "ScorpionController.h"
+#include "CentipedeController.h"
 
 class Logic
 {
@@ -91,6 +92,7 @@ class Logic
 
     private:
         //Object for the Spider logic and update
+        CentipedeController centipede_controller;
         SpiderController spider_control;
         Spider spider;
         centipedeAnimation animation;

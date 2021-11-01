@@ -7,7 +7,6 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
     //only updating when scorpion has been created
     if(!scorpionObj.empty())
     {
-        auto scorpion_sprite_iter = scorpion_sprite.begin();
         auto scorpionObj_iter = scorpionObj.begin();
         vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
         poison_mushroom(pos_, mushField);
@@ -52,7 +51,6 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     {
         scorpion_sprite.erase(scorpion_sprite_iter);
         scorpionObj.erase(scorpionObj_iter);
-        std::cout<< "Deleted scorpion!" << std::endl;
         return;
     }
 

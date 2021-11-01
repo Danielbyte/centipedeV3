@@ -9,9 +9,6 @@ MushroomFieldController::MushroomFieldController():
 void MushroomFieldController::create_mushrooms()
 {
     srand(time(0));
-    //mushArray = 0;
-    //mushArray = new int*[30];
-    //for(int i =0; i < 33; i++){mushArray[i] = new int[32]{0};}
     for (auto row = 0; row < 32-2; row++)
     {
         for (auto col =0; col < 30; col++)
@@ -26,7 +23,7 @@ void MushroomFieldController::create_mushrooms()
                 {
                     mushArray[row][col] = new MushroomField(row, col);
                 }
-                //mushrooms_.push_back(mushroom_ptr);
+
             }
             else
                 mushArray[row][col] = NULL;
