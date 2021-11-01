@@ -20,6 +20,7 @@ const auto bullet_size = 16;
 const auto scorpion_width = 32;
 const auto scorpion_height = 16;
 const auto bullet_offset = 1;
+const auto flea_spawn_chance = 50;
 
 const auto mushHeight = 16;
 const auto mushWidth = 16;
