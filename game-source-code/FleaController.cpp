@@ -1,7 +1,7 @@
 #include "FleaController.h"
 
 FleaController::FleaController():
-     min_mushrooms{10} //if there is less than 10 mushes in player area, call abuti flea
+     min_mushrooms{5} //if there is less than 5 mushes in player area, call abuti flea
      {}
 
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<Sprite>>& flea_sprite,
@@ -56,4 +56,16 @@ bool FleaController::set_if_can_spawn_flea(shared_ptr<MushroomFieldController>& 
         return false;
     }
 
+}
+
+vector2f FleaController::generate_spawn_position()
+{
+    int max = 29;
+    vector2f position;
+    //spawn from the top
+    position.y = 0;
+
+    position.x = (rand() % max)*offset;
+
+    return position;
 }

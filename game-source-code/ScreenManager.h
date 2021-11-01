@@ -28,6 +28,7 @@ class ScreenManager
     vector<shared_ptr<Sprite>>DDTBombs_spiteVector;
     vector <shared_ptr<Sprite>> bulletSprites_vector;
     vector <shared_ptr<Sprite>> CentipedeSprite_vector;
+    vector<shared_ptr<Sprite>> FleaSprite_vector;
 
     private:
         //Number of body segments to spawn after head
@@ -47,6 +48,7 @@ class ScreenManager
         //create game sprites
         void create_laserShots();
         void create_enemy();
+        void create_flea();
 
         //set up of display text and fonts
         Font splash_screenFont;
@@ -66,6 +68,8 @@ class ScreenManager
         Texture playerSprite_texture;
         Sprite player_sprite;
         Texture centipedeHead_texture;
+
+        Texture flea_texture;
 
 
         //Laser shots

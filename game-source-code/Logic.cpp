@@ -633,6 +633,19 @@ vector2f Logic::create_bomb()
     return pos_;
 }
 
+bool Logic::getIfCanSpawnFlea()
+{
+    auto canSpawnFlea = flea_control.set_if_can_spawn_flea(mushField);
+    return canSpawnFlea;
+}
+
+vector2f Logic::create_flea()
+{
+    vector2f pos_;
+    pos_ = flea_control.generate_spawn_position();
+    return pos_;
+}
+
 //free up resources
 Logic::~Logic()
 {
