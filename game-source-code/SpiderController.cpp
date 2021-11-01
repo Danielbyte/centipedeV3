@@ -14,7 +14,6 @@ SpiderController::SpiderController():
 
 void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Spider>>& spider_obj)
 {
-
     //It is known that there will be only one spider at a time
     auto spiderObj_iter = spider_obj.begin();
     auto spiderSprite_iter = spider_sprite.begin();
