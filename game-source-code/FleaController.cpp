@@ -7,6 +7,25 @@ FleaController::FleaController():
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<Sprite>>& flea_sprite,
                                  shared_ptr<MushroomFieldController>& mushField)
 {
+    //only going to have one flea per instance
+    auto flea_sprite_iter = flea_sprite.begin();
+    auto flea_object_iter = flea_object.begin();
+    auto pos_ = (*flea_sprite_iter) -> getPosition();
+    auto flea_speed = (*flea_object_iter) ->get_flea_speed();
+    pos_.y += flea_speed;
+
+    if(pos_.y >= windowHeight)
+    {
+        flea_object.clear();
+        flea_sprite.clear();
+        std::cout << "destroyed flea"<< std::endl;
+        return;
+    }
+    else
+    {
+        (*flea_sprite_iter) -> setPosition(pos_);
+        (*flea_object_iter) -> set_position(pos_);
+    }
 
 }
 

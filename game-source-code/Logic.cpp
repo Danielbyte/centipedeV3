@@ -641,8 +641,11 @@ bool Logic::getIfCanSpawnFlea()
 
 vector2f Logic::create_flea()
 {
+    auto flea = std::make_shared<Flea>();
     vector2f pos_;
     pos_ = flea_control.generate_spawn_position();
+    flea -> set_position(pos_);
+    flea_object.push_back(flea);
     return pos_;
 }
 
