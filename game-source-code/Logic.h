@@ -20,6 +20,8 @@
 #include "DDTBombsController.h"
 #include "ScorpionController.h"
 #include "CentipedeController.h"
+#include "Flea.h"
+#include "FleaController.h"
 
 class Logic
 {
@@ -90,6 +92,9 @@ class Logic
 
     void update_explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&);
 
+    bool getIfCanSpawnFlea();
+    vector2f create_flea();
+
     private:
         //Object for the Spider logic and update
         CentipedeController centipede_controller;
@@ -97,6 +102,7 @@ class Logic
         Spider spider;
         centipedeAnimation animation;
         Collision collision;
+        FleaController flea_control;
 
         //Scorpion
         Scorpion scorpion;

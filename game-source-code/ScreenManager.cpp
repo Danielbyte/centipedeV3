@@ -91,6 +91,12 @@ void ScreenManager::run()
             {
                 window.draw(*bomb);
             }
+
+            //draw flea
+            for(auto& flea : FleaSprite_vector)
+            {
+                window.draw(*flea);
+            }
         }
 
         else
@@ -220,7 +226,14 @@ void ScreenManager::update()
         create_bomb();
     }
 
-    //std::cout<< "Here" <<std::endl;
+    //query logic to spawn flea
+    auto canSpawnFlea = logic.getIfCanSpawnFlea();
+    if(canSpawnFlea && (FleaSprite_vector.empty()))
+    {
+        std::cout << "need to spawn flea!" << std::endl;
+        create_flea();
+    }
+
 
     updateScreen_manager();
     update_game();
@@ -406,6 +419,17 @@ void ScreenManager::update_game()
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER");
     }
+}
+
+void ScreenManager::create_flea()
+{
+    auto flea_sprite = std::make_shared<Sprite>(Sprite());
+    auto pos = logic.create_flea();
+    if(!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
+    flea_sprite ->setTexture(flea_texture);
+    flea_sprite -> setOrigin(vector2f(0.f,0.f));
+    flea_sprite -> setPosition(pos);
+    FleaSprite_vector.push_back(flea_sprite);
 }
 
 //Free up resources

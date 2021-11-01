@@ -9,12 +9,14 @@
 
 class FleaController
 {
-private:
+public:
     FleaController();
     void update_flea(vector<shared_ptr<Flea>>&,vector<shared_ptr<Sprite>>&,shared_ptr<MushroomFieldController>&);
-public:
-    void spawn_mushroom(vector2f, shared_ptr<MushroomFieldController>&);
     bool set_if_can_spawn_flea(shared_ptr<MushroomFieldController>&);
+    vector2f generate_spawn_position();
+
+private:
+    void spawn_mushroom(vector2f, shared_ptr<MushroomFieldController>&);
     //minimum mushrooms that can be at player area
     int min_mushrooms;
 
