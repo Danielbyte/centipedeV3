@@ -26,8 +26,6 @@ public:
 private:
     int flea_speed;
     vector2f pos;
-    //the probability for flea to spawn a mushroom
-    int spawn_chance;
     //health of flea
     int health;
     //the rate at which the flea will spawn a mushroom(i.e once in every 8 frames)
