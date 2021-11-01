@@ -109,6 +109,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
+                explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
             }
 
             if (counter == 30)
@@ -275,7 +276,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
 }
 
 void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,vector<shared_ptr<Scorpion>>& scorpionObj,
-                                                vector<shared_ptr<Sprite>>& scorpion_sprite)
+        vector<shared_ptr<Sprite>>& scorpion_sprite)
 {
     //only execute when we have a spider
     if(!scorpion_sprite.empty())
@@ -328,6 +329,103 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
     }
 
     return;
+}
+
+void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, Player& player_object, Sprite& player_sprite)
+{
+    bool isCollided;
+    vector2f player_pos;
+    vector2f explosion_pos;
+    explosion_pos = bomb_sprite -> getPosition();
+    player_pos = player_sprite.getPosition();
+    player_pos.x = player_pos.x - Tile_offset;
+    player_pos.y = player_pos.y -Tile_offset;
+    auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+    auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+
+    isCollided = first_quadrant_collisions(player_pos,playerWidth,playerHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        player_object.decrement_lives();
+        auto player_lives = player_object.getPlayer_lives();
+        if(player_lives == 0)
+        {
+            player_object.setPlayer_state(false);
+            return;
+        }
+        else
+        {
+            vector2f newPos;
+            player_object.set_Xposition(240.f);
+            player_object.set_Yposition(376.f);
+            newPos.x = player_object.get_Xposition();
+            newPos.y = player_object.get_Yposition();
+            player_sprite.setPosition(newPos);
+        }
+    }
+
+    isCollided = second_quadrant_collisions(player_pos,playerWidth,playerHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        player_object.decrement_lives();
+        auto player_lives = player_object.getPlayer_lives();
+        if(player_lives == 0)
+        {
+            player_object.setPlayer_state(false);
+            return;
+        }
+        else
+        {
+            vector2f newPos;
+            player_object.set_Xposition(240.f);
+            player_object.set_Yposition(376.f);
+            newPos.x = player_object.get_Xposition();
+            newPos.y = player_object.get_Yposition();
+            player_sprite.setPosition(newPos);
+        }
+    }
+
+    isCollided = third_quadrant_collisions(player_pos,playerWidth,playerHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        player_object.decrement_lives();
+        auto player_lives = player_object.getPlayer_lives();
+        if(player_lives == 0)
+        {
+            player_object.setPlayer_state(false);
+            return;
+        }
+        else
+        {
+            vector2f newPos;
+            player_object.set_Xposition(240.f);
+            player_object.set_Yposition(376.f);
+            newPos.x = player_object.get_Xposition();
+            newPos.y = player_object.get_Yposition();
+            player_sprite.setPosition(newPos);
+        }
+    }
+
+    isCollided = fourth_quadrant_collisions(player_pos,playerWidth,playerHeight,explosion_pos,explosion_width,explosion_height,isCollided);
+    if(isCollided)
+    {
+        player_object.decrement_lives();
+        auto player_lives = player_object.getPlayer_lives();
+        if(player_lives == 0)
+        {
+            player_object.setPlayer_state(false);
+            return;
+        }
+        else
+        {
+            vector2f newPos;
+            player_object.set_Xposition(240.f);
+            player_object.set_Yposition(376.f);
+            newPos.x = player_object.get_Xposition();
+            newPos.y = player_object.get_Yposition();
+            player_sprite.setPosition(newPos);
+        }
+    }
 }
 
 //Quadrant collisions(general)
