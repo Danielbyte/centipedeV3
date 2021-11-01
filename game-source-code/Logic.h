@@ -49,7 +49,7 @@ class Logic
     int getKilled_segments() const;
 
     //scorpion watches
-    vector<shared_ptr<Scorpion>>scorpion_object;
+    vector<shared_ptr<Scorpion>>scorpion_object_vector;
     vector2f create_scorpion();
     StopWatch scorpion_watch;
     StopWatch scorpion_watch2;

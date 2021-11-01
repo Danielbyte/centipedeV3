@@ -243,7 +243,7 @@ void ScreenManager::create_scorpion()
     vector2f pos_ = logic.create_scorpion();
     auto scorpion_sprite = std::make_shared<Sprite>(Sprite());
     if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
-    scorpion_sprite -> setOrigin(vector2f(scorpion_width/2.f, scorpion_height/2.f));
+    scorpion_sprite -> setOrigin(vector2f(0.f, 0.f));
     scorpion_sprite -> setTexture(scorpion_texture);
     scorpion_sprite -> setPosition(pos_);
     scorpion_sprite_vector.push_back(scorpion_sprite);

@@ -725,7 +725,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
     }
 
     bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField, spider_object_vector,spider_sprite,centipede_objectVector,
-                              centipede_sprite, scorpion_sprite);
+                              centipede_sprite,scorpion_object_vector,scorpion_sprite);
     return;
 }
 
@@ -771,12 +771,13 @@ vector2f Logic::create_scorpion()
 {
     auto scorpion_object = std::make_shared<Scorpion>();
     auto _pos = scorpion_object -> getScorpion_position();
+    scorpion_object_vector.push_back(scorpion_object);
     return _pos;
 }
 
 bool Logic::canSpawn_scorpion()
 {
-    if(scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate())
+    if((scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate()) && (scorpion_object_vector.empty()))
     {
         //if 10 seconds has elapsed, spawn scorpion
         scorpion_watch.restart();
@@ -801,9 +802,10 @@ bool Logic::canSpawn_scorpion()
 void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion)
 {
     //only update if we have a scorpion
+
     if (!scorpion.empty())
     {
-        control_scorpion.update_scorpion(scorpion_object,scorpion,mushField);
+        control_scorpion.update_scorpion(scorpion_object_vector,scorpion,mushField);
     }
 }
 

@@ -14,7 +14,7 @@ public:
     Texture scorpion_texture;
 
 private:
+    vector2f pos;
     //variable for animation
-
 };
 #endif // SCORPIONCONTROLLER_H

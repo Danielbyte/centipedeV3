@@ -60,7 +60,8 @@ vector2f DDTBombsController::getGeneratedPosition() const
 void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite,
                                    shared_ptr<MushroomFieldController>& mushField, vector<shared_ptr<Spider>>& spiderObj,
                                    vector<shared_ptr<Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
-                                   vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Sprite>>& scorpion_sprite)
+                                   vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
+                                   vector<shared_ptr<Sprite>>& scorpion_sprite)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -107,7 +108,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_mush((*bombSprite_iter), mushField);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
-                explosion_and_scorpion((*bombSprite_iter), scorpion_sprite);
+                explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
             }
 
             if (counter == 30)
@@ -273,47 +274,57 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
     }
 }
 
-void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Sprite>>& scorpion_sprite)
+void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,vector<shared_ptr<Scorpion>>& scorpionObj,
+                                                vector<shared_ptr<Sprite>>& scorpion_sprite)
 {
-    bool isCollided;
-    vector2f explosion_pos;
-    vector2f scorpion_pos;
-
-    //scorpion will always have on object
-    auto scorpion_sprite_iter = scorpion_sprite.begin();
-
-    explosion_pos = bomb_sprite -> getPosition();
-    scorpion_pos = (*scorpion_sprite_iter) -> getPosition();
-
-    auto explosion_width = bomb_sprite -> getGlobalBounds().width;
-    auto explosion_height = bomb_sprite -> getGlobalBounds().height;
-
-    isCollided = first_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
-    if(isCollided)
+    //only execute when we have a spider
+    if(!scorpion_sprite.empty())
     {
-        scorpion_sprite.erase(scorpion_sprite_iter);
-        return;
-    }
 
-    isCollided = second_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
-    if(isCollided)
-    {
-        scorpion_sprite.erase(scorpion_sprite_iter);
-        return;
-    }
+        bool isCollided;
+        vector2f explosion_pos;
+        vector2f scorpion_pos;
 
-    isCollided = third_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
-    if(isCollided)
-    {
-        scorpion_sprite.erase(scorpion_sprite_iter);
-        return;
-    }
+        //scorpion will always have on object
+        auto scorpion_sprite_iter = scorpion_sprite.begin();
 
-    isCollided = fourth_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
-    if(isCollided)
-    {
-        scorpion_sprite.erase(scorpion_sprite_iter);
-        return;
+        explosion_pos = bomb_sprite -> getPosition();
+        scorpion_pos = (*scorpion_sprite_iter) -> getPosition();
+
+        auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+        auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+
+        isCollided = first_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            scorpion_sprite.erase(scorpion_sprite_iter);
+            scorpionObj.clear();
+            return;
+        }
+
+        isCollided = second_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            scorpion_sprite.erase(scorpion_sprite_iter);
+            scorpionObj.clear();
+            return;
+        }
+
+        isCollided = third_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            scorpion_sprite.erase(scorpion_sprite_iter);
+            scorpionObj.clear();
+            return;
+        }
+
+        isCollided = fourth_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
+        if(isCollided)
+        {
+            scorpion_sprite.erase(scorpion_sprite_iter);
+            scorpionObj.clear();
+            return;
+        }
     }
 
     return;

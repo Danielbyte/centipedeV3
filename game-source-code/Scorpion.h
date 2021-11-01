@@ -20,6 +20,9 @@ public:
     void reset_counter();
     void increment_counter();
     int get_counter() const;
+    float get_scorpion_speed() const;
+    void set_position(vector2f);
+
 
 private:
     vector2f pos;
