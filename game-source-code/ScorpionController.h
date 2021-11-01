@@ -12,6 +12,7 @@ public:
     ScorpionController(){};
     void update_scorpion(vector<shared_ptr<Scorpion>>&, vector<shared_ptr<Sprite>>&, shared_ptr<MushroomFieldController>&);
     Texture scorpion_texture;
+    vector2f position_to_spawn_scorpion(const int);
 
 private:
     vector2f pos;

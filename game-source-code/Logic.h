@@ -160,6 +160,9 @@ class Logic
         //after some certain time
         StopWatch bomb_check;
 
+        //variable to control the selection of scorpion spawn position
+        int control;
+
 };
 
 #endif // LOGIC_H

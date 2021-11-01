@@ -6,7 +6,8 @@ Logic::Logic():
     MushCollidedWith_bullet{false},
     shotCent_segments{0}, //Number of shot segment pieces initially zero
     created_scorpion{false},
-    canSpawnSpider{false}
+    canSpawnSpider{false},
+    control{0}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     auto centipede_ptr = std::make_unique<Centipede>(Centipede());
@@ -770,7 +771,10 @@ int Logic::getKilled_segments() const
 vector2f Logic::create_scorpion()
 {
     auto scorpion_object = std::make_shared<Scorpion>();
-    auto _pos = scorpion_object -> getScorpion_position();
+    auto _pos = control_scorpion.position_to_spawn_scorpion(control);
+    (scorpion_object) -> set_position(_pos);
+    control++;
+    if(control > 2){control = 0;}
     scorpion_object_vector.push_back(scorpion_object);
     return _pos;
 }
@@ -790,34 +794,17 @@ bool Logic::canSpawn_scorpion()
         scorpion.setIfCanSpawn_scorpion(false);
     }
 
-   /* if (!scorpion.getIfOffScreen())
-    {
-        auto pos_ = scorpion.getScorpion_position();
-        ChangeToPoison(pos_);
-    }*/
-
     return scorpion.getIfCanSpawn_scorpion();
 }
 
 void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion)
 {
     //only update if we have a scorpion
-
     if (!scorpion.empty())
     {
         control_scorpion.update_scorpion(scorpion_object_vector,scorpion,mushField);
     }
 }
-
-/*void Logic::ChangeToPoison(vector2f pos_)
-{
-    int xPos = (int)(pos_.x/offset);
-    int yPos = (int)(pos_.y/offset);
-    if(mushField ->isMushroom(yPos, xPos))
-    {
-        mushField -> mushArray[yPos][xPos] -> changeToPoison();
-    }
-}*/
 
 bool Logic::getIfCanSpawnSpider()
 {
@@ -832,10 +819,7 @@ bool Logic::getIfCanSpawnSpider()
         spider.setIfCanSpawnSpider(false);
     }
 
-    //this is the part where we determine if off screen
-
     return spider.getIfCanSpawnSpider();
-
 }
 
 vector2f Logic::create_spider()
