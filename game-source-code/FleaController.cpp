@@ -25,6 +25,7 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
     {
         (*flea_sprite_iter) -> setPosition(pos_);
         (*flea_object_iter) -> set_position(pos_);
+        spawn_mushroom(pos_, mushField);
     }
 
 }
