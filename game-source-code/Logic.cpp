@@ -450,6 +450,49 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
     }
 }
 
+void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& flea_sprite)
+{
+
+    if(!flea_object.empty())
+    {
+        auto flea_obj_iter = flea_object.begin();
+        auto flea_sprite_iter = flea_sprite.begin();
+        auto bullet_iter = bullet_sprite.begin();
+        while(bullet_iter != bullet_sprite.end())
+        {
+            vector2f fleaPos;
+            vector2f bulletPos;
+
+            bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
+            bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
+
+            fleaPos = (*flea_sprite_iter) -> getPosition();
+            auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,fleaPos,fleaWidth,fleaHeight);
+            if(isCollided)
+            {
+                (*flea_obj_iter) -> decrement_health();
+                auto flea_health = (*flea_obj_iter) -> get_flea_health();
+                if(flea_health == 0)
+                {
+                    flea_sprite.clear();
+                    flea_object.clear();
+                    bullet_sprite.erase(bullet_iter);
+                    return;
+                }
+
+                else
+                {
+                    //flea must increase in speed
+                    (*flea_obj_iter) -> double_flea_speed();
+
+                }
+            }
+            ++bullet_iter;
+        }
+    }
+
+}
+
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
         vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
         vector<shared_ptr<Sprite>>& scorpion_sprite, Sprite& player_sprite)
