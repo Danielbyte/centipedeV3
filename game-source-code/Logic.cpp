@@ -744,4 +744,5 @@ Logic::~Logic()
     flea_object.clear();
     mushField.reset();
     LaserShots_object.reset();
+    vector_of_bomb_objects.clear();
 }

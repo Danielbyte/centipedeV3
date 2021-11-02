@@ -275,3 +275,8 @@ void SpiderController::Animate_spider(shared_ptr<Sprite>& spider_sprite, shared_
 
     spider_object -> increment_counter();
 }
+
+SpiderController::~SpiderController()
+{
+    movement_logic = {};
+}
