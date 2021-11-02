@@ -51,3 +51,17 @@ void MushroomFieldController::SpawnMushroomAt_position(int row, int col)
         mushArray[row][col] = new MushroomField(row, col);
     }
 }
+
+MushroomFieldController::~MushroomFieldController()
+{
+    for(auto row = 0; row < 32; row++)
+    {
+        for (auto col = 0; col < 30; col++)
+        {
+            if(isMushroom(row, col))
+            {
+                delete mushArray[row][col];
+            }
+        }
+    }
+}

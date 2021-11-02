@@ -124,8 +124,8 @@ class Logic
         //set centipede sprite movements and rotations
         void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
 
-        int counter;
-        int centipedeSpeed;
+       // int counter;
+        //int centipedeSpeed;
         shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
 
         int playerArea_upBound;

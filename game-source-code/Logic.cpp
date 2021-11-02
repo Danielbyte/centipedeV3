@@ -1,7 +1,6 @@
 #include "Logic.h"
 
 Logic::Logic():
-    counter{0},
     playerArea_upBound{376},
     MushCollidedWith_bullet{false},
     shotCent_segments{0}, //Number of shot segment pieces initially zero
@@ -10,8 +9,8 @@ Logic::Logic():
     control{0}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
-    auto centipede_ptr = std::make_unique<Centipede>(Centipede());
-    centipedeSpeed = centipede_ptr ->getCentipede_speed();
+    //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
+    //centipedeSpeed = centipede_ptr ->getCentipede_speed();
     isHit = false;
 }
 
@@ -740,4 +739,9 @@ Logic::~Logic()
 {
     LaserShots_object.reset();
     centipede_objectVector.clear();
+    spider_object_vector.clear();
+    scorpion_object_vector.clear();
+    flea_object.clear();
+    mushField.reset();
+    LaserShots_object.reset();
 }
