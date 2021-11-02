@@ -260,8 +260,8 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
     vector2f playePos;
     vector2f spiderPos;
 
-    playePos.x = player_object.get_Xposition();
-    playePos.y = player_object.get_Yposition();
+    playePos.x = player_object.get_Xposition() - Tile_offset;
+    playePos.y = player_object.get_Yposition() - Tile_offset;
 
     auto spider_iter = spider_object_vector.begin();
     if(!spider_object_vector.empty())
@@ -492,6 +492,44 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet
     }
 
 }
+
+void Logic::collision_between_player_and_flea(Sprite& player_sprite)
+{
+    vector2f playePos;
+    vector2f fleaPos;
+
+    playePos.x = player_object.get_Xposition() - Tile_offset;
+    playePos.y = player_object.get_Yposition() - Tile_offset;
+
+    auto flea_iter = flea_object.begin();
+    if(!flea_object.empty())
+    {
+        fleaPos = (*flea_iter) -> get_position();
+        auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,fleaPos,fleaWidth,fleaHeight);
+        if (isCollided)
+        {
+            player_object.decrement_lives();
+            //reset player position
+            vector2f playerPos;
+            playerPos.x = 16;
+            playerPos.y = 504 ;
+            //update the player object position
+            player_object.set_Xposition(playerPos.x);
+            player_object.set_Yposition(playerPos.y);
+            //Update the player sprite
+            player_sprite.setPosition(vector2f(playerPos));
+
+            //update player status. dead or alive.
+            auto remainingLives = player_object.getPlayer_lives();
+            if(remainingLives == 0)
+            {
+                player_object.setPlayer_state(false);
+            }
+            return;
+        }
+    }
+}
+
 
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
         vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
