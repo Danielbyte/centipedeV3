@@ -1,8 +1,8 @@
 #include "FleaController.h"
 
 FleaController::FleaController():
-     min_mushrooms{5} //if there is less than 5 mushes in player area, call abuti flea
-     {}
+    min_mushrooms{5} //if there is less than 5 mushes in player area, call abuti flea
+{}
 
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<Sprite>>& flea_sprite,
                                  shared_ptr<MushroomFieldController>& mushField)
@@ -26,6 +26,7 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
         (*flea_sprite_iter) -> setPosition(pos_);
         (*flea_object_iter) -> set_position(pos_);
         spawn_mushroom(pos_, mushField);
+        animate_flea((*flea_object_iter),(*flea_sprite_iter));
     }
 
 }
@@ -88,4 +89,35 @@ vector2f FleaController::generate_spawn_position()
     position.x = (rand() % max)*offset;
 
     return position;
+}
+
+void FleaController::animate_flea(shared_ptr<Flea>& flea_obj_ptr, shared_ptr<Sprite>& flea_sprite_ptr)
+{
+    auto counter = flea_obj_ptr -> get_counter();
+    if(counter == 0)
+    {
+        flea_texture.loadFromFile("resources/flea1.png");
+        flea_sprite_ptr -> setTexture(flea_texture);
+    }
+
+        if(counter == 5)
+    {
+        flea_texture.loadFromFile("resources/flea2.png");
+        flea_sprite_ptr -> setTexture(flea_texture);
+    }
+
+        if(counter == 10)
+    {
+        flea_texture.loadFromFile("resources/flea3.png");
+        flea_sprite_ptr -> setTexture(flea_texture);
+    }
+
+        if(counter == 15)
+    {
+        flea_texture.loadFromFile("resources/flea4.png");
+        flea_sprite_ptr -> setTexture(flea_texture);
+        flea_obj_ptr -> reset_counter();
+    }
+
+    flea_obj_ptr -> increment_counter();
 }
