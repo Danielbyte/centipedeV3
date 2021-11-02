@@ -87,6 +87,9 @@ class Logic
     //collisions between bullet and flea
     void collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
 
+    //collision between player and flea
+    void collision_between_player_and_flea(Sprite&);
+
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
     bool getIfCanSpawnBomb();

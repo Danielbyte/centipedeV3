@@ -198,6 +198,7 @@ void ScreenManager::update()
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
                                             CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,FleaSprite_vector);
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
+    logic.collision_between_player_and_flea(player_sprite);
 
 
     //scorpion updates
