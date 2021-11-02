@@ -10,6 +10,7 @@ class MushroomFieldController
 {
 public:
     MushroomFieldController();
+    ~MushroomFieldController();
     void create_mushrooms();
 //    vectOfMush_field getVecOf_mushroomField(){return mushrooms_;}
     //int** getMushroomArray() const;

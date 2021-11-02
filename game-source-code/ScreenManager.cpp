@@ -1,5 +1,6 @@
 #include "ScreenManager.h"
 ScreenManager::ScreenManager():
+
     bodiesToSpawn{11}, //spawn 11 body segments
     isPlaying{false},
     window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
@@ -406,7 +407,7 @@ void ScreenManager::updateScreen_manager()
 void ScreenManager::update_game()
 {
     splash_screenDisplay.setPosition(125, 208);
-    splash_screenDisplay.setCharacterSize(40);
+    splash_screenDisplay.setCharacterSize(20);
 
     // Game should terminate if player lives = zero
     // see if player is still alive
@@ -415,8 +416,10 @@ void ScreenManager::update_game()
     {
         isPlaying = false;
         isGameOver = true;
+        window.clear();
         splash_screenDisplay.setString("YOU LOST!"
-                                       "\nGAME OVER");
+                                       "\nGAME OVER"
+                                       "\nPress Escape(Esc) key to quit");
     }
 
     auto killed_segments = logic.getKilled_segments();
@@ -425,8 +428,10 @@ void ScreenManager::update_game()
     {
         isPlaying = false;
         isGameOver = true;
+        window.clear();
         splash_screenDisplay.setString("YOU WIN!"
-                                       "\nGAME OVER");
+                                       "\nGAME OVER"
+                                       "\nPress Escape(Esc) key to quit");
     }
 }
 
@@ -446,4 +451,8 @@ ScreenManager::~ScreenManager()
 {
     bulletSprites_vector.clear();
     CentipedeSprite_vector.clear();
+    DDTBombs_spiteVector.clear();
+    FleaSprite_vector.clear();
+    scorpion_sprite_vector.clear();
 }
+
