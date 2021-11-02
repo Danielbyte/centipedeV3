@@ -10,6 +10,7 @@ class SpiderController
 {
 public:
     SpiderController();
+    ~SpiderController();
     void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
     Texture spider_texture;
 private:

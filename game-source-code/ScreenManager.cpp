@@ -454,5 +454,6 @@ ScreenManager::~ScreenManager()
     DDTBombs_spiteVector.clear();
     FleaSprite_vector.clear();
     scorpion_sprite_vector.clear();
+    spider_sprite_vector.clear();
 }
 
