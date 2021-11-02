@@ -1,6 +1,8 @@
 #include "ScreenManager.h"
 ScreenManager::ScreenManager():
 
+   // quit_game{false},
+    //restart_game{false},
     bodiesToSpawn{11}, //spawn 11 body segments
     isPlaying{false},
     window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
@@ -124,8 +126,15 @@ void ScreenManager::process_events()
         case Event::KeyPressed:
             if(event.key.code == Keyboard::Escape)
             {
+                //quit_game = true;
                 window.close();
             }
+
+            //else if ((event.key.code == Keyboard::RShift && isGameOver) || (event.key.code == Keyboard::LShift && isGameOver))
+            //{
+                //restart_game = true;
+              //  window.close();
+            //}
             else
                 keyboard_handling(event.key.code, true);
             break;
@@ -135,6 +144,7 @@ void ScreenManager::process_events()
             break;
 
         case Event::Closed:
+            //quit_game = true;
             window.close();
             break;
 

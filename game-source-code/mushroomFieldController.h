@@ -12,8 +12,6 @@ public:
     MushroomFieldController();
     ~MushroomFieldController();
     void create_mushrooms();
-//    vectOfMush_field getVecOf_mushroomField(){return mushrooms_;}
-    //int** getMushroomArray() const;
 
     //Function to signify if position has a mushroom
     bool isMushroom(int, int);
@@ -22,6 +20,10 @@ public:
 
     //Function to spawn mushroom at specified position
     void SpawnMushroomAt_position(int, int);
+
+    //prevent unintentional copy construction
+    MushroomFieldController(const MushroomFieldController&) = delete;
+    MushroomFieldController& operator = (const MushroomFieldController&) = delete;
 
 private:
 

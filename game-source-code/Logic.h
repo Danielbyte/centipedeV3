@@ -25,7 +25,7 @@
 
 class Logic
 {
-    public:
+public:
     Logic();
     ~Logic();
     Player player_object;
@@ -103,83 +103,83 @@ class Logic
     void update_flea(vector<shared_ptr<Sprite>>&);
     vector<shared_ptr<Flea>>flea_object;
 
-    private:
-        //Object for the Spider logic and update
-        CentipedeController centipede_controller;
-        SpiderController spider_control;
-        Spider spider;
-        centipedeAnimation animation;
-        Collision collision;
-        FleaController flea_control;
+private:
+    //Object for the Spider logic and update
+    CentipedeController centipede_controller;
+    SpiderController spider_control;
+    Spider spider;
+    centipedeAnimation animation;
+    Collision collision;
+    FleaController flea_control;
 
-        //Scorpion
-        Scorpion scorpion;
-        ScorpionController control_scorpion;
+    //Scorpion
+    Scorpion scorpion;
+    ScorpionController control_scorpion;
 
-        DDTBombsController bomb_controller;
+    DDTBombsController bomb_controller;
 
-        //Function to detect mushroom field collisions
-        void checkFor_mushroom(shared_ptr<Centipede>&);
+    //Function to detect mushroom field collisions
+    void checkFor_mushroom(shared_ptr<Centipede>&);
 
-        //set centipede sprite movements and rotations
-        void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
+    //set centipede sprite movements and rotations
+    void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
 
-       // int counter;
-        //int centipedeSpeed;
-        shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
+    // int counter;
+    //int centipedeSpeed;
+    shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
 
-        int playerArea_upBound;
-        int centipedeAnimationCounter;
+    int playerArea_upBound;
+    int centipedeAnimationCounter;
 
-        //variables for centipede creation
-        bool isHead;
-        //Notify if hit by bullet to control how centipede detects collissions
-        bool isHit;
-        int bodySegmentsTo_spawn;
-        //variables to see if centipede moving up or down
-        bool ismovingUp;
-        bool ismovingDown;
-        // variables to command centipede to move up or down
-        bool moveDown;
-        bool moveUp;
-        int update_counter;
+    //variables for centipede creation
+    bool isHead;
+    //Notify if hit by bullet to control how centipede detects collissions
+    bool isHit;
+    int bodySegmentsTo_spawn;
+    //variables to see if centipede moving up or down
+    bool ismovingUp;
+    bool ismovingDown;
+    // variables to command centipede to move up or down
+    bool moveDown;
+    bool moveUp;
+    int update_counter;
 
-        //variables specific to body piece
-        int body_counter;
-        int Test_counter;
+    //variables specific to body piece
+    int body_counter;
+    int Test_counter;
 
-        void movement_update(vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&, int);
+    void movement_update(vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&, int);
 
-        // spawn a body segment behind
-        void spawn_behind(vector<shared_ptr<Sprite>>&);
+    // spawn a body segment behind
+    void spawn_behind(vector<shared_ptr<Sprite>>&);
 
-        //logic for the centipede
-        vector2f pos;
+    //logic for the centipede
+    vector2f pos;
 
-        Texture bullet_texture;
+    Texture bullet_texture;
 
-        bool MushCollidedWith_bullet;
+    bool MushCollidedWith_bullet;
 
-        //keep track of shot centipede segments
-        int shotCent_segments;
-        bool created_scorpion;
+    //keep track of shot centipede segments
+    int shotCent_segments;
+    bool created_scorpion;
 
-        void ChangeToPoison(vector2f);
-        float time;
+    void ChangeToPoison(vector2f);
+    float time;
 
-        //a flag for spawning a spider
-        bool canSpawnSpider;
+    //a flag for spawning a spider
+    bool canSpawnSpider;
 
-        //timer to set when spider gets hungry
-        StopWatch lunch_time;
+    //timer to set when spider gets hungry
+    StopWatch lunch_time;
 
-        //DDT bombs
-        //check if bomb controller is willing to create a bomb
-        //after some certain time
-        StopWatch bomb_check;
+    //DDT bombs
+    //check if bomb controller is willing to create a bomb
+    //after some certain time
+    StopWatch bomb_check;
 
-        //variable to control the selection of scorpion spawn position
-        int control;
+    //variable to control the selection of scorpion spawn position
+    int control;
 
 };
 
