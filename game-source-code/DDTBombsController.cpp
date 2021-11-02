@@ -49,7 +49,8 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                                    shared_ptr<MushroomFieldController>& mushField, vector<shared_ptr<Spider>>& spiderObj,
                                    vector<shared_ptr<Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
                                    vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
-                                   vector<shared_ptr<Sprite>>& scorpion_sprite,Player& player_obj, Sprite& player_sprite)
+                                   vector<shared_ptr<Sprite>>& scorpion_sprite,Player& player_obj, Sprite& player_sprite,
+                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<Sprite>>& flea_sprite)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();

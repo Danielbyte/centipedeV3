@@ -82,7 +82,7 @@ class Logic
 
     //collision between bomb and bullet
     void collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
-                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, Sprite&);
+                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, Sprite&, vector<shared_ptr<Sprite>>&);
 
     //collisions between bullet and flea
     void collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
