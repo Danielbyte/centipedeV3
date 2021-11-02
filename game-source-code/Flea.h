@@ -21,7 +21,7 @@ public:
 
     void increment_counter();
     int get_counter() const;
-    void decrement_counter();
+    void reset_counter();
 
 private:
     int flea_speed;

@@ -60,8 +60,8 @@ int Flea::get_counter() const
    return counter;
 }
 
-void Flea::decrement_counter()
+void Flea::reset_counter()
 {
-    counter--;
+    counter = 0;
 }
 
