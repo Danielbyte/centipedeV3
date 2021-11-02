@@ -15,6 +15,8 @@ class ScreenManager
     void run();
     void draw_mushrooms(const shared_ptr<MushroomFieldController>&);
     void update_game();
+    //bool quit_game;
+    //bool restart_game;
 
     //scorpion
     void create_scorpion();

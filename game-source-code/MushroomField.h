@@ -13,6 +13,9 @@ public:
     //overload equal operator
     //~MushroomField();
 
+    //prevent copy construction
+    MushroomField(const MushroomField&) = delete;
+    MushroomField& operator = (const MushroomField&) = delete;
     //Randomly populate the field with mushrooms
     //void populate();
     float get_Xpos();
