@@ -99,6 +99,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
+                explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite);
             }
 
             if (counter == 30)
@@ -416,6 +417,56 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
             player_sprite.setPosition(newPos);
         }
     }
+}
+
+void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Flea>>& flea_obj,
+        vector<shared_ptr<Sprite>>& flea_sprite)
+{
+    if(!flea_sprite.empty())
+    {
+        bool isCollided;
+        vector2f flea_pos;
+        vector2f explosion_pos;
+        auto flea_sprite_iter = flea_sprite.begin();
+        flea_pos = (*flea_sprite_iter) -> getPosition();
+        explosion_pos = bomb_sprite -> getPosition();
+        auto explosion_width = bomb_sprite -> getGlobalBounds().width;
+        auto explosion_height = bomb_sprite -> getGlobalBounds().height;
+
+        isCollided = first_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if (isCollided)
+        {
+            flea_obj.clear();
+            flea_sprite.clear();
+            return;
+        }
+
+        isCollided = second_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if (isCollided)
+        {
+            flea_obj.clear();
+            flea_sprite.clear();
+            return;
+        }
+
+        isCollided = third_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if (isCollided)
+        {
+            flea_obj.clear();
+            flea_sprite.clear();
+            return;
+        }
+
+        isCollided = fourth_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
+        if (isCollided)
+        {
+            flea_obj.clear();
+            flea_sprite.clear();
+            return;
+        }
+
+    }
+
 }
 
 //Quadrant collisions(general)
