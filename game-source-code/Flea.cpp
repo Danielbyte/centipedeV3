@@ -65,3 +65,8 @@ void Flea::reset_counter()
     counter = 0;
 }
 
+void Flea::double_flea_speed()
+{
+    flea_speed = 2*flea_speed;
+}
+

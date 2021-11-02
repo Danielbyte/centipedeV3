@@ -18,7 +18,6 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
     {
         flea_object.clear();
         flea_sprite.clear();
-        std::cout << "destroyed flea"<< std::endl;
         return;
     }
     else

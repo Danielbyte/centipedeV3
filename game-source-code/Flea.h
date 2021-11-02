@@ -10,6 +10,7 @@ public:
     Flea();
     vector2f get_position() const;
     int get_flea_speed() const;
+    void double_flea_speed();
     void set_position(vector2f);
     int get_flea_spawn_chance() const;
     void decrement_health();

@@ -51,6 +51,9 @@ const auto bomb6Height = 96;
 const auto lastHeight = 32;
 const auto lastWidth = 32;
 
+const auto fleaWidth = 16;
+const auto fleaHeight = 16;
+
 //Define game objects
 enum class ID{player_, centipede};
 
