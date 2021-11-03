@@ -56,6 +56,12 @@ void ScreenManager::initialize_screen()
     currentScore_display.setFillColor(Color::Red);
     currentScore_display.setPosition(70, 0);
 
+    highScore_display.setFont(Displays);
+    highScore_display.setCharacterSize(12);
+    highScore_display.setStyle(Text::Bold);
+    highScore_display.setFillColor(Color::Green);
+    highScore_display.setPosition(300, 0);
+
 }
 
 void ScreenManager::run()
@@ -424,6 +430,12 @@ void ScreenManager::updateScreen_manager()
     std::string _currentScore = std::to_string(current_score);
     currentScore_display.setString("SCORE: " + _currentScore);
     window.draw(currentScore_display);
+
+    //Display and save high score
+    auto high_score = score_manager.highScoreDisplay(current_score);
+    std::string highScore = std::to_string(high_score);
+    highScore_display.setString("HIGH SCORE: " + highScore);
+    window.draw(highScore_display);
 
 }
 
