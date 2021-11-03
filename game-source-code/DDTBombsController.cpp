@@ -96,7 +96,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField, _score);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
-                explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
+                explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
                 explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite);
@@ -202,7 +202,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
 }
 
 void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Centipede>>& centipede_obj,
-        vector<shared_ptr<Sprite>>& centipede_sprite)
+        vector<shared_ptr<Sprite>>& centipede_sprite, int& _score)
 {
     for(auto& segment : centipede_obj)
     {
@@ -218,24 +218,56 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
         isCollided = first_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            if(segment -> getHead())
+            {
+                _score += headPoints;
+            }
+            else
+            {
+                _score += bodyPoints;
+            }
             segment -> is_hit(true);
         }
 
         isCollided = second_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            if(segment -> getHead())
+            {
+                _score += headPoints;
+            }
+            else
+            {
+                _score += bodyPoints;
+            }
             segment -> is_hit(true);
         }
 
         isCollided = third_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            if(segment -> getHead())
+            {
+                _score += headPoints;
+            }
+            else
+            {
+                _score += bodyPoints;
+            }
             segment -> is_hit(true);
         }
 
         isCollided = fourth_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            if(segment -> getHead())
+            {
+                _score += headPoints;
+            }
+            else
+            {
+                _score += bodyPoints;
+            }
             segment -> is_hit(true);
         }
 
