@@ -31,7 +31,7 @@ private:
     vector2f pos;
     bool canCreateBomb;
     void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&, int&);
-    void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&);
+    void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&, int&);
     void explosion_and_centipede(shared_ptr<Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&);
     void explosion_and_scorpion(shared_ptr<Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<Sprite>>&);
     void explosion_and_player(shared_ptr<Sprite>&, Player&, Sprite&);

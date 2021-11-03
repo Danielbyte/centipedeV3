@@ -95,7 +95,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 (*bombSprite_iter) -> setScale(4,4);
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField, _score);
-                explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
+                explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
@@ -148,7 +148,7 @@ void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, sha
 }
 
 void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Spider>>& spider_obj,
-        vector<shared_ptr<Sprite>>& spider_sprite)
+        vector<shared_ptr<Sprite>>& spider_sprite, int& _score)
 {
     //these vectors will either have one spider object/sprite nothing
     auto spiderObject_iter = spider_obj.begin();
@@ -165,6 +165,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
         isCollided = fourth_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if(isCollided)
         {
+            _score += spiderPoints;
             spider_obj.erase(spiderObject_iter);
             spider_sprite.erase(spiderSprite_iter);
             return;
@@ -173,6 +174,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
         isCollided = third_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if(isCollided)
         {
+            _score += spiderPoints;
             spider_obj.erase(spiderObject_iter);
             spider_sprite.erase(spiderSprite_iter);
             return;
@@ -181,6 +183,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
         isCollided = second_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if(isCollided)
         {
+            _score += spiderPoints;
             spider_obj.erase(spiderObject_iter);
             spider_sprite.erase(spiderSprite_iter);
             return;
@@ -189,6 +192,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
         isCollided = first_quadrant_collisions(SpiderPos, spiderWidth,spiderHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if(isCollided)
         {
+            _score += spiderPoints;
             spider_obj.erase(spiderObject_iter);
             spider_sprite.erase(spiderSprite_iter);
             return;
