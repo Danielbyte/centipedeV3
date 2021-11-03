@@ -54,6 +54,13 @@ const auto lastWidth = 32;
 const auto fleaWidth = 16;
 const auto fleaHeight = 16;
 
+const auto spiderPoints = 300;
+const auto fleaPoints = 200;
+const auto scorpionPoints = 1000;
+const auto mushroomPoints = 1;
+const auto headPoints = 100;
+const auto bodyPoints = 10;
+
 //Define game objects
 enum class ID{player_, centipede};
 
