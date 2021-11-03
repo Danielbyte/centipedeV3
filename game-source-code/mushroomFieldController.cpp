@@ -52,7 +52,7 @@ void MushroomFieldController::SpawnMushroomAt_position(int row, int col)
     }
 }
 
-MushroomFieldController::~MushroomFieldController()
+/*MushroomFieldController::~MushroomFieldController()
 {
     for(auto row = 0; row < 32; row++)
     {
@@ -64,4 +64,4 @@ MushroomFieldController::~MushroomFieldController()
             }
         }
     }
-}
+}*/
