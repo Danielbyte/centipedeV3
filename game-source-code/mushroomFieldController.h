@@ -10,7 +10,7 @@ class MushroomFieldController
 {
 public:
     MushroomFieldController();
-    ~MushroomFieldController();
+    //~MushroomFieldController();
     void create_mushrooms();
 
     //Function to signify if position has a mushroom
