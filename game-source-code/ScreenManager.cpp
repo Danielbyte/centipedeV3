@@ -457,9 +457,10 @@ void ScreenManager::update_game()
                                        "\nPress Escape(Esc) key to quit");
     }
 
-    auto killed_segments = logic.getKilled_segments();
-    auto centipede_size = bodiesToSpawn + 1;
-    if(killed_segments == centipede_size)
+    //auto killed_segments = logic.getKilled_segments();
+    //auto centipede_size = bodiesToSpawn + 1;
+    //if all centipede segments are killed, player wins
+    if(CentipedeSprite_vector.empty())
     {
         isPlaying = false;
         isGameOver = true;
