@@ -1,6 +1,9 @@
 #ifndef SCOREMANAGER_H
 #define SCOREMANAGER_H
 
+#include "GameDataType.h"
+using namespace std;
+
 class Scoremanager
 {
 public:
