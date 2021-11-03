@@ -576,6 +576,38 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
     return;
 }
 
+void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>& bulletSpriteVector,vector<shared_ptr<Sprite>>& scorpion_sprite)
+{
+    auto scorpion_iter = scorpion_object_vector.begin();
+    auto scorpion_sprite_iter = scorpion_sprite.begin();
+    if(!scorpion_object_vector.empty())
+    {
+        auto bullet_iter = bulletSpriteVector.begin();
+        while (bullet_iter != bulletSpriteVector.end())
+        {
+            vector2f bulletPos;
+            vector2f scorpionPos;
+            bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
+            bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
+
+            scorpionPos = (*scorpion_iter) -> getScorpion_position();
+
+            auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,scorpionPos,scorpion_width,scorpion_height);
+            if(isCollided)
+            {
+                //update score
+                score += scorpionPoints;
+                bulletSpriteVector.erase(bullet_iter);
+                scorpion_object_vector.erase(scorpion_iter);
+                scorpion_sprite.erase(scorpion_sprite_iter);
+                return;
+            }
+
+            ++bullet_iter;
+        }
+    }
+}
+
 void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object
