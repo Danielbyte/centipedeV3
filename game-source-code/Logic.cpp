@@ -6,7 +6,8 @@ Logic::Logic():
     shotCent_segments{0}, //Number of shot segment pieces initially zero
     created_scorpion{false},
     canSpawnSpider{false},
-    control{0}
+    control{0},
+    score{0}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
@@ -318,6 +319,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
                         {
                             //std::cout << "Dead"<<std::endl;
                             mushField -> mushArray[row][col] = NULL;
+                            score += mushroomPoints;
                         }
 
                         if( laserIter != laser.end())
@@ -732,6 +734,11 @@ vector2f Logic::create_flea()
 void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite)
 {
     flea_control.update_flea(flea_object,flea_sprite,mushField);
+}
+
+int Logic::get_score() const
+{
+    return score;
 }
 
 //free up resources

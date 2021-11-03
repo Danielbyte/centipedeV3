@@ -19,7 +19,7 @@ void MushroomFieldController::create_mushrooms()
             if (frequency <= percentage_chance)
             {
                 //Do nor spawn mushroom at this row for proper creation of cent
-               if(row != 1)
+               if((row != 0) && (row != 1))
                 {
                     mushArray[row][col] = new MushroomField(row, col);
                 }
@@ -60,7 +60,7 @@ MushroomFieldController::~MushroomFieldController()
         {
             if(isMushroom(row, col))
             {
-                delete mushArray[row][col];
+                //delete mushArray[row][col];
             }
         }
     }

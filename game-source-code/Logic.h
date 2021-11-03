@@ -103,6 +103,8 @@ public:
     void update_flea(vector<shared_ptr<Sprite>>&);
     vector<shared_ptr<Flea>>flea_object;
 
+    int get_score() const;
+
 private:
     //Object for the Spider logic and update
     CentipedeController centipede_controller;
@@ -180,6 +182,8 @@ private:
 
     //variable to control the selection of scorpion spawn position
     int control;
+
+    int score;
 
 };
 

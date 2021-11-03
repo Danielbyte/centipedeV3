@@ -61,6 +61,9 @@ class ScreenManager
         Text playerLives_display;
         Font Displays;
 
+        //Show current score
+        Text currentScore_display;
+
         //update screen manager
         void updateScreen_manager();
 
