@@ -35,7 +35,7 @@ private:
     void explosion_and_centipede(shared_ptr<Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&, int &);
     void explosion_and_scorpion(shared_ptr<Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<Sprite>>&, int&);
     void explosion_and_player(shared_ptr<Sprite>&, Player&, Sprite&);
-    void explosion_and_flea(shared_ptr<Sprite>&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&);
+    void explosion_and_flea(shared_ptr<Sprite>&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&, int&);
 
     //Quadrant collisions(General this one)
     bool fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
