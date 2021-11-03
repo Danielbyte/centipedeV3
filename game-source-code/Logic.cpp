@@ -571,7 +571,8 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
     }
 
     bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField, spider_object_vector,spider_sprite,centipede_objectVector,
-                              centipede_sprite,scorpion_object_vector,scorpion_sprite,player_object,player_sprite, flea_object,flea_sprite);
+                              centipede_sprite,scorpion_object_vector,scorpion_sprite,player_object,player_sprite, flea_object,
+                              flea_sprite,score);
     return;
 }
 

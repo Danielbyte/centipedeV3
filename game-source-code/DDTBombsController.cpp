@@ -50,7 +50,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                                    vector<shared_ptr<Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
                                    vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
                                    vector<shared_ptr<Sprite>>& scorpion_sprite,Player& player_obj, Sprite& player_sprite,
-                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<Sprite>>& flea_sprite)
+                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<Sprite>>& flea_sprite, int& _score)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -94,7 +94,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(4,4);
                 //check collision between explosion and mushroom(final radius)
-                explosion_and_mush((*bombSprite_iter), mushField);
+                explosion_and_mush((*bombSprite_iter), mushField, _score);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
@@ -118,7 +118,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
     }
 }
 
-void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, shared_ptr<MushroomFieldController>& mushField)
+void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, shared_ptr<MushroomFieldController>& mushField,int& _score)
 {
     //should kill mushroom within radious
     for (auto row = 0; row < 32; row++)
@@ -136,10 +136,10 @@ void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite, sha
                 mushPos.x = col*offset;
                 mushPos.y = row*offset;
                 //void fourth quadrant collisisns
-                fourth_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField);
-                third_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField);
-                second_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField);
-                first_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField);
+                fourth_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col,mushField,_score);
+                third_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField,_score);
+                second_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField,_score);
+                first_quadrant_collisions(mushPos, mushWidth,mushHeight,explosion_pos,explosion_width,explosion_height,row, col, mushField,_score);
             }
         }
     }
@@ -512,7 +512,7 @@ bool DDTBombsController::first_quadrant_collisions(vector2f obj1Pos, float obj1W
 
 //Quadrant collisions specific to mushrooms
 void DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
+        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField,int& _score)
 {
     bool isCollided;
     obj2Width = obj2Width/2;
@@ -520,6 +520,7 @@ void DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1W
     isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
     if(isCollided)
     {
+        _score += mushroomPoints;
         mushField -> mushArray[row][col] = NULL;
     }
 
@@ -527,7 +528,7 @@ void DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1W
 }
 
 void DDTBombsController::third_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
+        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField,int& _score)
 {
 
     bool isCollided;
@@ -537,6 +538,7 @@ void DDTBombsController::third_quadrant_collisions(vector2f obj1Pos,float obj1Wi
     isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
     if(isCollided)
     {
+        _score += mushroomPoints;
         mushField -> mushArray[row][col] = NULL;
     }
 
@@ -544,7 +546,7 @@ void DDTBombsController::third_quadrant_collisions(vector2f obj1Pos,float obj1Wi
 }
 
 void DDTBombsController::second_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
+        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField,int& _score)
 {
 
     bool isCollided;
@@ -555,6 +557,7 @@ void DDTBombsController::second_quadrant_collisions(vector2f obj1Pos,float obj1W
     isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
     if(isCollided)
     {
+        _score += mushroomPoints;
         mushField -> mushArray[row][col] = NULL;
     }
 
@@ -562,7 +565,7 @@ void DDTBombsController::second_quadrant_collisions(vector2f obj1Pos,float obj1W
 }
 
 void DDTBombsController::first_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField)
+        vector2f obj2Pos,float obj2Width, float obj2Height, int row, int col, shared_ptr<MushroomFieldController>& mushField,int& _score)
 {
 
     bool isCollided;
@@ -572,6 +575,7 @@ void DDTBombsController::first_quadrant_collisions(vector2f obj1Pos,float obj1Wi
     isCollided = collision.collision_detect(obj1Pos,obj1Width,obj1Height,obj2Pos,obj2Width,obj2Height);
     if(isCollided)
     {
+        _score += mushroomPoints;
         mushField -> mushArray[row][col] = NULL;
     }
 
