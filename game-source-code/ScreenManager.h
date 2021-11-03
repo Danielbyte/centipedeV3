@@ -5,6 +5,7 @@
 #include "Logic.h"
 #include "MushroomField.h"
 #include "Spider.h"
+#include "ScoreManager.h"
 
 class ScreenManager
 {
@@ -64,10 +65,14 @@ class ScreenManager
         //Show current score
         Text currentScore_display;
 
+        //show high score
+        Text highScore_display;
+
         //update screen manager
         void updateScreen_manager();
 
         Logic logic;
+        Scoremanager score_manager;
 
         //game object sprites and textures
         Texture playerSprite_texture;
