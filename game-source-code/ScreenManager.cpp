@@ -46,9 +46,15 @@ void ScreenManager::initialize_screen()
 
     playerLives_display.setFont(Displays);
     playerLives_display.setCharacterSize(12);
-    playerLives_display.setStyle(Text::Underlined);
+    playerLives_display.setStyle(Text::Bold);
     playerLives_display.setFillColor(Color::Red);
     playerLives_display.setPosition(0,0);
+
+    currentScore_display.setFont(Displays);
+    currentScore_display.setCharacterSize(12);
+    currentScore_display.setStyle(Text::Bold);
+    currentScore_display.setFillColor(Color::Red);
+    currentScore_display.setPosition(70, 0);
 
 }
 
@@ -411,6 +417,12 @@ void ScreenManager::updateScreen_manager()
     std::string remainingPlayer_lives_ = std::to_string(remainingPlayer_lives);
     playerLives_display.setString("LIVES: " + remainingPlayer_lives_);
     window.draw(playerLives_display);
+
+    //Display current score
+    auto current_score = logic.get_score();
+    std::string _currentScore = std::to_string(current_score);
+    currentScore_display.setString("SCORE: " + _currentScore);
+    window.draw(currentScore_display);
 
 }
 
