@@ -481,6 +481,7 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet
                 auto flea_health = (*flea_obj_iter) -> get_flea_health();
                 if(flea_health == 0)
                 {
+                    score += fleaPoints;
                     flea_sprite.clear();
                     flea_object.clear();
                     bullet_sprite.erase(bullet_iter);
