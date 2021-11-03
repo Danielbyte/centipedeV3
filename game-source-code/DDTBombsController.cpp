@@ -99,7 +99,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
-                explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite);
+                explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite,_score);
             }
 
             if (counter == 30)
@@ -460,7 +460,7 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
 }
 
 void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Flea>>& flea_obj,
-        vector<shared_ptr<Sprite>>& flea_sprite)
+        vector<shared_ptr<Sprite>>& flea_sprite,int& _score)
 {
     if(!flea_sprite.empty())
     {
@@ -476,6 +476,7 @@ void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vec
         isCollided = first_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if (isCollided)
         {
+            _score += fleaPoints;
             flea_obj.clear();
             flea_sprite.clear();
             return;
@@ -484,6 +485,7 @@ void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vec
         isCollided = second_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if (isCollided)
         {
+            _score += fleaPoints;
             flea_obj.clear();
             flea_sprite.clear();
             return;
@@ -492,6 +494,7 @@ void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vec
         isCollided = third_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if (isCollided)
         {
+            _score += fleaPoints;
             flea_obj.clear();
             flea_sprite.clear();
             return;
@@ -500,6 +503,7 @@ void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vec
         isCollided = fourth_quadrant_collisions(flea_pos,fleaWidth,fleaHeight,explosion_pos,explosion_width,explosion_height, isCollided);
         if (isCollided)
         {
+            _score += fleaPoints;
             flea_obj.clear();
             flea_sprite.clear();
             return;
