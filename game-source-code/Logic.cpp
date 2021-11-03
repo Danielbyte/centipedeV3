@@ -358,6 +358,14 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
             {
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
+                if(centipedeObject -> getHead())
+                {
+                    score += headPoints;
+                }
+                else
+                {
+                    score += bodyPoints;
+                }
                 laser.erase(iter2);
                 isHit = true;
                 return;
@@ -379,12 +387,8 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
     {
         if (((*centObject_iter) ->getSegment_status()) == false)
         {
-            //update number of killed bodies
-            ++shotCent_segments;
 
-            auto newCent_sprite = ++centSprite_iter;
-            //decrement the iterator.
-            --centSprite_iter;
+            auto newCent_sprite = (centSprite_iter + 1);
             //if it is not the tail
             if (newCent_sprite != centipedeSprite_vector.end())
             {
