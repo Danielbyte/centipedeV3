@@ -97,7 +97,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_mush((*bombSprite_iter), mushField, _score);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite);
-                explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite);
+                explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
                 explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite);
             }
@@ -271,7 +271,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
 }
 
 void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,vector<shared_ptr<Scorpion>>& scorpionObj,
-        vector<shared_ptr<Sprite>>& scorpion_sprite)
+        vector<shared_ptr<Sprite>>& scorpion_sprite, int& _score)
 {
     //only execute when we have a spider
     if(!scorpion_sprite.empty())
@@ -293,6 +293,7 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
         isCollided = first_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            _score += scorpionPoints;
             scorpion_sprite.erase(scorpion_sprite_iter);
             scorpionObj.clear();
             return;
@@ -301,6 +302,7 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
         isCollided = second_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            _score += scorpionPoints;
             scorpion_sprite.erase(scorpion_sprite_iter);
             scorpionObj.clear();
             return;
@@ -309,6 +311,7 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
         isCollided = third_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            _score += scorpionPoints;
             scorpion_sprite.erase(scorpion_sprite_iter);
             scorpionObj.clear();
             return;
@@ -317,6 +320,7 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
         isCollided = fourth_quadrant_collisions(scorpion_pos,scorpion_width,scorpion_height,explosion_pos,explosion_width,explosion_height,isCollided);
         if(isCollided)
         {
+            _score += scorpionPoints;
             scorpion_sprite.erase(scorpion_sprite_iter);
             scorpionObj.clear();
             return;
