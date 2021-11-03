@@ -6,6 +6,8 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
+#include <fstream>
 
 const auto windowWidth = 480ul;
 const auto windowHeight = 512ul;
