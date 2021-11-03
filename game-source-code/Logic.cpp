@@ -444,6 +444,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
             auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,spiderPos,spiderWidth,spiderHeight);
             if(isCollided)
             {
+                //update score
+                score += spiderPoints;
                 bullet.erase(bullet_iter);
                 spider_object_vector.erase(spider_iter);
                 spider.erase(spiderSprite_iter);
