@@ -24,13 +24,13 @@ public:
     Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&,shared_ptr<MushroomFieldController>&,vector<shared_ptr<Spider>>&,
                    vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&,vector<shared_ptr<Scorpion>>&,
-                   vector<shared_ptr<Sprite>>&,Player&,Sprite&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&);
+                   vector<shared_ptr<Sprite>>&,Player&,Sprite&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&, int&);
 
 private:
     Collision collision;
     vector2f pos;
     bool canCreateBomb;
-    void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&);
+    void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&, int&);
     void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&);
     void explosion_and_centipede(shared_ptr<Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&);
     void explosion_and_scorpion(shared_ptr<Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<Sprite>>&);
@@ -44,9 +44,9 @@ private:
     bool first_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
 
     //Quadrant collisions specific to mushrooms
-    void fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
-    void third_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
-    void second_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
-    void first_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&);
+    void fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&,int&);
+    void third_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&,int&);
+    void second_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&,int&);
+    void first_quadrant_collisions(vector2f, float, float, vector2f, float, float, int, int, shared_ptr<MushroomFieldController>&,int&);
 };
 #endif // DDTBOMBSCONTROLLER_H
