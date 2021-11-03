@@ -1,7 +1,7 @@
 #include "ScreenManager.h"
 ScreenManager::ScreenManager():
 
-   // quit_game{false},
+    //quit_game{false},
     //restart_game{false},
     bodiesToSpawn{11}, //spawn 11 body segments
     isPlaying{false},
@@ -439,6 +439,7 @@ void ScreenManager::update_game()
         isPlaying = false;
         isGameOver = true;
         window.clear();
+        splash_screenDisplay.setFillColor(Color::Green);
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER"
                                        "\nPress Escape(Esc) key to quit");
