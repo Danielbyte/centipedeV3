@@ -70,6 +70,7 @@ enum class ID{player_, centipede};
 enum class Direction {unknown, Up, Down, Left,Right};
 
 class CouldNotLoadPicture{};
+class NegativeScore{};
 using std::vector;
 using std::shared_ptr;
 
