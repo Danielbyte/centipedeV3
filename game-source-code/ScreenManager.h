@@ -102,5 +102,9 @@ class ScreenManager
         Texture bomb_texture;
 
         void create_bomb();
+
+        //Update game entities
+        void update_game_entities();
+        void draw_game_entities();
 };
 #endif // SCREENMANAGER_H
