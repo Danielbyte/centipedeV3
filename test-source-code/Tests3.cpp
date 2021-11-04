@@ -157,6 +157,46 @@ TEST_CASE("Test if previous body segment is turned into a head when leading segm
     CHECK(isHead == false);
 
 }
+//15
+TEST_CASE("Test if body segment in the middle is turned into a head if segment in front is short")
+{
+        auto logic = Logic{};
+    vector<shared_ptr<Sprite>>centipede_sprite;
+    vector <shared_ptr<Sprite>>bullet_sprite;
+
+    //spawn 2 body segments
+    logic.create_centipede(true,4,centipede_sprite);
+    auto centObj_iter = logic.centipede_objectVector.begin();
+
+    //create one bullet
+    logic.create_bullet(bullet_sprite);
+
+    auto cent_iter = centipede_sprite.begin();
+    //get the position of the second segment
+    auto pos = (*(cent_iter + 1)) -> getPosition();
+
+    //set the bullet to collide with the centipede head
+    auto bullet_iter = bullet_sprite.begin();
+    (*bullet_iter) ->setPosition(pos);
+
+    //before the collision the 3rd segment is not a head
+    auto next = (centObj_iter + 2);
+    auto isHead = (*next) -> getHead();
+    CHECK(isHead == false);
+
+    //update objects
+    logic.collision_between_centipede_and_bullet(bullet_sprite, centipede_sprite);
+    logic.delete_segment_and_spawn_mushroom(centipede_sprite);
+    //the body segment that followed the shot body segment should be a head
+    //bear in mind that the vector shifits
+    isHead = (*(centObj_iter + 1)) -> getHead();
+    CHECK(isHead == true);
+
+    //the last centipede should still be a body
+    auto next_segment = (centObj_iter + 3);
+    isHead =(*next_segment) -> getHead();
+    CHECK(isHead == false);
+}
 
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
