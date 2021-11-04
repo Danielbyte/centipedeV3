@@ -434,6 +434,58 @@ TEST_CASE("Test if bullet is erased on collision with scorpion")
     CHECK(size == 0);
 }
 
+TEST_CASE("Test if scorpion is erased on collision with bullet")
+{
+    auto logic = Logic{};
+    auto col = Collision{};
+    vector<shared_ptr<Sprite>>scorpion_sprite_vector;
+    vector<shared_ptr<Sprite>>bullet_sprite_vector;
+    Texture scorpion_texture;
+
+    //query logic to create scorpion
+    auto pos = logic.create_scorpion();
+    auto scorpion_sprite = std::make_shared<Sprite>(Sprite());
+    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+    scorpion_sprite -> setOrigin(vector2f(0.f, 0.f));
+    scorpion_sprite -> setTexture(scorpion_texture);
+    scorpion_sprite -> setPosition(pos);
+    scorpion_sprite_vector.push_back(scorpion_sprite);
+
+    //query the logic  to update the scorpion
+    logic.update_scorpion(scorpion_sprite_vector);
+    logic.update_scorpion(scorpion_sprite_vector);
+
+    //get reference to the scorpion position
+    auto scorpion_iter = scorpion_sprite_vector.begin();
+    pos = (*scorpion_iter) -> getPosition();
+
+    //set bullet to this position so that the tow game entities collide
+    //create a bullet
+    logic.create_bullet(bullet_sprite_vector);
+    auto bullet_iter = bullet_sprite_vector.begin();
+    (*bullet_iter) ->setPosition(pos);
+    auto bullet_pos = (*bullet_iter) ->getPosition();
+
+    //scorpion object present before collision(sprite)
+    auto size = scorpion_sprite_vector.size();
+    CHECK(size == 1);
+
+    //scorpion object present
+    size = logic.scorpion_object_vector.size();
+    CHECK(size == 1);
+
+    logic.collision_between_bullet_and_scorpion(bullet_sprite_vector, scorpion_sprite_vector);
+
+    //scorpion sprite vector should be empty after collision
+    size = scorpion_sprite_vector.size();
+    CHECK(size == 0);
+
+    //scorpion object wiped
+    size = logic.scorpion_object_vector.size();
+    CHECK(size == 0);
+
+}
+
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
