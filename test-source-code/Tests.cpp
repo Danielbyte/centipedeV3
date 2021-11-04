@@ -6,6 +6,7 @@
 #include "../game-source-code/SfmlDataType.h"
 #include "../game-source-code/GameDataType.h"
 #include "../game-source-code/Logic.h"
+#include "../game-source-code/StopWatch.h"
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
@@ -163,19 +164,6 @@ TEST_CASE("Centipede object moves down")
 
     CHECK(initial_pos<final_pos);
 }
-//test if centipede can detect mushroom ahead
-TEST_CASE("Centipede can spot a mushroom in front")
-{
-    auto mushroomField_ = MushroomFieldController{};
-//Spawn a mushroom at a known position
-    mushroomField_.SpawnMushroomAt_position(16,32);
-//Check for a mushroom in a position that has no mushroom
-    auto isMush = mushroomField_.isMushroom(1,14);
-    CHECK_FALSE(isMush);
-// Expect true in a position where there is a mushroom
-    isMush = mushroomField_.isMushroom(32,16);
-
-}
 
 TEST_CASE("Check if collision is detected between centipede and Lasershot")
 {
@@ -261,9 +249,52 @@ TEST_CASE("Check if mushroom is destroyed after 4 shoots")
     }
 
 
-  CHECK_FALSE(mushGrid -> isMushroom(row,col));
+    CHECK_FALSE(mushGrid -> isMushroom(row,col));
 }
 
+///stop watch tests
+TEST_CASE("Test for non negative time at initialization of stopwatch object")
+{
+    auto watch = StopWatch{};
+    auto initial_time = watch.getTimeElapsed();
+    CHECK(initial_time == 0);
+}
+
+TEST_CASE("Test if stopwatch can restart")
+{
+    auto watch = StopWatch{};
+
+    auto t1 = .5;//set 1 second
+    while(watch.getTimeElapsed() < t1)
+    {
+        //do nothing for 1 seconds
+    }
+    watch.restart();
+    auto new_time = watch.getTimeElapsed();
+    CHECK(new_time == 0); //expect new time to be zero after restart
+
+}
+
+TEST_CASE("Test if time can be stopped")
+{
+    auto watch = StopWatch{};
+    auto t1 = watch.getTimeElapsed();
+    for(auto i= 0; i < 4; i++)
+    {
+        //wait for some time
+    }
+
+    watch.stop(); //stop timer
+
+        for(auto i= 0; i < 4; i++)
+    {
+        //wait for some time again
+    }
+
+    auto t2 = watch.getTimeElapsed();
+//t1 and t2 should be equal since the timer was stopped
+    CHECK(t1 == t2);
+}
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
