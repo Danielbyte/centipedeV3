@@ -385,6 +385,45 @@ TEST_CASE("Test if Collision is detected between player and flea")
      CHECK(isCollided == true);
 }
 
+//10
+TEST_CASE("Test if player lives are decremented on collision with flea")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    auto logic = Logic{};
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(240.f, 504.f)); //initial pos of player
+    player_sprite.setOrigin(player_size/2, player_size/2);
+
+    auto player_lives = logic.player_object.getPlayer_lives();
+
+    //player live max
+    CHECK(player_lives == 3);
+
+    //create flea
+    logic.create_flea();
+    auto flea_iter = logic.flea_object.begin();
+
+    //get the randomly generated flea position
+    auto pos = (*flea_iter) -> get_position();
+
+    //actual pos of player
+    pos.x = pos.x ;
+    pos.y = pos.y;
+    std::cout << "test x: " << pos.x << std::endl;
+    //update the player object
+    logic.player_object.set_Xposition(pos.x);
+    logic.player_object.set_Yposition(pos.y);
+
+    //let the logic update collisions
+    logic.collision_between_player_and_flea(player_sprite);
+    //get updated player lives
+    player_lives = logic.player_object.getPlayer_lives();
+    CHECK(player_lives == 2);
+
+}
+
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
