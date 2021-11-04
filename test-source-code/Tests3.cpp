@@ -160,7 +160,7 @@ TEST_CASE("Test if previous body segment is turned into a head when leading segm
 //15
 TEST_CASE("Test if body segment in the middle is turned into a head if segment in front is short")
 {
-        auto logic = Logic{};
+    auto logic = Logic{};
     vector<shared_ptr<Sprite>>centipede_sprite;
     vector <shared_ptr<Sprite>>bullet_sprite;
 
@@ -188,7 +188,7 @@ TEST_CASE("Test if body segment in the middle is turned into a head if segment i
     logic.collision_between_centipede_and_bullet(bullet_sprite, centipede_sprite);
     logic.delete_segment_and_spawn_mushroom(centipede_sprite);
     //the body segment that followed the shot body segment should be a head
-    //bear in mind that the vector shifits
+    //bear in mind that the vector shifts
     isHead = (*(centObj_iter + 1)) -> getHead();
     CHECK(isHead == true);
 
@@ -196,6 +196,41 @@ TEST_CASE("Test if body segment in the middle is turned into a head if segment i
     auto next_segment = (centObj_iter + 3);
     isHead =(*next_segment) -> getHead();
     CHECK(isHead == false);
+}
+
+//16
+TEST_CASE("Test if shot body segment is turned into a mushroom")
+{
+    auto logic = Logic{};
+    auto mushField = logic.GetMushGridPtr();
+    vector<shared_ptr<Sprite>>centipede_sprite;
+    vector <shared_ptr<Sprite>>bullet_sprite;
+
+    //spawn 1 body segments
+    logic.create_centipede(true,1,centipede_sprite);
+    auto centObj_iter = logic.centipede_objectVector.begin();
+
+    //create one bullet
+    logic.create_bullet(bullet_sprite);
+
+    auto cent_iter = centipede_sprite.begin();
+    //get the position of the centipede head
+    auto pos = (*cent_iter) -> getPosition();
+
+    //set the bullet to collide with the centipede head
+    auto bullet_iter = bullet_sprite.begin();
+    (*bullet_iter) ->setPosition(pos);
+
+    //before the collision, expect no mushroom at this position
+    auto isMush = mushField -> isMushroom(((int)(pos.y/offset)),((int)(pos.x/offset)));
+    CHECK_FALSE(isMush);
+    //update objects
+    logic.collision_between_centipede_and_bullet(bullet_sprite, centipede_sprite);
+    logic.delete_segment_and_spawn_mushroom(centipede_sprite);
+
+    //at this position, expect a mushroom
+    isMush = mushField -> isMushroom(((int)(pos.y/offset)),((int)(pos.x/offset)));
+    CHECK(isMush == true);
 }
 
 /*
