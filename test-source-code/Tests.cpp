@@ -148,7 +148,7 @@ TEST_CASE("Centipede object moves up")
 {
     auto centipede_=Centipede{};
     auto initial_pos=centipede_.get_position().y;
-    centipede_.move_down();    // move down represents moving up
+    centipede_.move_up();
     auto final_pos= centipede_.get_position().y;
 
     CHECK(initial_pos>final_pos);
@@ -158,7 +158,7 @@ TEST_CASE("Centipede object moves down")
 {
     auto centipede_=Centipede{};
     auto initial_pos=centipede_.get_position().y;
-    centipede_.move_up();  //move up represents going down
+    centipede_.move_down();  //move up represents going down
     auto final_pos= centipede_.get_position().y;
 
     CHECK(initial_pos<final_pos);
@@ -183,11 +183,11 @@ TEST_CASE("Check if collision is detected between centipede and Lasershot")
     vector2d laserPos_;
     auto collision_ = Collision{};
     auto centipede_ = Centipede{};
-    auto laserShots_ = LaserShots(64,128,2);
+    auto laserShots_ = LaserShots(64,112,2);
     //set position for centipede segment
     centipede_.set_position(vector2f(64,109));
     //move centipede downwards by one row towards the bullet(so that they collide)
-    centipede_.move_up();
+    centipede_.move_down();
     //get the new position of the centipede
     auto centPosition =centipede_.get_position();
     centipedePos_.x = centPosition.x;
