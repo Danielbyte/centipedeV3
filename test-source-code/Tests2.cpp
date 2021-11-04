@@ -358,6 +358,33 @@ TEST_CASE("Test if player looses a life after collision with spider")
     CHECK(player_lives == 2);
 }
 
+//9
+TEST_CASE("Test if Collision is detected between player and flea")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(240.f, 504.f)); //initial pos of player
+    player_sprite.setOrigin(player_size/2, player_size/2);
+
+    auto logic = Logic{};
+    //create flea
+    logic.create_flea();
+    auto flea_iter = logic.flea_object.begin();
+
+    //get the randomly generated flea position
+    auto pos = (*flea_iter) -> get_position();
+
+    //set the player to this position so that they collide
+    player_sprite.setPosition(pos);
+
+    auto col = Collision{};
+
+    auto isCollided = col.collision_detect(player_sprite.getPosition(), playerWidth,playerHeight,pos,fleaWidth,fleaHeight);
+     CHECK(isCollided == true);
+}
+
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
