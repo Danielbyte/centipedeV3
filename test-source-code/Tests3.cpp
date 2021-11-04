@@ -51,7 +51,6 @@ TEST_CASE("Test if shot centipede segment that was marked is deleted")
     vector <shared_ptr<Sprite>>bullet_sprite;
     //just create the head only
     logic.create_centipede(true,0,centipede_sprite);
-    auto cent_obj_iter = logic.centipede_objectVector.begin();
 
     //create one bullet
     logic.create_bullet(bullet_sprite);
@@ -85,6 +84,36 @@ TEST_CASE("Test if shot centipede segment that was marked is deleted")
     //centipede object vector should be empty
     empty_vector = logic.centipede_objectVector.size();
     CHECK(empty_vector == 0);
+
+}
+
+//13
+TEST_CASE("Test if bullet is deleted on collision with centipede")
+{
+        auto logic = Logic{};
+    vector<shared_ptr<Sprite>>centipede_sprite;
+    vector <shared_ptr<Sprite>>bullet_sprite;
+    //just create the head only
+    logic.create_centipede(true,0,centipede_sprite);
+
+    //create one bullet
+    logic.create_bullet(bullet_sprite);
+
+    auto cent_iter = centipede_sprite.begin();
+    //get the position of the centipede head
+    auto pos = (*cent_iter) -> getPosition();
+
+    //set the bullet to collide with the centipede head
+    auto bullet_iter = bullet_sprite.begin();
+    (*bullet_iter) ->setPosition(pos);
+
+    //before collision update, the vector should contain the constructed bullet
+    auto size = bullet_sprite.size();
+    CHECK(size == 1);
+    //update collisions
+    logic.collision_between_centipede_and_bullet(bullet_sprite, centipede_sprite);
+    size = bullet_sprite.size();
+    CHECK(size == 0);
 
 }
 
