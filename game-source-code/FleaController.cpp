@@ -37,7 +37,7 @@ void FleaController::spawn_mushroom(vector2f position, shared_ptr<MushroomFieldC
     int y = (int)(position.y/offset);
 
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
-    if(mushField -> mushArray[y][x] == NULL)
+    if((mushField -> mushArray[y][x] == NULL) && (y != 0) && (y != 1))
     {
         auto random = (rand() % 100 + 1);
         if (random <= flea_spawn_chance)
