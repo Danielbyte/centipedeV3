@@ -77,7 +77,27 @@ void ScreenManager::run()
         {
             //needs to update screen accordingly
             update();
-            window.draw(player_sprite);
+            //draw game entities
+            draw_game_entities();
+        }
+
+        else
+        {
+            window.draw(splash_screenDisplay);
+            if (!isGameOver)
+            {
+                window.draw(game_instructions);
+            }
+        }
+
+        window.display();
+        window.clear();
+    }
+}
+
+void ScreenManager::draw_game_entities()
+{
+                window.draw(player_sprite);
 
             for (auto& centipede_segments : CentipedeSprite_vector) // draw centipede (only the head for now)
             {
@@ -112,20 +132,6 @@ void ScreenManager::run()
             {
                 window.draw(*flea);
             }
-        }
-
-        else
-        {
-            window.draw(splash_screenDisplay);
-            if (!isGameOver)
-            {
-                window.draw(game_instructions);
-            }
-        }
-
-        window.display();
-        window.clear();
-    }
 }
 
 void ScreenManager::process_events()
@@ -207,24 +213,8 @@ void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
 
 void ScreenManager::update()
 {
-    auto mushGridPtr = logic.GetMushGridPtr();
-    draw_mushrooms(mushGridPtr);
-
-    logic.update_player(player_sprite);
-    logic.updateLaserShots(bulletSprites_vector);
-    logic.update_centipede(CentipedeSprite_vector);
-    logic.collisionBetween_mushAndPlayer(player_sprite);
-    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
-    logic.collision_between_mush_and_spider();
-    logic.collision_between_player_and_spider(player_sprite);
-    logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
-    logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
-                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,FleaSprite_vector);
-    logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
-    logic.collision_between_player_and_flea(player_sprite);
-    logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
-
-
+    //Query logic to update game entities
+    update_game_entities();
     //scorpion updates
     auto canSpawnScorpion = logic.canSpawn_scorpion();
 
@@ -232,7 +222,6 @@ void ScreenManager::update()
     {
         create_scorpion();
     }
-    logic.update_scorpion(scorpion_sprite_vector);
 
     //spider updates
     auto canSpawnSpider = logic.getIfCanSpawnSpider();
@@ -241,8 +230,6 @@ void ScreenManager::update()
         //time to create a spider!
         create_spider();
     }
-
-    logic.update_spider(spider_sprite_vector);
 
     //query logic if can spawn bomb
     auto canSpawnBomb = logic.getIfCanSpawnBomb();
@@ -262,7 +249,6 @@ void ScreenManager::update()
 
     if(!FleaSprite_vector.empty())
     {
-        //std::cout<< "I need to update flea" << std::endl;
         //ask the logic to update flea
         logic.update_flea(FleaSprite_vector);
     }
@@ -270,7 +256,29 @@ void ScreenManager::update()
 
     updateScreen_manager();
     update_game();
-    //std::cout << "Malasti" << std::endl;
+
+}
+
+void ScreenManager::update_game_entities()
+{
+    auto mushGridPtr = logic.GetMushGridPtr();
+    draw_mushrooms(mushGridPtr);
+
+    logic.update_player(player_sprite);
+    logic.updateLaserShots(bulletSprites_vector);
+    logic.update_centipede(CentipedeSprite_vector);
+    logic.collisionBetween_mushAndPlayer(player_sprite);
+    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
+    logic.collision_between_mush_and_spider();
+    logic.collision_between_player_and_spider(player_sprite);
+    logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
+    logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
+                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,FleaSprite_vector);
+    logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
+    logic.collision_between_player_and_flea(player_sprite);
+    logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
+    logic.update_spider(spider_sprite_vector);
+    logic.update_scorpion(scorpion_sprite_vector);
 }
 
 void ScreenManager::create_laserShots()
@@ -457,8 +465,6 @@ void ScreenManager::update_game()
                                        "\nPress Escape(Esc) key to quit");
     }
 
-    //auto killed_segments = logic.getKilled_segments();
-    //auto centipede_size = bodiesToSpawn + 1;
     //if all centipede segments are killed, player wins
     if(CentipedeSprite_vector.empty())
     {
