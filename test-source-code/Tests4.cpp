@@ -177,8 +177,78 @@ TEST_CASE("Test if flea speed doubles after one shot")
 
 }
 
+TEST_CASE("Test if flea is eliminated after two player shots")
+{
+    auto logic = Logic{};
+    auto col = Collision{};
+    Texture flea_texture;
+    vector<shared_ptr<Sprite>>bullet_sprite;
+    vector<shared_ptr<Sprite>>flea_sprite_vector;
 
+    //create 2 bullet;
+    logic.create_bullet(bullet_sprite);
+    logic.create_bullet(bullet_sprite);
 
+    //two bullets before collision
+    auto size = bullet_sprite.size();
+    CHECK(size == 2);
+
+    //create flea
+    auto flea_sprite = std::make_shared<Sprite>(Sprite());
+    auto pos = logic.create_flea();
+    if(!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
+    flea_sprite ->setTexture(flea_texture);
+    flea_sprite -> setOrigin(vector2f(0.f,0.f));
+    flea_sprite -> setPosition(pos);
+    flea_sprite_vector.push_back(flea_sprite);
+
+    //update the flea twice
+    logic.update_flea(flea_sprite_vector);
+    logic.update_flea(flea_sprite_vector);
+    auto flea_obj_iter = logic.flea_object.begin();
+    //get reference to the flea position
+    auto flea_iter = flea_sprite_vector.begin();
+    pos = (*flea_iter) -> getPosition();
+
+    //give this position to the bullet so that they collisde
+    auto bullet_iter = bullet_sprite.begin();
+    (*bullet_iter) -> setPosition(pos);
+    auto bulletPos = (*bullet_iter) -> getPosition();
+
+    //flea lives before collision are max
+    logic.collision_between_bullet_and_flea(bullet_sprite, flea_sprite_vector);
+    size = flea_sprite_vector.size();
+    //flea is still alive, so vector size = 1;
+    CHECK(size == 1);
+    //flea object
+    size = logic.flea_object.size();
+    //size should be 1 also
+    CHECK(size == 1);
+
+    // there should be one bullet remaining
+    size = bullet_sprite.size();
+    CHECK(size == 1);
+
+    //update flee pos
+    logic.update_flea(flea_sprite_vector);
+    pos = (*flea_iter) -> getPosition();
+    //update bullet
+    bullet_iter = bullet_sprite.begin();
+    (*bullet_iter) -> setPosition(pos);
+    bulletPos = (*bullet_iter) -> getPosition();
+
+    //update collisions
+    logic.collision_between_bullet_and_flea(bullet_sprite, flea_sprite_vector);
+
+    //flea object should be wiped
+    size = flea_sprite_vector.size();
+    CHECK(size == 0);
+
+    //all bullets wiped
+    size = bullet_sprite.size();
+    CHECK(size == 0);
+
+}
 
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
