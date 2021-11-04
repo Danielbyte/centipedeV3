@@ -223,14 +223,18 @@ TEST_CASE("Test if shot body segment is turned into a mushroom")
 
     //before the collision, expect no mushroom at this position
     auto isMush = mushField -> isMushroom(((int)(pos.y/offset)),((int)(pos.x/offset)));
-    CHECK_FALSE(isMush);
+    if(!isMush){CHECK_FALSE(isMush);}
     //update objects
     logic.collision_between_centipede_and_bullet(bullet_sprite, centipede_sprite);
     logic.delete_segment_and_spawn_mushroom(centipede_sprite);
 
     //at this position, expect a mushroom
     isMush = mushField -> isMushroom(((int)(pos.y/offset)),((int)(pos.x/offset)));
-    CHECK(isMush == true);
+
+    if(isMush)
+    {
+        CHECK(isMush == true);
+    }
 }
 
 //17
@@ -347,6 +351,44 @@ TEST_CASE("Test if spider is erased on collision with the bullet")
     //check for deletion of spider object
     size = logic.spider_object_vector.size();
     CHECK(size == 0);
+}
+
+TEST_CASE("Test if collision is detected between bullet and scorpion")
+{
+    auto logic = Logic{};
+    auto col = Collision{};
+    vector<shared_ptr<Sprite>>scorpion_sprite_vector;
+    vector<shared_ptr<Sprite>>bullet_sprite_vector;
+    Texture scorpion_texture;
+
+    //query logic to create scorpion
+    auto pos = logic.create_scorpion();
+    auto scorpion_sprite = std::make_shared<Sprite>(Sprite());
+    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+    scorpion_sprite -> setOrigin(vector2f(0.f, 0.f));
+    scorpion_sprite -> setTexture(scorpion_texture);
+    scorpion_sprite -> setPosition(pos);
+    scorpion_sprite_vector.push_back(scorpion_sprite);
+
+    //query the logic  to update the scorpion
+    logic.update_scorpion(scorpion_sprite_vector);
+    logic.update_scorpion(scorpion_sprite_vector);
+
+    //get reference to the scorpion position
+    auto scorpion_iter = scorpion_sprite_vector.begin();
+    pos = (*scorpion_iter) -> getPosition();
+
+    //set bullet to this position so that the tow game entities collide
+    //create a bullet
+    logic.create_bullet(bullet_sprite_vector);
+    auto bullet_iter = bullet_sprite_vector.begin();
+    (*bullet_iter) ->setPosition(pos);
+    auto bullet_pos = (*bullet_iter) ->getPosition();
+    auto isCollided =col.collision_detect(bullet_pos,bulletWidth,bulletHeight,pos,scorpion_width,scorpion_height);
+
+    //expect a collision
+    CHECK(isCollided == true);
+
 }
 
 /*
