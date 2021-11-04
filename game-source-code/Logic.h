@@ -110,7 +110,7 @@ public:
     //For Test Purposes of spider collision with mush
     float get_lunch_time();
     void set_lunch(float);
-    void setSpiderToHungry();
+    void setSpiderToHungry(bool);
 
 private:
     //dummy variables for tests(to alter spider's lunch time);

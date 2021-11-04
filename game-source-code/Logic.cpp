@@ -804,9 +804,9 @@ void Logic::set_lunch(float dummy)
     this -> dummy = dummy;
 }
 
-void Logic::setSpiderToHungry()
+void Logic::setSpiderToHungry(bool var)
 {
-    spiderIsHungry = true;
+    spiderIsHungry = var;
 }
 
 //free up resources
