@@ -279,14 +279,14 @@ TEST_CASE("Test if time can be stopped")
 {
     auto watch = StopWatch{};
     auto t1 = watch.getTimeElapsed();
-    for(auto i= 0; i < 4; i++)
+    for(auto i= 0; i < 1; i++)
     {
         //wait for some time
     }
 
     watch.stop(); //stop timer
 
-    for(auto i= 0; i < 4; i++)
+    for(auto i= 0; i < 1; i++)
     {
         //wait for some time again
     }
@@ -525,12 +525,12 @@ TEST_CASE("Test collision detection between centipede and player")
     //before update, the two entities have not collided, therefore expect false
     auto isCollided = col.collision_detect(player_sprite.getPosition(),playerWidth,playerHeight, pos, centWidth, centHeight);
     CHECK_FALSE(isCollided);
-    //update the centipede 2 times.
-    for( auto i = 0; i < 2; i++)
+    //update the centipede 1 times.
+    for( auto i = 0; i < 1; i++)
     {
         logic.update_centipede(cent_sprite);
     }
-    //get the position of the head after 2 updates
+    //get the position of the head after 1 update
     pos = (*cent_iter) -> getPosition();
 
     //set the player's position to this position so that the collide
@@ -613,8 +613,36 @@ TEST_CASE("Test if collision can be detected between player and spider")
     auto isCollided = col.collision_detect(player_sprite.getPosition(),playerWidth,playerHeight,new_spider_pos,spiderWidth,spiderHeight);
     CHECK(isCollided == true);
 
-
 }
+
+//8
+TEST_CASE("Test if player looses a life after collision with spider")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(240.f, 504.f)); //initial pos of player
+    player_sprite.setOrigin(player_size/2, player_size/2);
+
+    auto logic = Logic{};
+    //create spider
+    logic.create_spider();
+    auto player_lives = logic.player_object.getPlayer_lives();
+
+    CHECK(player_lives == 3);
+
+    auto spider_obj_iter = logic.spider_object_vector.begin();
+    //let the two game entities collide
+    auto new_spider_pos = player_sprite.getPosition();
+    (*spider_obj_iter) -> set_position(new_spider_pos);
+    new_spider_pos = (*spider_obj_iter) -> get_position();
+
+    logic.collision_between_player_and_spider(player_sprite);
+    player_lives = logic.player_object.getPlayer_lives();
+    CHECK(player_lives == 2);
+}
+
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
