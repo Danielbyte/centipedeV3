@@ -405,7 +405,7 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
     //This is the part where we get to to spawn a mushroom
     auto centObject_iter = centipede_objectVector.begin();
     auto centSprite_iter = centipedeSprite_vector.begin();
-   // auto laserIter_ = laser.begin();
+    // auto laserIter_ = laser.begin();
     while (centObject_iter != centipede_objectVector.end())
     {
         if (((*centObject_iter) ->getSegment_status()) == false)
@@ -432,17 +432,17 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
             centipede_objectVector.erase(centObject_iter);
             centipedeSprite_vector.erase(centSprite_iter);
             //error handling if there are no bullets
-          /*  if (!laser.empty())
-            {
-                laser.erase(laserIter_);
-                return;
-            }*/
+            /*  if (!laser.empty())
+              {
+                  laser.erase(laserIter_);
+                  return;
+              }*/
         }
         else
         {
             ++centObject_iter;
             ++centSprite_iter;
-           // ++laserIter_;
+            // ++laserIter_;
         }
     }
 }
@@ -514,6 +514,8 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet
                 {
                     //flea must increase in speed
                     (*flea_obj_iter) -> double_flea_speed();
+                    bullet_sprite.erase(bullet_iter);
+                    return;
 
                 }
             }
