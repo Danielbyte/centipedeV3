@@ -93,6 +93,7 @@ public:
     void collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
     void collision_between_centipede_and_player(Sprite&);
     void collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
+    void delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>&);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;

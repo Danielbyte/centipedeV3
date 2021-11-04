@@ -395,12 +395,17 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
         }
         ++iter2;
     }
+    delete_segment_and_spawn_mushroom(centipedeSprite_vector);
 
+}
+
+void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+{
     //Time to delete dead segment
     //This is the part where we get to to spawn a mushroom
     auto centObject_iter = centipede_objectVector.begin();
     auto centSprite_iter = centipedeSprite_vector.begin();
-    auto laserIter_ = laser.begin();
+   // auto laserIter_ = laser.begin();
     while (centObject_iter != centipede_objectVector.end())
     {
         if (((*centObject_iter) ->getSegment_status()) == false)
@@ -427,20 +432,19 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
             centipede_objectVector.erase(centObject_iter);
             centipedeSprite_vector.erase(centSprite_iter);
             //error handling if there are no bullets
-            if (!laser.empty())
+          /*  if (!laser.empty())
             {
                 laser.erase(laserIter_);
                 return;
-            }
+            }*/
         }
         else
         {
             ++centObject_iter;
             ++centSprite_iter;
-            ++laserIter_;
+           // ++laserIter_;
         }
     }
-
 }
 
 void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet, vector<shared_ptr<Sprite>>& spider)
