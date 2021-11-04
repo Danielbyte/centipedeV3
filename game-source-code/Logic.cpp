@@ -230,7 +230,7 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
 
 void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
 {
-        //collision between player and centipede
+    //collision between player and centipede
     for (auto& centipede_segment : centipede_objectVector)
     {
         vector2f player_pos_;
@@ -347,7 +347,10 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
         }
         ++laserIter;
     }
+}
 
+void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+{
     //collision between bullet and centipede
     auto iter2 = laser.begin();
     while (iter2 != laser.end())
@@ -392,6 +395,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
         }
         ++iter2;
     }
+
     //Time to delete dead segment
     //This is the part where we get to to spawn a mushroom
     auto centObject_iter = centipede_objectVector.begin();
