@@ -269,7 +269,7 @@ void ScreenManager::update_game_entities()
     logic.update_centipede(CentipedeSprite_vector);
     logic.collisionBetween_mushAndPlayer(player_sprite);
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
-    logic.collision_between_mush_and_spider();
+    logic.collision_between_mush_and_spider(false);
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,

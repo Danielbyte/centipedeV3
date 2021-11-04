@@ -116,3 +116,9 @@ float Spider::getSpider_lunch_time() const
 {
     return lunch_time;
 }
+
+//For test purposes
+//void Spider::setToHungry()
+//{
+  //  isHungry = true;
+//}

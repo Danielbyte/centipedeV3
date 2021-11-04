@@ -94,7 +94,7 @@ shared_ptr<MushroomFieldController> Logic::GetMushGridPtr() const
     return mushField;
 }
 
-void Logic::collision_between_mush_and_spider()
+void Logic::collision_between_mush_and_spider(bool isTest)
 {
     for (int row = 0; row < 32; row++)
     {
@@ -112,14 +112,26 @@ void Logic::collision_between_mush_and_spider()
                     mushPos.y = (float)(row*offset);
 
                     spiderPos = (*spider_iter) -> get_position();
-
                     auto isCollided = collision.collision_detect(spiderPos,spiderWidth,spiderHeight,mushPos,mushWidth,mushHeight);
                     if(isCollided)
                     {
                         //Abuti spider should OCCASIONALLY chow SOME of the mushes
-                        auto spiderIsHungry = (*spider_iter) -> getIsHungry();
+                        //execute the line below if it is not a test
                         auto lunch_time_ = (*spider_iter) -> getSpider_lunch_time();
-                        if(spiderIsHungry && (lunch_time.getTimeElapsed() >= lunch_time_))
+                        float luncheon;
+
+                        //if it is actual game play
+                        if (!isTest)
+                        {
+                            spiderIsHungry = (*spider_iter) -> getIsHungry();
+                            luncheon = lunch_time.getTimeElapsed();
+                        }
+                        else //if it is a test case
+                        {
+                            luncheon = lunch_time.getTimeElapsed(dummy);
+                        }
+
+                        if(spiderIsHungry && (luncheon >= lunch_time_))
                         {
                             lunch_time.restart();
                             mushField ->mushArray[row][col] = NULL;
@@ -779,6 +791,22 @@ void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite)
 int Logic::get_score() const
 {
     return score;
+}
+
+//Dummy functions for Spider Tests
+float Logic::get_lunch_time()
+{
+    return dummy;
+}
+
+void Logic::set_lunch(float dummy)
+{
+    this -> dummy = dummy;
+}
+
+void Logic::setSpiderToHungry()
+{
+    spiderIsHungry = true;
 }
 
 //free up resources

@@ -28,3 +28,8 @@ void StopWatch::restart()
 {
     start_time = current_time();
 }
+
+float StopWatch::getTimeElapsed(float t)
+{
+    return t;
+}

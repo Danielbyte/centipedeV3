@@ -72,7 +72,7 @@ public:
     vector2f create_spider();
 
     //collision between spider and mushroom
-    void collision_between_mush_and_spider();
+    void collision_between_mush_and_spider(bool isTest); //isTest to denote if is game play or test coverage
 
     //collision between player and Spider
     void collision_between_player_and_spider(Sprite&);
@@ -107,7 +107,16 @@ public:
 
     int get_score() const;
 
+    //For Test Purposes of spider collision with mush
+    float get_lunch_time();
+    void set_lunch(float);
+    void setSpiderToHungry();
+
 private:
+    //dummy variables for tests(to alter spider's lunch time);
+    float dummy;
+    bool spiderIsHungry;
+
     //Object for the Spider logic and update
     CentipedeController centipede_controller;
     SpiderController spider_control;
@@ -176,6 +185,7 @@ private:
 
     //timer to set when spider gets hungry
     StopWatch lunch_time;
+
 
     //DDT bombs
     //check if bomb controller is willing to create a bomb

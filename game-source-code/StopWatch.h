@@ -7,6 +7,7 @@ class StopWatch
 public:
     StopWatch();
     float getTimeElapsed();
+    float getTimeElapsed(float); //for test pusrposes
     void stop();
     void restart();
 

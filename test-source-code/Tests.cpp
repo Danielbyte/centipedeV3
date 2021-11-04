@@ -295,6 +295,59 @@ TEST_CASE("Test if time can be stopped")
 //t1 and t2 should be equal since the timer was stopped
     CHECK(t1 == t2);
 }
+
+///Collisions Tests
+//1.Test between Spider and Mushroom
+TEST_CASE("Spider Should eat mushroom if it collides with mushroom when it is hungry and if it is lunch time")
+{
+    //create a spider object
+    auto spider_object = std::make_shared<Spider>();
+    //set spider to hungry
+    //spider_object -> setToHungry();
+    //get the spider's lunch time
+    auto lunch_time = spider_object -> getSpider_lunch_time();
+    //create a logic instance
+    auto logic = Logic{};
+
+    //set the lunch time of the spider(spider can eat if hungry)
+    logic.set_lunch(7.f);
+
+    //get a reference to the last mushroom position
+    int row, col;
+    auto mushGrid = logic.GetMushGridPtr();
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 30; j++)
+        {
+            if( mushGrid -> isMushroom(i,j))
+            {
+                row = i;
+                col = j;
+            }
+        }
+    }
+
+    //set the position of the spider such that it collides with the musroom
+    vector2f pos;
+    pos.x = col*offset;
+    pos.y = row*offset;
+    spider_object -> set_position(pos);
+    logic.spider_object_vector.push_back(spider_object);
+
+    //set the spider to hungry
+    logic.setSpiderToHungry();
+    //before spider collides with mushroom, mushroom is present
+    auto isMush = mushGrid -> isMushroom(row,col);
+    CHECK(isMush == true);
+
+    //update collision
+    logic.collision_between_mush_and_spider(true);
+    //After spider has eaten the mush
+    isMush = mushGrid -> isMushroom(row,col);
+    CHECK(isMush == false);
+
+}
+
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
