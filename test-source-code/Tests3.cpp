@@ -255,7 +255,7 @@ TEST_CASE("Test if collision is detected between bullet and spider")
 
     //create a bullet
     logic.create_bullet(bullet_sprite_vector);
-    //set the position of the spider in such a manner that it collides with the spider
+    //set the position of the bullet in such a manner that it collides with the spider
     auto spider_iter = spider_sprite_vector.begin();
     auto pos = (*spider_iter) -> getPosition();
     auto bullet_iter = bullet_sprite_vector.begin();
@@ -266,6 +266,43 @@ TEST_CASE("Test if collision is detected between bullet and spider")
     auto isCollided =col.collision_detect((*bullet_iter) -> getPosition(),bulletWidth,bulletHeight,pos,spiderWidth,spiderHeight);
     CHECK(isCollided == true);
 
+}
+
+TEST_CASE("Test if bullet is erased on collision with the spider")
+{
+        auto logic = Logic{};
+    vector<shared_ptr<Sprite>>spider_sprite_vector;
+    vector<shared_ptr<Sprite>>bullet_sprite_vector;
+
+    vector2f pos_ = logic.create_spider();
+    Texture spider_texture;
+    auto spider_sprite = std::make_shared<Sprite>(Sprite());
+    if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
+    spider_sprite -> setOrigin(vector2f(0.f,0.f));
+    spider_sprite -> setTexture(spider_texture);
+    spider_sprite -> setPosition(pos_);
+    spider_sprite_vector.push_back(spider_sprite);
+
+    //update spider twice
+    logic.update_spider(spider_sprite_vector);
+    logic.update_spider(spider_sprite_vector);
+
+    //create a bullet
+    logic.create_bullet(bullet_sprite_vector);
+    //set the position of the bullet in such a manner that it collides with the spider
+    auto spider_iter = spider_sprite_vector.begin();
+    auto pos = (*spider_iter) -> getPosition();
+    auto bullet_iter = bullet_sprite_vector.begin();
+    (*bullet_iter) -> setPosition(pos);
+
+    //bullet sprite should be one before collision (since one bullet was only created)
+    auto size = bullet_sprite_vector.size();
+    CHECK(size == 1);
+    logic.collision_btwn_bullet_and_spider(bullet_sprite_vector, spider_sprite_vector);
+
+    //bullet vector should be empty after collision
+    size = bullet_sprite_vector.size();
+    CHECK(size == 0);
 }
 
 
