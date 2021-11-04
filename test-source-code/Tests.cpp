@@ -450,7 +450,7 @@ TEST_CASE("Spider Should not eat mushroom if it collides with mushroom when it i
 
 }
 
-//3
+//4
 TEST_CASE("Spider Should not eat mushroom if it collides with mushroom when it is hungry and if it is not lunch time")
 {
     //create a spider object
@@ -500,7 +500,7 @@ TEST_CASE("Spider Should not eat mushroom if it collides with mushroom when it i
     CHECK(isMush == true);
 
 }
-//4
+//5
 TEST_CASE("Test collision detection between centipede and player")
 {
     Texture player_texture;
@@ -541,7 +541,54 @@ TEST_CASE("Test collision detection between centipede and player")
     CHECK(isCollided == true);
 }
 
+//6
+TEST_CASE("Test if player loses a life after colliding with centipede segment")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(8.f, 24.f)); //place player at left end row of where centipede is initially spawned
+    player_sprite.setOrigin(player_size/2, player_size/2);
 
+    //create a vector of centipede sprite
+    vector<shared_ptr<Sprite>>cent_sprite;
+    //create Logic instance
+    auto logic = Logic{};
+    //collision instance
+    auto col = Collision{};
+
+    auto player_lives = logic.player_object.getPlayer_lives();
+
+    //before collision, player live are max =3
+    CHECK(player_lives == 3);
+
+    //create the head only
+    logic.create_centipede(true, 0, cent_sprite);
+
+    auto cent_iter = cent_sprite.begin();
+    auto pos = (*cent_iter) -> getPosition();
+
+    //update the centipede 1 time.
+    for( auto i = 0; i < 1; i++)
+    {
+        logic.update_centipede(cent_sprite);
+    }
+    //get the position of the head after 1 update
+    pos = (*cent_iter) -> getPosition();
+
+    //set the player's position to this position so that the collide
+    player_sprite.setPosition(pos);
+
+    //update game
+    logic.collision_between_centipede_and_player(player_sprite);
+
+    //get player lives after update
+    player_lives = logic.player_object.getPlayer_lives();
+
+    //player lives should have decreased
+    CHECK(player_lives == 2);
+}
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
