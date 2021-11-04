@@ -309,7 +309,7 @@ TEST_CASE("Spider Should eat mushroom if it collides with mushroom when it is hu
     //create a logic instance
     auto logic = Logic{};
 
-    //set the lunch time of the spider(spider can eat if hungry)
+    //set the lunch time of the spider(spider can eat if hungryC)
     logic.set_lunch(7.f);
 
     //get a reference to the last mushroom position
@@ -335,7 +335,7 @@ TEST_CASE("Spider Should eat mushroom if it collides with mushroom when it is hu
     logic.spider_object_vector.push_back(spider_object);
 
     //set the spider to hungry
-    logic.setSpiderToHungry();
+    logic.setSpiderToHungry(true);
     //before spider collides with mushroom, mushroom is present
     auto isMush = mushGrid -> isMushroom(row,col);
     CHECK(isMush == true);
@@ -345,6 +345,57 @@ TEST_CASE("Spider Should eat mushroom if it collides with mushroom when it is hu
     //After spider has eaten the mush
     isMush = mushGrid -> isMushroom(row,col);
     CHECK(isMush == false);
+
+}
+
+//2
+TEST_CASE("Spider Should not eat mushroom if it collides with mushroom when it is not hungry and if it is lunch time")
+{
+    //create a spider object
+    auto spider_object = std::make_shared<Spider>();
+    //set spider to hungry
+    //spider_object -> setToHungry();
+    //get the spider's lunch time
+    auto lunch_time = spider_object -> getSpider_lunch_time();
+    //create a logic instance
+    auto logic = Logic{};
+
+    //set the lunch time of the spider(spider can eat if hungryC)
+    logic.set_lunch(7.f);
+
+    //get a reference to the last mushroom position
+    int row, col;
+    auto mushGrid = logic.GetMushGridPtr();
+    for(int i = 0; i < 32; i++)
+    {
+        for(int j = 0; j < 30; j++)
+        {
+            if( mushGrid -> isMushroom(i,j))
+            {
+                row = i;
+                col = j;
+            }
+        }
+    }
+
+    //set the position of the spider such that it collides with the musroom
+    vector2f pos;
+    pos.x = col*offset;
+    pos.y = row*offset;
+    spider_object -> set_position(pos);
+    logic.spider_object_vector.push_back(spider_object);
+
+    //set the spider to hungry
+    logic.setSpiderToHungry(false);
+    //before spider collides with mushroom, mushroom is present
+    auto isMush = mushGrid -> isMushroom(row,col);
+    CHECK(isMush == true);
+
+    //update collision
+    logic.collision_between_mush_and_spider(true);
+    //Expect mushroom to be there as spider was not hungry
+    isMush = mushGrid -> isMushroom(row,col);
+    CHECK(isMush == true);
 
 }
 
