@@ -91,6 +91,7 @@ public:
     void collision_between_player_and_flea(Sprite&);
 
     void collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
+    void collision_between_centipede_and_player(Sprite&);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;

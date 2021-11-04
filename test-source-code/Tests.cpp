@@ -286,7 +286,7 @@ TEST_CASE("Test if time can be stopped")
 
     watch.stop(); //stop timer
 
-        for(auto i= 0; i < 4; i++)
+    for(auto i= 0; i < 4; i++)
     {
         //wait for some time again
     }
@@ -499,6 +499,46 @@ TEST_CASE("Spider Should not eat mushroom if it collides with mushroom when it i
     isMush = mushGrid -> isMushroom(row,col);
     CHECK(isMush == true);
 
+}
+//4
+TEST_CASE("Test collision detection between centipede and player")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(8.f, 24.f)); //place player at left end row of where centipede is initially spawned
+    player_sprite.setOrigin(player_size/2, player_size/2);
+
+    //create a vector of centipede sprite
+    vector<shared_ptr<Sprite>>cent_sprite;
+    //create Logic instance
+    auto logic = Logic{};
+    //collision instance
+    auto col = Collision{};
+    //create the head only
+    logic.create_centipede(true, 0, cent_sprite);
+
+    auto cent_iter = cent_sprite.begin();
+    auto pos = (*cent_iter) -> getPosition();
+
+    //before update, the two entities have not collided, therefore expect false
+    auto isCollided = col.collision_detect(player_sprite.getPosition(),playerWidth,playerHeight, pos, centWidth, centHeight);
+    CHECK_FALSE(isCollided);
+    //update the centipede 2 times.
+    for( auto i = 0; i < 2; i++)
+    {
+        logic.update_centipede(cent_sprite);
+    }
+    //get the position of the head after 2 updates
+    pos = (*cent_iter) -> getPosition();
+
+    //set the player's position to this position so that the collide
+    player_sprite.setPosition(pos);
+    isCollided = col.collision_detect(player_sprite.getPosition(),playerWidth,playerHeight, pos, centWidth, centHeight);
+
+    //collision should return true
+    CHECK(isCollided == true);
 }
 
 

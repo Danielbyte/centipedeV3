@@ -226,19 +226,23 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
         }
     }
 
-    //collision between player and centipede
+}
+
+void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
+{
+        //collision between player and centipede
     for (auto& centipede_segment : centipede_objectVector)
     {
-        vector2d player_pos_;
-        vector2d centipede_pos;
+        vector2f player_pos_;
+        vector2f centipede_pos;
 
-        player_pos_.x = player_object.get_Xposition();
-        player_pos_.y = player_object.get_Yposition();
+        player_pos_.x = player_object.get_Xposition() - Tile_offset;
+        player_pos_.y = player_object.get_Yposition() - Tile_offset;
 
-        centipede_pos.x = (centipede_segment) ->get_position().x;
-        centipede_pos.y = (centipede_segment) ->get_position().y;
+        centipede_pos.x = ((centipede_segment) ->get_position().x) - Tile_offset;
+        centipede_pos.y = ((centipede_segment) ->get_position().y) - Tile_offset;
 
-        auto isCollided = collision.CheckCollision(player_pos_, player_size, centipede_pos, centipedeBody_size);
+        auto isCollided = collision.collision_detect(player_pos_,playerWidth,playerHeight,centipede_pos,centWidth,centHeight);
 
         if (isCollided)
         {
@@ -263,8 +267,6 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
             return;
         }
     }
-
-
 }
 
 void Logic::collision_between_player_and_spider(Sprite& player_sprite)
