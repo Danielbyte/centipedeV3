@@ -589,6 +589,32 @@ TEST_CASE("Test if player loses a life after colliding with centipede segment")
     //player lives should have decreased
     CHECK(player_lives == 2);
 }
+
+//7
+TEST_CASE("Test if collision can be detected between player and spider")
+{
+    Texture player_texture;
+    Sprite player_sprite;
+    if(!player_texture.loadFromFile("resources/player.png"))throw CouldNotLoadPicture{};
+    player_sprite.setTexture(player_texture);
+    player_sprite.setPosition(vector2f(240.f, 504.f)); //initial pos of player
+    player_sprite.setOrigin(player_size/2, player_size/2);
+
+    auto logic = Logic{};
+    //create spider
+    logic.create_spider();
+    auto spider_obj_iter = logic.spider_object_vector.begin();
+    //let the two game entities collide
+    auto new_spider_pos = player_sprite.getPosition();
+    (*spider_obj_iter) -> set_position(new_spider_pos);
+    new_spider_pos = (*spider_obj_iter) -> get_position();
+
+    auto col = Collision{};
+    auto isCollided = col.collision_detect(player_sprite.getPosition(),playerWidth,playerHeight,new_spider_pos,spiderWidth,spiderHeight);
+    CHECK(isCollided == true);
+
+
+}
 /*
 TEST_CASE("Centipede changes direction when encountered walls"){}
 
