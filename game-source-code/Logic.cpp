@@ -236,8 +236,8 @@ void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
         vector2f player_pos_;
         vector2f centipede_pos;
 
-        player_pos_.x = player_object.get_Xposition() - Tile_offset;
-        player_pos_.y = player_object.get_Yposition() - Tile_offset;
+        player_pos_.x = player_sprite.getPosition().x - Tile_offset;
+        player_pos_.y = player_sprite.getPosition().y - Tile_offset;
 
         centipede_pos.x = ((centipede_segment) ->get_position().x) - Tile_offset;
         centipede_pos.y = ((centipede_segment) ->get_position().y) - Tile_offset;
