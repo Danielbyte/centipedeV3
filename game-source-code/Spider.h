@@ -37,6 +37,9 @@ public:
     bool getIsHungry();
     float getSpider_lunch_time() const;
 
+    //For tests purposes
+    //void setToHungry();
+
 private:
     int xFastMovementSpeed;
     int xSlowMovementSpeed;
