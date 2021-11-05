@@ -284,13 +284,67 @@ TEST_CASE("Test if collision is detected between bullet and bomb")
 TEST_CASE("Test if bomb is marked for an explosion when it collides with a bullet")
 {
     auto logic = Logic{};
-    auto col = Collision{};
+    //auto col = Collision{};
     Texture bomb_texture;
     vector<shared_ptr<Sprite>>bullet_sprite;
     vector<shared_ptr<Sprite>>bomb_sprite_vector;
 
     //query the logic to create a bomb
     logic.create_bullet(bullet_sprite);
+
+    auto pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    bomb_sprite ->setTexture(bomb_texture);
+    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
+    bomb_sprite -> setPosition(pos);
+    bomb_sprite_vector.push_back(bomb_sprite);
+
+    //query the logic to create a bullet
+    logic.create_bullet(bullet_sprite);
+    auto bullet_iter = bullet_sprite.begin();
+    //set position of the bullet such that it collides with the bomb
+    (*bullet_iter) -> setPosition(pos);
+
+    //create dummy object sprites to pass in as parameters
+
+    //create a spider
+    vector<shared_ptr<Sprite>>spider_sprite;
+    //auto pos_ = logic.create_spider();
+
+    //create a centipede
+    vector<shared_ptr<Sprite>>centipede_sprite;
+
+    //create a scorpion sprite
+    vector<shared_ptr<Sprite>>scorpion_sprite;
+
+    //create a player sprite
+    Sprite player_sprite;
+
+    //create a flea sprite
+    vector<shared_ptr<Sprite>>flea_sprite;
+
+    //get reference to the bomb object
+    auto bomb_obj_iter = logic.vector_of_bomb_objects.begin();
+
+    //before explosion, bomb is not marked to explode
+    auto isMarked = (*bomb_obj_iter) -> getIfcanExplode();
+    CHECK(isMarked == false);
+    logic.collision_between_bullet_and_bomb(bullet_sprite,bomb_sprite_vector,spider_sprite,centipede_sprite,scorpion_sprite,
+                                            player_sprite,flea_sprite);
+
+    //after collision with bullet, the bomb should be marked for an explosion
+    isMarked = (*bomb_obj_iter) -> getIfcanExplode();
+    CHECK(isMarked == true);
+}
+
+TEST_CASE("Test if bullet is destroyed when it collides with a bomb")
+{
+    auto logic = Logic{};
+    auto col = Collision{};
+    Texture bomb_texture;
+    vector<shared_ptr<Sprite>>bullet_sprite;
+    vector<shared_ptr<Sprite>>bomb_sprite_vector;
 
     auto pos = logic.create_bomb();
     auto bomb_sprite = std::make_shared<Sprite>(Sprite());
@@ -324,18 +378,16 @@ TEST_CASE("Test if bomb is marked for an explosion when it collides with a bulle
     //create a flea sprite
     vector<shared_ptr<Sprite>>flea_sprite;
 
-    //get reference to the bomb object
-    auto bomb_obj_iter = logic.vector_of_bomb_objects.begin();
 
-    //before explosion, bomb is not marked to explode
-    auto isMarked = (*bomb_obj_iter) -> getIfcanExplode();
-    CHECK(isMarked == false);
+    //before explosion, there is one created bullet
+    auto size = bullet_sprite.size();
+    CHECK(size == 1);
     logic.collision_between_bullet_and_bomb(bullet_sprite,bomb_sprite_vector,spider_sprite,centipede_sprite,scorpion_sprite,
                                             player_sprite,flea_sprite);
 
-    //after collision with bullet, the bomb should be marked for an explosion
-    isMarked = (*bomb_obj_iter) -> getIfcanExplode();
-    CHECK(isMarked == true);
+    //after collision, bullet should be erased from vector
+    size = bullet_sprite.size();
+    CHECK(size == 0);
 }
 
 /*
