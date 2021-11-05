@@ -423,3 +423,41 @@ TEST_CASE("Test if mushroom is destroyed within Explosion radius")
     CHECK(isMushroom == false);
 
 }
+
+TEST_CASE("Test if spider is destroyed within Explosion radius")
+{
+    auto logic = Logic{};
+    auto bombcontr = DDTBombsController{};
+    Texture bomb_texture;
+    Texture spider_texture;
+    vector<shared_ptr<Sprite>>bomb_sprite_vector;
+    vector<shared_ptr<Sprite>>spider_sprite_vector;
+
+    //create bomb at random position
+    auto pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    bomb_sprite ->setTexture(bomb_texture);
+    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
+    bomb_sprite -> setPosition(pos);
+    bomb_sprite_vector.push_back(bomb_sprite);
+
+    //Create spider
+    vector2f pos_ = logic.create_spider();
+    auto spider_sprite = std::make_shared<Sprite>(Sprite());
+    if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
+    spider_sprite -> setOrigin(vector2f(0.f,0.f));
+    spider_sprite -> setTexture(spider_texture);
+    spider_sprite -> setPosition(pos_);
+    spider_sprite_vector.push_back(spider_sprite);
+
+    auto spider_iter = spider_sprite_vector.begin();
+    (*spider_iter) -> setPosition(pos);
+
+    auto bomb_iter = bomb_sprite_vector.begin();
+
+    int score = 5;
+    bombcontr.explosion_and_spider(*bomb_iter,logic.spider_object_vector,spider_sprite_vector, score);
+    auto size = spider_sprite_vector.size();
+    CHECK(size == 0);
+}
