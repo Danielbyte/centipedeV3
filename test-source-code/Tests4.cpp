@@ -52,7 +52,7 @@ TEST_CASE("Test if collision is detected between bullet and flea")
 TEST_CASE("Test if bullet is erased on collision with flea")
 {
     auto logic = Logic{};
-    auto col = Collision{};
+    //auto col = Collision{};
     Texture flea_texture;
     vector<shared_ptr<Sprite>>bullet_sprite;
     vector<shared_ptr<Sprite>>flea_sprite_vector;
@@ -80,7 +80,7 @@ TEST_CASE("Test if bullet is erased on collision with flea")
     //give this position to the bullet so that they collisde
     auto bullet_iter = bullet_sprite.begin();
     (*bullet_iter) -> setPosition(pos);
-    auto bulletPos = (*bullet_iter) -> getPosition();
+    //auto bulletPos = (*bullet_iter) -> getPosition();
 
     auto size = bullet_sprite.size();
     //One bullet present
@@ -95,7 +95,7 @@ TEST_CASE("Test if bullet is erased on collision with flea")
 TEST_CASE("Test if flea lives are decremented after shot")
 {
     auto logic = Logic{};
-    auto col = Collision{};
+    //auto col = Collision{};
     Texture flea_texture;
     vector<shared_ptr<Sprite>>bullet_sprite;
     vector<shared_ptr<Sprite>>flea_sprite_vector;
@@ -123,7 +123,7 @@ TEST_CASE("Test if flea lives are decremented after shot")
     //give this position to the bullet so that they collisde
     auto bullet_iter = bullet_sprite.begin();
     (*bullet_iter) -> setPosition(pos);
-    auto bulletPos = (*bullet_iter) -> getPosition();
+    //auto bulletPos = (*bullet_iter) -> getPosition();
 
     //flea lives before collision are max
     auto flea_lives = (*flea_obj_iter) -> get_flea_health();
@@ -138,7 +138,7 @@ TEST_CASE("Test if flea lives are decremented after shot")
 TEST_CASE("Test if flea speed doubles after one shot")
 {
     auto logic = Logic{};
-    auto col = Collision{};
+    //auto col = Collision{};
     Texture flea_texture;
     vector<shared_ptr<Sprite>>bullet_sprite;
     vector<shared_ptr<Sprite>>flea_sprite_vector;
@@ -166,7 +166,7 @@ TEST_CASE("Test if flea speed doubles after one shot")
     //give this position to the bullet so that they collisde
     auto bullet_iter = bullet_sprite.begin();
     (*bullet_iter) -> setPosition(pos);
-    auto bulletPos = (*bullet_iter) -> getPosition();
+    //auto bulletPos = (*bullet_iter) -> getPosition();
 
     //flea lives before collision are max
     auto flea_speed1 = (*flea_obj_iter) -> get_flea_speed();
@@ -180,7 +180,7 @@ TEST_CASE("Test if flea speed doubles after one shot")
 TEST_CASE("Test if flea is eliminated after two player shots")
 {
     auto logic = Logic{};
-    auto col = Collision{};
+    //auto col = Collision{};
     Texture flea_texture;
     vector<shared_ptr<Sprite>>bullet_sprite;
     vector<shared_ptr<Sprite>>flea_sprite_vector;
@@ -205,7 +205,7 @@ TEST_CASE("Test if flea is eliminated after two player shots")
     //update the flea twice
     logic.update_flea(flea_sprite_vector);
     logic.update_flea(flea_sprite_vector);
-    auto flea_obj_iter = logic.flea_object.begin();
+    //auto flea_obj_iter = logic.flea_object.begin();
     //get reference to the flea position
     auto flea_iter = flea_sprite_vector.begin();
     pos = (*flea_iter) -> getPosition();
@@ -247,6 +247,38 @@ TEST_CASE("Test if flea is eliminated after two player shots")
     //all bullets wiped
     size = bullet_sprite.size();
     CHECK(size == 0);
+
+}
+
+TEST_CASE("Test if collision is detected between bullet and bomb")
+{
+    auto logic = Logic{};
+    auto col = Collision{};
+    Texture bomb_texture;
+    vector<shared_ptr<Sprite>>bullet_sprite;
+    vector<shared_ptr<Sprite>>bomb_sprite_vector;
+
+    //query the logic to create a bomb
+    logic.create_bullet(bullet_sprite);
+    auto pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    bomb_sprite ->setTexture(bomb_texture);
+    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
+    bomb_sprite -> setPosition(pos);
+    bomb_sprite_vector.push_back(bomb_sprite);
+
+    //query the logic to create a bullet
+    logic.create_bullet(bullet_sprite);
+    auto bullet_iter = bullet_sprite.begin();
+    //set position of the bullet such that it collides with the bomb
+    (*bullet_iter) -> setPosition(pos);
+    auto bulletPos = (*bullet_iter) -> getPosition();
+    auto isCollided = col.collision_detect(bulletPos,bulletWidth,bulletHeight,pos,bomb1Width,bomb1Height);
+
+    //expect a collision
+    CHECK(isCollided == true);
+
 
 }
 
