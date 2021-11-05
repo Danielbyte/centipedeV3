@@ -7,6 +7,7 @@
 #include "../game-source-code/GameDataType.h"
 #include "../game-source-code/Logic.h"
 #include "../game-source-code/StopWatch.h"
+#include "../game-source-code/DDTBombsController.h"
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
@@ -390,11 +391,35 @@ TEST_CASE("Test if bullet is destroyed when it collides with a bomb")
     CHECK(size == 0);
 }
 
-/*
-TEST_CASE("Centipede changes direction when encountered walls"){}
+TEST_CASE("Test if mushroom is destroyed within Explosion radius")
+{
+    auto logic = Logic{};
+    auto bombcontr = DDTBombsController{};
+    Texture bomb_texture;
+    vector<shared_ptr<Sprite>>bomb_sprite_vector;
 
-TEST_CASE("Centipede can enter players box"){}
-TEST_CASE("Centipede moves up in the box")
-TEST_CASE("Centipede is bounded in players box"){}
+    //create bomb at random position
+    auto pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    bomb_sprite ->setTexture(bomb_texture);
+    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
+    bomb_sprite -> setPosition(pos);
+    bomb_sprite_vector.push_back(bomb_sprite);
 
-*/
+    auto mushField = logic.GetMushGridPtr();
+    //place mushroom at top left of bomb
+    int row = (int)((pos.y/offset));
+    int col = (int)((pos.x/offset));
+
+    mushField -> SpawnMushroomAt_position(row, col);
+
+    auto bomb_iter = bomb_sprite_vector.begin();
+    int score = 5;
+    bombcontr.explosion_and_mush(*bomb_iter, mushField,score);
+
+    //expect no mushroom at this position
+    auto isMushroom = mushField -> isMushroom(row, col);
+    CHECK(isMushroom == false);
+
+}

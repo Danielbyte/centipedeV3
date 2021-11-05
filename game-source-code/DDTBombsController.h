@@ -26,16 +26,18 @@ public:
                    vector<shared_ptr<Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<Sprite>>&,vector<shared_ptr<Scorpion>>&,
                    vector<shared_ptr<Sprite>>&,Player&,Sprite&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&, int&);
 
-private:
-    Collision collision;
-    vector2f pos;
-    bool canCreateBomb;
+//made public for test puropses
     void explosion_and_mush(shared_ptr<Sprite>&, shared_ptr<MushroomFieldController>&, int&);
     void explosion_and_spider(shared_ptr<Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<Sprite>>&, int&);
     void explosion_and_centipede(shared_ptr<Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<Sprite>>&, int &);
     void explosion_and_scorpion(shared_ptr<Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<Sprite>>&, int&);
     void explosion_and_player(shared_ptr<Sprite>&, Player&, Sprite&);
     void explosion_and_flea(shared_ptr<Sprite>&, vector<shared_ptr<Flea>>&, vector<shared_ptr<Sprite>>&, int&);
+
+private:
+    Collision collision;
+    vector2f pos;
+    bool canCreateBomb;
 
     //Quadrant collisions(General this one)
     bool fourth_quadrant_collisions(vector2f, float, float, vector2f, float, float, bool&);
