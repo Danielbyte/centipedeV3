@@ -7,7 +7,7 @@ Player::Player():
     playerMovingRight{false},
     player_size{16}, //pixel size of playerID
     player_center{8}, // of pplayerID
-    player_speed{4},
+    player_speed{2},
     y_position{504},
     x_position{240}, // Initial player position at bottom center
     isPlayerAlive{true}, //player initially alive
