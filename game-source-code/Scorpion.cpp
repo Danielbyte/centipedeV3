@@ -3,7 +3,7 @@
 
 Scorpion::Scorpion():
     scorpion_speed{2},
-    spawnScorpion_rate{5}, //spawn scorpion after 5 seconds
+    spawnScorpion_rate{8}, //spawn scorpion after 5 seconds
     canCreate_scorpion{false},
     counter{0},
     control{0}

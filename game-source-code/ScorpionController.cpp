@@ -73,21 +73,11 @@ vector2f ScorpionController::position_to_spawn_scorpion(const int control)
 {
     vector2f spawn_pos;
     spawn_pos.x = (30.f)*offset;
-    if (control == 0)
-    {
-        spawn_pos.y = 160.f;
-    }
+    //randomly generate y position keeping in mind that no spawn in player area
+    srand(time(0));
+    int min = 3;
+    int max = 20;
 
-    if (control == 1)
-    {
-        spawn_pos.y = 176.f;
-
-    }
-
-    if (control == 2)
-    {
-        spawn_pos.y = 208.f;
-    }
-
+    spawn_pos.y = (float)(((rand() % max) + min)*offset);
     return spawn_pos;
 }
