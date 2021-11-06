@@ -9,7 +9,10 @@ Spider::Spider():
     canSpawnSpider{false},
     isNew{true},
     lunch_time{5} //lunch time is 5 sec
-    {}
+    {
+        pos.x = -32;
+        pos.y = 0;
+    }
 
 void Spider::set_starting_direction(Direction dir)
 {

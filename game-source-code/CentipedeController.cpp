@@ -2,16 +2,24 @@
 
 CentipedeController::CentipedeController():
     playerArea_upBound{376}
-    {}
+{}
 
 void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centipede_objectVector,
-                                           vector<shared_ptr<Sprite>>& centipedeSprite_vector, shared_ptr<MushroomFieldController>& mushField)
+        vector<shared_ptr<Sprite>>& centipedeSprite_vector, shared_ptr<MushroomFieldController>& mushField)
 {
     auto centipedeObject_iter = centipede_objectVector.begin();
     auto centipedeSprite_iter = centipedeSprite_vector.begin();
-
     while (centipedeObject_iter != centipede_objectVector.end())
     {
+        if((centipedeObject_iter + 1) != centipede_objectVector.end())
+        {
+            auto pos = (((*(centipedeObject_iter +1))->get_position().x) - (*centipedeObject_iter)->get_position().x);
+            if((pos > 16) || (pos < -16))
+            {
+                (*(centipedeObject_iter + 1)) -> setHead(true);
+            }
+        }
+
         (*centipedeObject_iter) -> incrementCounter2();
 
         bool up_ = (*centipedeObject_iter) -> getUp();
