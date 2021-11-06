@@ -6,7 +6,6 @@ Logic::Logic():
     shotCent_segments{0}, //Number of shot segment pieces initially zero
     created_scorpion{false},
     canSpawnSpider{false},
-    control{0},
     score{0}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
@@ -148,85 +147,64 @@ void Logic::collision_between_mush_and_spider(bool isTest)
 
 void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
 {
-    vector2d player_pos;
-    vector2d mushroom_pos;
+    vector2f player_pos;
+    vector2f mushroom_pos;
     for (int row = 0; row < 32; row++)
     {
         for (int col =0; col < 30; col++)
         {
             if(mushField -> isMushroom(row, col))
             {
+                mushroom_pos.x = (float)(col*offset);
+                mushroom_pos.y = (float)(row*offset);
+
+                player_pos.x = player_object.get_Xposition() - Tile_offset;
+                player_pos.y = player_object.get_Yposition() - Tile_offset;
+
+                auto mush_left = (float)mushroom_pos.x;
+                auto mush_right = mush_left + mushWidth;
+                auto mush_top = mushroom_pos.y;
+                auto mush_bottom = mush_top + mushHeight;
+
+                //now time for the whole hulla balloo
                 auto isPlayerMovingUp = player_object.getPlayer_movement(Direction::Up);
                 auto isPlayerMovingDown = player_object.getPlayer_movement(Direction::Down);
                 auto isPlayerMovingRight = player_object.getPlayer_movement(Direction::Right);
                 auto isPlayerMovingLeft = player_object.getPlayer_movement(Direction::Left);
 
-                mushroom_pos.x = (float)(col*offset);
-                mushroom_pos.y = (float) (row*offset);
-
-                if (isPlayerMovingLeft)
+                auto isCollided = collision.collision_detect(player_pos,playerWidth,playerHeight,mushroom_pos,mushWidth,mushHeight);
+                if(isCollided && isPlayerMovingUp && ((player_object.get_Yposition()) >= mush_bottom))
                 {
-                    auto _offset = 10;
-                    player_pos.x = player_object.get_Xposition() - _offset;
+                    player_object.set_Yposition(mush_bottom + Tile_offset);
+                    isCollided = false;
+                    return;
                 }
 
-                else
+                if(isCollided && isPlayerMovingDown && ((player_object.get_Yposition()) <= mush_top))
                 {
-                    auto horizontal_offset = 9;
-                    player_pos.x = player_object.get_Xposition() - horizontal_offset;
+                    player_object.set_Yposition(mush_top - Tile_offset);
+                    return;
                 }
 
-                if (isPlayerMovingUp)
+                if(isCollided && isPlayerMovingLeft && ((player_object.get_Yposition()) <= mush_bottom &&
+                                                        ((player_object.get_Yposition()) >= mush_top)))
                 {
-                    auto _offset = 10;
-                    player_pos.y = player_object.get_Yposition() - _offset;
+                    player_object.set_Xposition(mush_right + Tile_offset);
+                    return;
                 }
 
-                else
+                if(isCollided && isPlayerMovingRight &&
+                   ((player_object.get_Yposition() <= mush_bottom) && (player_object.get_Yposition() >= mush_top)))
                 {
-                    auto _offset = 5;
-                    player_pos.y = player_object.get_Yposition() - _offset;
+                    player_object.set_Xposition(mush_left - Tile_offset);
+                    return;
                 }
 
-                auto isCollided = collision.CheckCollision(player_pos, player_size, mushroom_pos, mushroom_size);
-
-                auto PlayerLeftSide = player_pos.x;
-                auto PlayerRightSide = PlayerLeftSide + player_size;
-                auto PlayerTopSide = player_pos.y;
-                auto PlayerBottomSide = PlayerTopSide + player_size;
-
-                auto mushLeftSide = mushroom_pos.x;
-                auto mushRightSide = mushLeftSide + mushroom_size;
-                auto mushTopSide = mushroom_pos.y;
-                auto mushBottomSide = mushTopSide + mushroom_size;
-
-                if(isCollided)
-                {
-                    //std::cout << "Player collided with mush!!" << std::endl;
-                    //player_object.setPlayer_speed(0);
-                    /*if (isPlayerMovingRight)
-                    {
-
-                        player_sprite.setPosition(mushLeftSide - player_size, player_pos.y);
-                    }
-                    if (isPlayerMovingLeft)
-                    {
-                        player_sprite.setPosition(mushRightSide, player_pos.y);
-                    }
-                    if(isPlayerMovingDown)
-                    {
-                        player_sprite.setPosition(player_pos.x, mushTopSide - mushroom_size);
-                    }
-                    if(isPlayerMovingUp)
-                    {
-                        player_sprite.setPosition(player_pos.x, mushBottomSide);
-                    }*/
-                }
             }
         }
     }
-
 }
+
 
 void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
 {
@@ -645,7 +623,6 @@ void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
         centipede_objectVector.push_back(body_ptr);
         //std::cout << _ishead << std::endl;
         create_centipede(_ishead, bodySegmentsTo_spawn, CentipdeSprite_vector);
-        auto ptr = centipede_objectVector.begin();
     }
 }
 
@@ -673,13 +650,8 @@ int Logic::getKilled_segments() const
 vector2f Logic::create_scorpion()
 {
     auto scorpion_object = std::make_shared<Scorpion>();
-    auto _pos = control_scorpion.position_to_spawn_scorpion(control);
+    auto _pos = control_scorpion.position_to_spawn_scorpion();
     (scorpion_object) -> set_position(_pos);
-    control++;
-    if(control > 2)
-    {
-        control = 0;
-    }
     scorpion_object_vector.push_back(scorpion_object);
     return _pos;
 }

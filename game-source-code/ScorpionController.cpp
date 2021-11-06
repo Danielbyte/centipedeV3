@@ -69,7 +69,7 @@ void ScorpionController::poison_mushroom(vector2f pos_, shared_ptr<MushroomField
     }
 }
 
-vector2f ScorpionController::position_to_spawn_scorpion(const int control)
+vector2f ScorpionController::position_to_spawn_scorpion()
 {
     vector2f spawn_pos;
     spawn_pos.x = (30.f)*offset;
