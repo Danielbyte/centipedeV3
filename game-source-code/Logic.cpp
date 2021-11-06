@@ -645,6 +645,7 @@ void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
         centipede_objectVector.push_back(body_ptr);
         //std::cout << _ishead << std::endl;
         create_centipede(_ishead, bodySegmentsTo_spawn, CentipdeSprite_vector);
+        auto ptr = centipede_objectVector.begin();
     }
 }
 
