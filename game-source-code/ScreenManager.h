@@ -6,6 +6,7 @@
 #include "MushroomField.h"
 #include "Spider.h"
 #include "ScoreManager.h"
+#include "mushroomFieldController.h"
 
 class ScreenManager
 {
@@ -32,6 +33,10 @@ class ScreenManager
     vector <shared_ptr<Sprite>> bulletSprites_vector;
     vector <shared_ptr<Sprite>> CentipedeSprite_vector;
     vector<shared_ptr<Sprite>> FleaSprite_vector;
+
+    shared_ptr<MushroomFieldController>getMushField() const;
+    Texture playerSprite_texture;
+    Sprite player_sprite;
 
     private:
         //Number of body segments to spawn after head
@@ -75,8 +80,8 @@ class ScreenManager
         Scoremanager score_manager;
 
         //game object sprites and textures
-        Texture playerSprite_texture;
-        Sprite player_sprite;
+
+
         Texture centipedeHead_texture;
 
         Texture flea_texture;

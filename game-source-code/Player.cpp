@@ -7,7 +7,7 @@ Player::Player():
     playerMovingRight{false},
     player_size{16}, //pixel size of playerID
     player_center{8}, // of pplayerID
-    player_speed{2},
+    player_speed{4},
     y_position{504},
     x_position{240}, // Initial player position at bottom center
     isPlayerAlive{true}, //player initially alive
@@ -15,10 +15,12 @@ Player::Player():
     player_image{"resources/player.png"}
 {}
 
-void Player::setPlayer_movement(Direction dir, bool isPressed)
+void Player::setPlayer_movement(Direction dir, bool isPressed, Sprite& player_sprite)
 {
     //get the player speed
     player_speed = getPlayer_speed();
+    Clock dt_clock;
+    auto dt = dt_clock.restart().asSeconds();
 
     switch(dir)
     {

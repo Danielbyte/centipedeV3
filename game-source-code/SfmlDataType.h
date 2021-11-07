@@ -18,6 +18,7 @@ using RectangleShape = sf::RectangleShape;
 using intRect = sf::IntRect;
 using FloatRect = sf::FloatRect;
 using RenderTarget = sf::RenderTarget;
+using Clock = sf::Clock;
 
 #endif // SFMLDATATYPES_H
 

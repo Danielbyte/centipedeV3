@@ -1,12 +1,17 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "GameDataType.h"
+#include "SfmlDataType.h"
+#include "mushroomFieldController.h"
+//#include "ScreenManager.h"
+//#include "Logic.h"
 
 class Player
 {
 public:
     Player();
-    void setPlayer_movement(Direction, bool);
+    void setPlayer_movement(Direction, bool, Sprite&);
+    void setPlayer_movement(Direction, Sprite&, sf::Time);
     bool getPlayer_movement(Direction) const;
 
     void set_Xposition(float);
