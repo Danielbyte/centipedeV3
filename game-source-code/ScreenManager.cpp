@@ -175,6 +175,8 @@ void ScreenManager::process_events()
 
 void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
 {
+
+
     if (shoot_timer < 2)
     {
         shoot_timer++;
@@ -186,22 +188,22 @@ void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
     {
         if(key == Keyboard::Up)
         {
-            logic.player_object.setPlayer_movement(Direction::Up, isPressed);
+            logic.player_object.setPlayer_movement(Direction::Up, isPressed, player_sprite);
         }
         else if(key == Keyboard::Down)
         {
             //player should move down
-            logic.player_object.setPlayer_movement(Direction::Down, isPressed);
+            logic.player_object.setPlayer_movement(Direction::Down, isPressed, player_sprite);
         }
         else if(key == Keyboard::Right)
         {
             //player should move right
-            logic.player_object.setPlayer_movement(Direction::Right, isPressed);
+            logic.player_object.setPlayer_movement(Direction::Right, isPressed, player_sprite);
         }
         else if(key == Keyboard::Left)
         {
             //player should move down
-            logic.player_object.setPlayer_movement(Direction::Left, isPressed);
+            logic.player_object.setPlayer_movement(Direction::Left, isPressed,player_sprite);
         }
         else if (key == Keyboard::Space && shoot_timer >= 2)
         {
@@ -267,7 +269,7 @@ void ScreenManager::update_game_entities()
     logic.update_player(player_sprite);
     logic.updateLaserShots(bulletSprites_vector);
     logic.update_centipede(CentipedeSprite_vector);
-    logic.collisionBetween_mushAndPlayer(player_sprite);
+    //logic.collisionBetween_mushAndPlayer(player_sprite);
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
     logic.collision_between_mush_and_spider(false);
     logic.collision_between_player_and_spider(player_sprite);
@@ -333,6 +335,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
     Sprite mushroomSprite;
     mushroomTexture.loadFromFile("resources/mushroom.png", intRect(0,0,16,16)); // crop off the first frame only.
     mushroomSprite.setTexture(mushroomTexture);
+    mushroomSprite.setOrigin(0.f,0.f);
 
     Texture mushroomTexture_;
     Sprite mushroomSprite_;
@@ -489,6 +492,11 @@ void ScreenManager::create_flea()
     flea_sprite -> setOrigin(vector2f(0.f,0.f));
     flea_sprite -> setPosition(pos);
     FleaSprite_vector.push_back(flea_sprite);
+}
+
+shared_ptr<MushroomFieldController> ScreenManager::getMushField() const
+{
+    return logic.GetMushGridPtr();
 }
 
 //Free up resources

@@ -196,6 +196,8 @@ private:
     StopWatch bomb_check;
 
     int score;
+    Direction dir;
+    Direction dir1;
 
 };
 

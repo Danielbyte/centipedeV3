@@ -163,7 +163,7 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
 
                 auto mush_left = (float)mushroom_pos.x;
                 auto mush_right = mush_left + mushWidth;
-                auto mush_top = mushroom_pos.y;
+                auto mush_top = mushroom_pos.y - 8;
                 auto mush_bottom = mush_top + mushHeight;
 
                 //now time for the whole hulla balloo
@@ -172,33 +172,86 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
                 auto isPlayerMovingRight = player_object.getPlayer_movement(Direction::Right);
                 auto isPlayerMovingLeft = player_object.getPlayer_movement(Direction::Left);
 
+                if(isPlayerMovingDown)
+                {
+                    dir1 = Direction::Down;
+                }
+                if(isPlayerMovingLeft)
+                {
+                    dir1 = Direction::Left;
+                }
+                if(isPlayerMovingRight)
+                {
+                    dir1 = Direction::Right;
+                }
+                if (isPlayerMovingUp)
+                {
+                    dir1 = Direction::Up;
+                }
+
+                auto speed = player_object.getPlayer_speed();
+
+                if((dir1 != dir) && (dir != Direction::unknown) && (speed == 0))
+                {
+                    std::cout << "new Direction!" << std::endl;
+                    player_object.setPlayer_speed(4);
+                    auto pos_y = player_pos.y;
+                    auto pos_x = player_pos.x;
+
+                    if (isPlayerMovingUp){player_object.set_Yposition(pos_y + Tile_offset - 4);}
+                    if(isPlayerMovingDown){player_object.set_Yposition(pos_y + Tile_offset + 4);}
+                    if(isPlayerMovingLeft){player_object.set_Xposition(pos_x + Tile_offset - 4);}
+                    if(isPlayerMovingRight){player_object.set_Xposition(pos_x + Tile_offset + 4);}
+                }
+
                 auto isCollided = collision.collision_detect(player_pos,playerWidth,playerHeight,mushroom_pos,mushWidth,mushHeight);
-                if(isCollided && isPlayerMovingUp && ((player_object.get_Yposition()) >= mush_bottom))
+                if(isCollided)
                 {
-                    player_object.set_Yposition(mush_bottom + Tile_offset);
-                    isCollided = false;
-                    return;
+                    if(isPlayerMovingDown)
+                    {
+                        dir = Direction::Down;
+                    }
+                    if(isPlayerMovingLeft)
+                    {
+                        dir = Direction::Left;
+                    }
+                    if(isPlayerMovingRight)
+                    {
+                        dir = Direction::Right;
+                    }
+                    if (isPlayerMovingUp)
+                    {
+                        dir = Direction::Up;
+                    }
+                    player_object.setPlayer_speed(0);
                 }
+                /* if(isCollided && isPlayerMovingUp && ((player_object.get_Yposition()) >= mush_bottom))
+                 {
+                     std::cout << "Collided" << std::endl;
+                     std::cout << mush_bottom << std::endl;
+                     player_object.set_Yposition(mush_bottom + Tile_offset);
+                     return;
+                 }
 
-                if(isCollided && isPlayerMovingDown && ((player_object.get_Yposition()) <= mush_top))
-                {
-                    player_object.set_Yposition(mush_top - Tile_offset);
-                    return;
-                }
+                 if(isCollided && isPlayerMovingDown && ((player_object.get_Yposition()) <= mush_top))
+                 {
+                     player_object.set_Yposition(mush_top - Tile_offset);
+                     return;
+                 }
 
-                if(isCollided && isPlayerMovingLeft && ((player_object.get_Yposition()) <= mush_bottom &&
-                                                        ((player_object.get_Yposition()) >= mush_top)))
-                {
-                    player_object.set_Xposition(mush_right + Tile_offset);
-                    return;
-                }
+                 if(isCollided && isPlayerMovingLeft && ((player_object.get_Yposition() + Tile_offset) <= mush_bottom ||
+                                                         ((player_object.get_Yposition() + Tile_offset) >= mush_top)))
+                 {
+                     player_object.set_Xposition(mush_right + Tile_offset);
+                     return;
+                 }
 
-                if(isCollided && isPlayerMovingRight &&
-                   ((player_object.get_Yposition() <= mush_bottom) && (player_object.get_Yposition() >= mush_top)))
-                {
-                    player_object.set_Xposition(mush_left - Tile_offset);
-                    return;
-                }
+                 if(isCollided && isPlayerMovingRight && ((player_object.get_Yposition() + Tile_offset) <= mush_bottom ||
+                                                         ((player_object.get_Yposition() + Tile_offset) >= mush_top)) )
+                 {
+                     player_object.set_Xposition(mush_left - Tile_offset);
+                     return;
+                 }*/
 
             }
         }
