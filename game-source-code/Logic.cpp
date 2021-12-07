@@ -8,7 +8,7 @@ Logic::Logic():
     canSpawnSpider{false},
     score{0}
 {
-    LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
+    LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 10.f));
     //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
     //centipedeSpeed = centipede_ptr ->getCentipede_speed();
     isHit = false;
@@ -29,13 +29,22 @@ void Logic::updateLaserShots(vector<shared_ptr<Sprite>>& bullet_vector)
     float laser_speed = LaserShots_object ->getLaser_speed();
     direction = LaserShots_object ->getBullet_direction();
 
+
     auto laserIterator = bullet_vector.begin();
     while (laserIterator != bullet_vector.end())
     {
         (*laserIterator) -> move(laser_speed*direction);
 
+        auto position = (*laserIterator) -> getPosition();
+        if (position.y < (-bullet_size/2))
+        {
+            bullet_vector.erase(laserIterator);
+            return;
+        }
+
         ++laserIterator;
     }
+
 }
 
 void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
@@ -198,10 +207,22 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
                     auto pos_y = player_pos.y;
                     auto pos_x = player_pos.x;
 
-                    if (isPlayerMovingUp){player_object.set_Yposition(pos_y + Tile_offset - 4);}
-                    if(isPlayerMovingDown){player_object.set_Yposition(pos_y + Tile_offset + 4);}
-                    if(isPlayerMovingLeft){player_object.set_Xposition(pos_x + Tile_offset - 4);}
-                    if(isPlayerMovingRight){player_object.set_Xposition(pos_x + Tile_offset + 4);}
+                    if (isPlayerMovingUp)
+                    {
+                        player_object.set_Yposition(pos_y + Tile_offset - 4);
+                    }
+                    if(isPlayerMovingDown)
+                    {
+                        player_object.set_Yposition(pos_y + Tile_offset + 4);
+                    }
+                    if(isPlayerMovingLeft)
+                    {
+                        player_object.set_Xposition(pos_x + Tile_offset - 4);
+                    }
+                    if(isPlayerMovingRight)
+                    {
+                        player_object.set_Xposition(pos_x + Tile_offset + 4);
+                    }
                 }
 
                 auto isCollided = collision.collision_detect(player_pos,playerWidth,playerHeight,mushroom_pos,mushWidth,mushHeight);
