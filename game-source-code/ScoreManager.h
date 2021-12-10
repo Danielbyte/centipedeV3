@@ -10,6 +10,7 @@ public:
 
     Scoremanager(){};
     int highScoreDisplay(int current_score);
+    void reset_high_score();
 
 private:
     int high_score;
