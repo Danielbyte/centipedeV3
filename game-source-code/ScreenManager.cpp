@@ -1,13 +1,15 @@
 #include "ScreenManager.h"
 ScreenManager::ScreenManager():
 
-    //quit_game{false},
-    //restart_game{false},
+    quit_game{false},
+    restart_game{false},
+    reset_high_score{false},
     bodiesToSpawn{11}, //spawn 11 body segments
     isPlaying{false},
     window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
     isGameOver{false}
+
 {
     initialize_screen();
     initialize_player();
@@ -97,41 +99,41 @@ void ScreenManager::run()
 
 void ScreenManager::draw_game_entities()
 {
-                window.draw(player_sprite);
+    window.draw(player_sprite);
 
-            for (auto& centipede_segments : CentipedeSprite_vector) // draw centipede (only the head for now)
-            {
-                window.draw(*centipede_segments);
-            }
+    for (auto& centipede_segments : CentipedeSprite_vector) // draw centipede (only the head for now)
+    {
+        window.draw(*centipede_segments);
+    }
 
-            for (auto& bullet : bulletSprites_vector) // draw bullets on screen
-            {
-                //(bullet) ->Draw(_window);
-                window.draw(*bullet);
-            }
-            //draw scorpion
-            for (auto& scorpion_ : scorpion_sprite_vector)
-            {
-                window.draw(*scorpion_);
-            }
+    for (auto& bullet : bulletSprites_vector) // draw bullets on screen
+    {
+        //(bullet) ->Draw(_window);
+        window.draw(*bullet);
+    }
+    //draw scorpion
+    for (auto& scorpion_ : scorpion_sprite_vector)
+    {
+        window.draw(*scorpion_);
+    }
 
-            //output spider
-            for (auto& spider : spider_sprite_vector)
-            {
-                window.draw(*spider);
-            }
+    //output spider
+    for (auto& spider : spider_sprite_vector)
+    {
+        window.draw(*spider);
+    }
 
-            //draw bombs
-            for(auto& bomb : DDTBombs_spiteVector)
-            {
-                window.draw(*bomb);
-            }
+    //draw bombs
+    for(auto& bomb : DDTBombs_spiteVector)
+    {
+        window.draw(*bomb);
+    }
 
-            //draw flea
-            for(auto& flea : FleaSprite_vector)
-            {
-                window.draw(*flea);
-            }
+    //draw flea
+    for(auto& flea : FleaSprite_vector)
+    {
+        window.draw(*flea);
+    }
 }
 
 void ScreenManager::process_events()
@@ -144,15 +146,22 @@ void ScreenManager::process_events()
         case Event::KeyPressed:
             if(event.key.code == Keyboard::Escape)
             {
-                //quit_game = true;
+                quit_game = true;
                 window.close();
             }
 
-            //else if ((event.key.code == Keyboard::RShift && isGameOver) || (event.key.code == Keyboard::LShift && isGameOver))
-            //{
-                //restart_game = true;
-              //  window.close();
-            //}
+            else if ((event.key.code == Keyboard::RShift && isGameOver) || (event.key.code == Keyboard::LShift && isGameOver))
+            {
+                restart_game = true;
+                window.close();
+            }
+
+            else if(event.key.code == Keyboard::R && isGameOver)
+            {
+                reset_high_score = true;
+                window.close();
+            }
+
             else
                 keyboard_handling(event.key.code, true);
             break;
@@ -162,7 +171,7 @@ void ScreenManager::process_events()
             break;
 
         case Event::Closed:
-            //quit_game = true;
+            quit_game = true;
             window.close();
             break;
 

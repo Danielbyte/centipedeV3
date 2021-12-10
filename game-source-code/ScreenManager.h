@@ -37,6 +37,9 @@ class ScreenManager
     shared_ptr<MushroomFieldController>getMushField() const;
     Texture playerSprite_texture;
     Sprite player_sprite;
+    bool quit_game;
+    bool restart_game;
+    bool reset_high_score;
 
     private:
         //Number of body segments to spawn after head

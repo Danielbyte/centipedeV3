@@ -8,10 +8,10 @@ Logic::Logic():
     canSpawnSpider{false},
     score{0}
 {
-    LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 10.f));
+    LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
     //centipedeSpeed = centipede_ptr ->getCentipede_speed();
-    isHit = false;
+   // isHit = false;
 }
 
 void Logic::update_player(Sprite& player_sprite)
@@ -436,13 +436,13 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
                     score += bodyPoints;
                 }
                 laser.erase(iter2);
-                isHit = true;
+                //isHit = true;
                 return;
             }
-            else
-            {
-                isHit = false;
-            }
+           // else
+            //{
+             //   isHit = false;
+            //}
 
         }
         ++iter2;
@@ -871,7 +871,6 @@ void Logic::setSpiderToHungry(bool var)
 //free up resources
 Logic::~Logic()
 {
-    LaserShots_object.reset();
     centipede_objectVector.clear();
     spider_object_vector.clear();
     scorpion_object_vector.clear();

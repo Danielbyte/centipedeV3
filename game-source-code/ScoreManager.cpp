@@ -10,7 +10,7 @@ int Scoremanager::highScoreDisplay(int current_score)
     if(high_score_file.is_open())
     {
         high_score_file >> high_score;
-        if(high_score < current_score)
+        if(high_score <= current_score)
         {
             high_score = current_score;
         }
@@ -25,4 +25,16 @@ int Scoremanager::highScoreDisplay(int current_score)
 
     output.close();
     return high_score;
+}
+
+void Scoremanager::reset_high_score()
+{
+    high_score_file.open("resources/Highscore.txt");
+    high_score = 0;
+    high_score_file >> high_score;
+
+    high_score_file.close();
+    output.open("resources/Highscore.txt");
+    output << high_score;
+    output.close();
 }
