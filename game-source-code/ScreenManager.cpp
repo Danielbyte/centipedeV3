@@ -159,7 +159,7 @@ void ScreenManager::process_events()
             else if(event.key.code == Keyboard::R && isGameOver)
             {
                 reset_high_score = true;
-                window.close();
+                //window.close();
             }
 
             else
@@ -476,7 +476,8 @@ void ScreenManager::update_game()
         window.clear();
         splash_screenDisplay.setString("YOU LOST!"
                                        "\nGAME OVER"
-                                       "\nPress Escape(Esc) key to quit");
+                                       "\nPress Escape(Esc) key to quit"
+                                       "\nPress R to reset highscore");
     }
 
     //if all centipede segments are killed, player wins
@@ -488,7 +489,8 @@ void ScreenManager::update_game()
         splash_screenDisplay.setFillColor(Color::Green);
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER"
-                                       "\nPress Escape(Esc) key to quit");
+                                       "\nPress Escape(Esc) key to quit"
+                                       "\nPress R to reset highscore");
     }
 }
 

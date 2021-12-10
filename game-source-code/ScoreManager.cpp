@@ -29,12 +29,14 @@ int Scoremanager::highScoreDisplay(int current_score)
 
 void Scoremanager::reset_high_score()
 {
-    high_score_file.open("resources/Highscore.txt");
     high_score = 0;
-    high_score_file >> high_score;
 
     high_score_file.close();
     output.open("resources/Highscore.txt");
-    output << high_score;
+    if(output.is_open())
+    {
+        output << high_score;
+    }
+
     output.close();
 }
