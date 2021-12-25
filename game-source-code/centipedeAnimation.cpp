@@ -1,5 +1,8 @@
 #include "centipedeAnimation.h"
 
+centipedeAnimation::centipedeAnimation()
+{}
+
 void centipedeAnimation::Animate(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& centipede_sprite)
 {
     auto loop_counter = centipede_ptr -> get_anime_loop();
