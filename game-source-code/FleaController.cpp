@@ -5,7 +5,7 @@ FleaController::FleaController():
 {}
 
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<Sprite>>& flea_sprite,
-                                 shared_ptr<MushroomFieldController>& mushField)
+                                 vector<shared_ptr<MushroomField>>& mushField)
 {
     //only going to have one flea per instance
     auto flea_sprite_iter = flea_sprite.begin();
@@ -30,41 +30,49 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
 
 }
 
-void FleaController::spawn_mushroom(vector2f position, shared_ptr<MushroomFieldController>& mushField)
+void FleaController::spawn_mushroom(vector2f position, vector<shared_ptr<MushroomField>>& mushField)
 {
-    //The position of the flea
-    int x = (int)(position.x/offset);
-    int y = (int)(position.y/offset);
-
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
-    if((mushField -> mushArray[y][x] == NULL) && (y != 0) && (y != 1))
+    bool isMushroom = false;
+    vector2f mushPosition;
+    for (auto& mushroom : mushField)
     {
-        auto random = (rand() % 100 + 1);
-        if (random <= flea_spawn_chance)
+        
+        mushPosition.y = mushroom->get_Ypos();
+        mushPosition.x = mushroom->get_Xpos();
+        if (mushPosition == position)
         {
-            mushField -> mushArray[y][x] = new MushroomField(y,x);
-            return;
+            isMushroom = true;
+            break;
         }
+    }
+    if (isMushroom)
+    {
+        return;
+    }
+    
+    auto random = (rand() % 100 + 1);
+    //The position of the flea
+    int x = (int)(position.x / offset);
+    int y = (int)(position.y / offset);
+    if (random <= flea_spawn_chance)
+    {
+        shared_ptr<MushroomField>newMushroom = std::make_shared<MushroomField>(MushroomField(x, y));
+        mushField.push_back(newMushroom);
     }
 }
 
-bool FleaController::set_if_can_spawn_flea(shared_ptr<MushroomFieldController>& mushField)
+bool FleaController::set_if_can_spawn_flea(vector<shared_ptr<MushroomField>>& mushField)
 {
     int mushrooms_in_player_area = 0;
-    for (auto row = 0; row < 32; row++)
+    for (auto& mushroom : mushField)
     {
-        for(auto col = 0; col < 30; col++)
+        auto player_upper_bound = 376;
+        if((mushroom->get_Ypos()) > player_upper_bound)
         {
-            auto player_upper_bound = 376;
-            if(row*offset > player_upper_bound)
-            {
-                //count all mushrooms within mushroom field
-                if(mushField -> mushArray[row][col] != NULL)
-                {
-                    ++mushrooms_in_player_area;
-                }
-            }
-        }
+             //count all mushrooms within mushroom field
+             ++mushrooms_in_player_area;             
+        }  
     }
 
     if (mushrooms_in_player_area < min_mushrooms)

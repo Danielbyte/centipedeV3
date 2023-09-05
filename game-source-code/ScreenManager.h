@@ -6,7 +6,6 @@
 #include "MushroomField.h"
 #include "Spider.h"
 #include "ScoreManager.h"
-#include "mushroomFieldController.h"
 
 class ScreenManager
 {
@@ -15,7 +14,7 @@ class ScreenManager
     ScreenManager();
     ~ScreenManager();
     void run();
-    void draw_mushrooms(const shared_ptr<MushroomFieldController>&);
+    void draw_mushrooms();
     void update_game();
     //bool quit_game;
     //bool restart_game;
@@ -33,8 +32,8 @@ class ScreenManager
     vector <shared_ptr<Sprite>> bulletSprites_vector;
     vector <shared_ptr<Sprite>> CentipedeSprite_vector;
     vector<shared_ptr<Sprite>> FleaSprite_vector;
+    vector<shared_ptr<MushroomField>> mushField;
 
-    shared_ptr<MushroomFieldController>getMushField() const;
     Texture playerSprite_texture;
     Sprite player_sprite;
     bool quit_game;

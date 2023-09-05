@@ -14,6 +14,7 @@ ScreenManager::ScreenManager():
     initialize_screen();
     initialize_player();
     create_enemy();
+    logic.create_mushrooms(mushField);
 }
 
 void ScreenManager::initialize_player()
@@ -251,7 +252,7 @@ void ScreenManager::update()
     }
 
     //query logic to spawn flea
-    auto canSpawnFlea = logic.getIfCanSpawnFlea();
+    auto canSpawnFlea = logic.getIfCanSpawnFlea(mushField);
     if(canSpawnFlea && (FleaSprite_vector.empty()))
     {
         //std::cout << "need to spawn flea!" << std::endl;
@@ -261,7 +262,7 @@ void ScreenManager::update()
     if(!FleaSprite_vector.empty())
     {
         //ask the logic to update flea
-        logic.update_flea(FleaSprite_vector);
+        logic.update_flea(FleaSprite_vector,mushField);
     }
 
 
@@ -272,26 +273,28 @@ void ScreenManager::update()
 
 void ScreenManager::update_game_entities()
 {
-    auto mushGridPtr = logic.GetMushGridPtr();
-    draw_mushrooms(mushGridPtr);
+    draw_mushrooms();
 
     logic.update_player(player_sprite);
     logic.updateLaserShots(bulletSprites_vector);
-    logic.update_centipede(CentipedeSprite_vector);
+    logic.update_centipede(CentipedeSprite_vector,mushField);
     //logic.collisionBetween_mushAndPlayer(player_sprite);
-    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector);
-    logic.collision_between_mush_and_spider(false);
+    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector,mushField);
+    logic.collision_between_mush_and_spider(false,mushField);
+
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
-                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,FleaSprite_vector);
+                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,
+                                            FleaSprite_vector,mushField);
+
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
     logic.collision_between_player_and_flea(player_sprite);
     logic.collision_between_centipede_and_player(player_sprite);
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
-    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector);
+    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField);
     logic.update_spider(spider_sprite_vector);
-    logic.update_scorpion(scorpion_sprite_vector);
+    logic.update_scorpion(scorpion_sprite_vector,mushField);
 }
 
 void ScreenManager::create_laserShots()
@@ -338,7 +341,7 @@ void ScreenManager::create_bomb()
     DDTBombs_spiteVector.push_back(bomb_sprite);
 }
 
-void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& MushGridPtr)
+void ScreenManager::draw_mushrooms()
 {
     Texture mushroomTexture;
     Sprite mushroomSprite;
@@ -350,31 +353,30 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
     Sprite mushroomSprite_;
 
 
-    for (int i = 0; i < 32; i++)
+    for (auto& mushroom : mushField)
     {
-        for (int j = 0; j < 30; j++)
-        {
-            if(MushGridPtr ->mushArray[i][j] != NULL)
-            {
-                auto mush_health = MushGridPtr ->mushArray[i][j] -> getMush_health();
-                auto isPoisoned = MushGridPtr ->mushArray[i][j] -> getIsPoisoned();
+                auto mush_health = mushroom->getMush_health();
+                auto isPoisoned = mushroom -> getIsPoisoned();
+                vector2f mushPosition;
+                mushPosition.x = mushroom->get_Xpos();
+                mushPosition.y = mushroom->get_Ypos();
                 if (isPoisoned == false)
                 {
                     if (mush_health == 4)
                     {
                         mushroomSprite.setOrigin(vector2f(0, 0));
                         mushroomSprite.setScale(1,1);
-                        mushroomSprite.setPosition(j*offset, i*offset);
+                        mushroomSprite.setPosition(mushPosition);
                         window.draw(mushroomSprite);
                     }
-                    //std::cout << "I'm a dying mush "<< mush_health<< std::endl;
+                    
                     if (mush_health == 3)
                     {
 
                         mushroomTexture_.loadFromFile("resources/mush1.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
                     if (mush_health == 2)
@@ -382,7 +384,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/mush2.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
 
@@ -391,7 +393,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/mush3.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
                 }
@@ -403,7 +405,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/pmush1.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
                     if (mush_health == 3)
@@ -412,7 +414,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/pmush2.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
                     if (mush_health == 2)
@@ -420,7 +422,7 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/pmush3.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
 
@@ -429,14 +431,14 @@ void ScreenManager::draw_mushrooms(const shared_ptr<MushroomFieldController>& Mu
                         mushroomTexture_.loadFromFile("resources/pmush4.png");
                         mushroomSprite_.setTexture(mushroomTexture_);
                         mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(j*offset, i*offset);
+                        mushroomSprite_.setPosition(mushPosition);
                         window.draw(mushroomSprite_);
                     }
 
                 }
 
-            }
-        }
+            
+        
     }
 }
 
@@ -505,11 +507,6 @@ void ScreenManager::create_flea()
     FleaSprite_vector.push_back(flea_sprite);
 }
 
-shared_ptr<MushroomFieldController> ScreenManager::getMushField() const
-{
-    return logic.GetMushGridPtr();
-}
-
 //Free up resources
 ScreenManager::~ScreenManager()
 {
@@ -519,5 +516,6 @@ ScreenManager::~ScreenManager()
     FleaSprite_vector.clear();
     scorpion_sprite_vector.clear();
     spider_sprite_vector.clear();
+    mushField.clear();
 }
 

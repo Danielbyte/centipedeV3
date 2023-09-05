@@ -2,7 +2,6 @@
 #define PLAYER_H
 #include "GameDataType.h"
 #include "SfmlDataType.h"
-#include "mushroomFieldController.h"
 //#include "ScreenManager.h"
 //#include "Logic.h"
 

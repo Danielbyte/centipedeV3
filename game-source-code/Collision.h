@@ -2,7 +2,6 @@
 #include "GameDataType.h"
 #include "Player.h"
 #include "MushroomField.h"
-#include "CentipedeHead.h"
 
 #ifndef COLLISION_H
 #define COLLISION_H

@@ -1,7 +1,7 @@
 #include "ScorpionController.h"
 
 void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<Sprite>>&scorpion_sprite,
-        shared_ptr<MushroomFieldController>& mushField)
+        vector<shared_ptr<MushroomField>>& mushField)
 {
     animate_scorpion(scorpionObj, scorpion_sprite);
     //only updating when scorpion has been created
@@ -59,14 +59,22 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     (*scorpionObj_iter)-> increment_counter();
 }
 
-void ScorpionController::poison_mushroom(vector2f pos_, shared_ptr<MushroomFieldController>& mushField)
+void ScorpionController::poison_mushroom(vector2f pos_, vector<shared_ptr<MushroomField>>& mushField)
 {
-    int xPos = (int)(pos_.x/offset);
-    int yPos = (int)(pos_.y/offset);
-    if(mushField ->isMushroom(yPos, xPos))
+    for (auto& mushroom : mushField)
     {
-        mushField -> mushArray[yPos][xPos] -> changeToPoison();
+        vector2f mushPosition;
+        mushPosition.x = mushroom->get_Xpos();
+        mushPosition.y = mushroom->get_Ypos();
+        auto isCollided = collision.collision_detect(mushPosition, mushWidth, mushHeight, pos_, scorpion_width,
+            scorpion_height);
+
+        if (isCollided)
+        {
+            mushroom->changeToPoison();
+        }
     }
+
 }
 
 vector2f ScorpionController::position_to_spawn_scorpion()

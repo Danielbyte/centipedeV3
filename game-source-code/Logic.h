@@ -6,9 +6,7 @@
 #include "GameDataType.h"
 #include "Player.h"
 #include "LaserShots.h"
-#include "CentipedeHead.h"
 #include "GameDataType.h"
-#include "MushroomFieldController.h"
 #include "Collision.h"
 #include "SfmlDataType.h"
 #include "Centipede.h"
@@ -34,18 +32,17 @@ public:
     void updateLaserShots(vector<shared_ptr<Sprite>>&);
     void create_centipede(bool, int, vector<shared_ptr<Sprite>>&);
     vector<shared_ptr<Centipede>>centipede_objectVector;
-    void update_centipede(vector<shared_ptr<Sprite>>&);
+    void update_centipede(vector<shared_ptr<Sprite>>&, vector<shared_ptr<MushroomField>>& mushField);
     //creates objects to be placed in the mushroom field.
-    void create_mushrooms();
     void CheckMovementAhead();
     Texture bomb_texture;
 
-    void collisionBetween_mushAndPlayer(Sprite&);
+    void collisionBetween_mushAndPlayer(Sprite&, vector<shared_ptr<MushroomField>>& mushField);
     Texture centipede_texture;
     Texture centipedeBody_texture;
-    shared_ptr<MushroomFieldController> GetMushGridPtr() const;
 
-    void collisionBetweenBulletsAndObjects(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
+    void collisionBetweenBulletsAndObjects(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
+        vector<shared_ptr<MushroomField>>& mushField);
 
     void create_bullet(vector<shared_ptr<Sprite>>&);
 
@@ -59,7 +56,7 @@ public:
 
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
-    void update_scorpion(vector<shared_ptr<Sprite>>&);
+    void update_scorpion(vector<shared_ptr<Sprite>>&, vector<shared_ptr<MushroomField>>& mushField);
 
     //spider watches
     StopWatch spider_watch;
@@ -72,7 +69,8 @@ public:
     vector2f create_spider();
 
     //collision between spider and mushroom
-    void collision_between_mush_and_spider(bool isTest); //isTest to denote if is game play or test coverage
+    //isTest to denote if is game play or test coverage
+    void collision_between_mush_and_spider(bool isTest,vector<shared_ptr<MushroomField>>& mushField); 
 
     //collision between player and Spider
     void collision_between_player_and_spider(Sprite&);
@@ -82,7 +80,8 @@ public:
 
     //collision between bomb and bullet
     void collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
-                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, Sprite&, vector<shared_ptr<Sprite>>&);
+                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&, Sprite&,
+                                           vector<shared_ptr<Sprite>>&, vector<shared_ptr<MushroomField>>&);
 
     //collisions between bullet and flea
     void collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
@@ -92,8 +91,10 @@ public:
 
     void collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
     void collision_between_centipede_and_player(Sprite&);
-    void collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&);
-    void delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>&);
+    void collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Sprite>>&,
+                                                vector<shared_ptr<MushroomField>>&);
+    void delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>&, 
+        vector<shared_ptr<MushroomField>>& mushField);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
@@ -103,9 +104,9 @@ public:
 
     void update_explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<Sprite>>&);
 
-    bool getIfCanSpawnFlea();
+    bool getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField);
     vector2f create_flea();
-    void update_flea(vector<shared_ptr<Sprite>>&);
+    void update_flea(vector<shared_ptr<Sprite>>&, vector<shared_ptr<MushroomField>>& mushField);
     vector<shared_ptr<Flea>>flea_object;
 
     int get_score() const;
@@ -114,6 +115,8 @@ public:
     float get_lunch_time();
     void set_lunch(float);
     void setSpiderToHungry(bool);
+
+    void create_mushrooms(vector<shared_ptr<MushroomField>>& mushField);
 
 private:
     //dummy variables for tests(to alter spider's lunch time);
@@ -139,10 +142,6 @@ private:
 
     //set centipede sprite movements and rotations
     void Movement(shared_ptr<Centipede>&, shared_ptr<Sprite>&);
-
-    // int counter;
-    //int centipedeSpeed;
-    shared_ptr <MushroomFieldController>mushField{new MushroomFieldController{}}; //access to mushroom field
 
     int playerArea_upBound;
     int centipedeAnimationCounter;
@@ -181,8 +180,6 @@ private:
     bool created_scorpion;
 
     void ChangeToPoison(vector2f);
-    float time;
-
     //a flag for spawning a spider
     bool canSpawnSpider;
 

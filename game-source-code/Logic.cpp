@@ -28,8 +28,7 @@ void Logic::updateLaserShots(vector<shared_ptr<Sprite>>& bullet_vector)
     vector2f direction;
     float laser_speed = LaserShots_object ->getLaser_speed();
     direction = LaserShots_object ->getBullet_direction();
-
-
+   
     auto laserIterator = bullet_vector.begin();
     while (laserIterator != bullet_vector.end())
     {
@@ -92,190 +91,175 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
     return;
 }
 
-void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector, 
+    vector<shared_ptr<MushroomField>>& mushField)
 {
     centipede_controller.update_centipede(centipede_objectVector,centipedeSprite_vector,mushField);
 }
 
-shared_ptr<MushroomFieldController> Logic::GetMushGridPtr() const
+void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
 {
-    return mushField;
+   int percentage_chance = 7;
+   srand(time(0));
+   for (auto row = 0; row < 32-2; row++)
+   {
+     for (auto col =0; col < 30; col++)
+     {
+         //generate a random number between 1 and 100
+         auto frequency = (rand() % 100) + 1;
+
+         if (frequency <= percentage_chance)
+         {
+             //Do nor spawn mushroom at this row for proper creation of cent
+            if((row != 0) && (row != 1))
+             {
+                shared_ptr<MushroomField>mushroom_ptr = std::make_shared<MushroomField>(MushroomField(col, row));
+                mushField.push_back(mushroom_ptr);
+             }
+
+         }
+     }
+   }
 }
 
-void Logic::collision_between_mush_and_spider(bool isTest)
+void Logic::collision_between_mush_and_spider(bool isTest,vector<shared_ptr<MushroomField>>& mushField)
 {
-    for (int row = 0; row < 32; row++)
+    auto mushroom_iter = mushField.begin();
+    while (mushroom_iter != mushField.end())
     {
-        for (int col = 0; col < 30; col++)
+        if (!spider_object_vector.empty())
         {
-            if (mushField -> isMushroom(row, col))
+            //This vector always contains one spider
+            auto spider_iter = spider_object_vector.begin();
+            vector2f mushPos;
+            vector2f spiderPos;
+            mushPos.x = (*mushroom_iter)->get_Xpos();
+            mushPos.y = (*mushroom_iter)->get_Ypos();
+
+            spiderPos = (*spider_iter)->get_position();
+            auto isCollided = collision.collision_detect(spiderPos, spiderWidth, spiderHeight, mushPos, mushWidth, mushHeight);
+            if (isCollided)
             {
-                if(!spider_object_vector.empty())
+                //Abuti spider should OCCASIONALLY chow SOME of the mushes
+                //execute the line below if it is not a test
+                auto lunch_time_ = (*spider_iter)->getSpider_lunch_time();
+                float luncheon;
+
+                //if it is actual game play
+                if (!isTest)
                 {
-                    //This vector always contains one spider
-                    auto spider_iter = spider_object_vector.begin();
-                    vector2f mushPos;
-                    vector2f spiderPos;
-                    mushPos.x = (float)(col*offset);
-                    mushPos.y = (float)(row*offset);
+                    spiderIsHungry = (*spider_iter)->getIsHungry();
+                    luncheon = lunch_time.getTimeElapsed();
+                }
+                else //if it is a test case
+                {
+                    luncheon = lunch_time.getTimeElapsed(dummy);
+                }
 
-                    spiderPos = (*spider_iter) -> get_position();
-                    auto isCollided = collision.collision_detect(spiderPos,spiderWidth,spiderHeight,mushPos,mushWidth,mushHeight);
-                    if(isCollided)
-                    {
-                        //Abuti spider should OCCASIONALLY chow SOME of the mushes
-                        //execute the line below if it is not a test
-                        auto lunch_time_ = (*spider_iter) -> getSpider_lunch_time();
-                        float luncheon;
-
-                        //if it is actual game play
-                        if (!isTest)
-                        {
-                            spiderIsHungry = (*spider_iter) -> getIsHungry();
-                            luncheon = lunch_time.getTimeElapsed();
-                        }
-                        else //if it is a test case
-                        {
-                            luncheon = lunch_time.getTimeElapsed(dummy);
-                        }
-
-                        if(spiderIsHungry && (luncheon >= lunch_time_))
-                        {
-                            lunch_time.restart();
-                            mushField ->mushArray[row][col] = NULL;
-                            return;
-                        }
-
-                    }
+                if (spiderIsHungry && (luncheon >= lunch_time_))
+                {
+                    lunch_time.restart();
+                    mushField.erase(mushroom_iter);
+                    return;
                 }
 
             }
         }
+        ++mushroom_iter;
     }
 }
 
-void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite)
+void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite,
+    vector<shared_ptr<MushroomField>>& mushField)
 {
     vector2f player_pos;
     vector2f mushroom_pos;
-    for (int row = 0; row < 32; row++)
+    auto mushroom_ptr = mushField.begin();
+    while (mushroom_ptr != mushField.end())
     {
-        for (int col =0; col < 30; col++)
+        mushroom_pos.x = (*mushroom_ptr)->get_Xpos(); //(float)(col * offset);
+        mushroom_pos.y = (*mushroom_ptr)->get_Ypos();//(float)(row * offset);
+
+        player_pos.x = player_object.get_Xposition() - Tile_offset;
+        player_pos.y = player_object.get_Yposition() - Tile_offset;
+
+        auto mush_left = (float)mushroom_pos.x;
+        auto mush_right = mush_left + mushWidth;
+        auto mush_top = mushroom_pos.y - 8;
+        auto mush_bottom = mush_top + mushHeight;
+
+        //now time for the whole hulla balloo
+        auto isPlayerMovingUp = player_object.getPlayer_movement(Direction::Up);
+        auto isPlayerMovingDown = player_object.getPlayer_movement(Direction::Down);
+        auto isPlayerMovingRight = player_object.getPlayer_movement(Direction::Right);
+        auto isPlayerMovingLeft = player_object.getPlayer_movement(Direction::Left);
+
+        if (isPlayerMovingDown)
         {
-            if(mushField -> isMushroom(row, col))
+            dir1 = Direction::Down;
+        }
+        if (isPlayerMovingLeft)
+        {
+            dir1 = Direction::Left;
+        }
+        if (isPlayerMovingRight)
+        {
+            dir1 = Direction::Right;
+        }
+        if (isPlayerMovingUp)
+        {
+            dir1 = Direction::Up;
+        }
+
+        auto speed = player_object.getPlayer_speed();
+
+        if ((dir1 != dir) && (dir != Direction::unknown) && (speed == 0))
+        {
+            std::cout << "new Direction!" << std::endl;
+            player_object.setPlayer_speed(4);
+            auto pos_y = player_pos.y;
+            auto pos_x = player_pos.x;
+
+            if (isPlayerMovingUp)
             {
-                mushroom_pos.x = (float)(col*offset);
-                mushroom_pos.y = (float)(row*offset);
-
-                player_pos.x = player_object.get_Xposition() - Tile_offset;
-                player_pos.y = player_object.get_Yposition() - Tile_offset;
-
-                auto mush_left = (float)mushroom_pos.x;
-                auto mush_right = mush_left + mushWidth;
-                auto mush_top = mushroom_pos.y - 8;
-                auto mush_bottom = mush_top + mushHeight;
-
-                //now time for the whole hulla balloo
-                auto isPlayerMovingUp = player_object.getPlayer_movement(Direction::Up);
-                auto isPlayerMovingDown = player_object.getPlayer_movement(Direction::Down);
-                auto isPlayerMovingRight = player_object.getPlayer_movement(Direction::Right);
-                auto isPlayerMovingLeft = player_object.getPlayer_movement(Direction::Left);
-
-                if(isPlayerMovingDown)
-                {
-                    dir1 = Direction::Down;
-                }
-                if(isPlayerMovingLeft)
-                {
-                    dir1 = Direction::Left;
-                }
-                if(isPlayerMovingRight)
-                {
-                    dir1 = Direction::Right;
-                }
-                if (isPlayerMovingUp)
-                {
-                    dir1 = Direction::Up;
-                }
-
-                auto speed = player_object.getPlayer_speed();
-
-                if((dir1 != dir) && (dir != Direction::unknown) && (speed == 0))
-                {
-                    std::cout << "new Direction!" << std::endl;
-                    player_object.setPlayer_speed(4);
-                    auto pos_y = player_pos.y;
-                    auto pos_x = player_pos.x;
-
-                    if (isPlayerMovingUp)
-                    {
-                        player_object.set_Yposition(pos_y + Tile_offset - 4);
-                    }
-                    if(isPlayerMovingDown)
-                    {
-                        player_object.set_Yposition(pos_y + Tile_offset + 4);
-                    }
-                    if(isPlayerMovingLeft)
-                    {
-                        player_object.set_Xposition(pos_x + Tile_offset - 4);
-                    }
-                    if(isPlayerMovingRight)
-                    {
-                        player_object.set_Xposition(pos_x + Tile_offset + 4);
-                    }
-                }
-
-                auto isCollided = collision.collision_detect(player_pos,playerWidth,playerHeight,mushroom_pos,mushWidth,mushHeight);
-                if(isCollided)
-                {
-                    if(isPlayerMovingDown)
-                    {
-                        dir = Direction::Down;
-                    }
-                    if(isPlayerMovingLeft)
-                    {
-                        dir = Direction::Left;
-                    }
-                    if(isPlayerMovingRight)
-                    {
-                        dir = Direction::Right;
-                    }
-                    if (isPlayerMovingUp)
-                    {
-                        dir = Direction::Up;
-                    }
-                    player_object.setPlayer_speed(0);
-                }
-                /* if(isCollided && isPlayerMovingUp && ((player_object.get_Yposition()) >= mush_bottom))
-                 {
-                     std::cout << "Collided" << std::endl;
-                     std::cout << mush_bottom << std::endl;
-                     player_object.set_Yposition(mush_bottom + Tile_offset);
-                     return;
-                 }
-
-                 if(isCollided && isPlayerMovingDown && ((player_object.get_Yposition()) <= mush_top))
-                 {
-                     player_object.set_Yposition(mush_top - Tile_offset);
-                     return;
-                 }
-
-                 if(isCollided && isPlayerMovingLeft && ((player_object.get_Yposition() + Tile_offset) <= mush_bottom ||
-                                                         ((player_object.get_Yposition() + Tile_offset) >= mush_top)))
-                 {
-                     player_object.set_Xposition(mush_right + Tile_offset);
-                     return;
-                 }
-
-                 if(isCollided && isPlayerMovingRight && ((player_object.get_Yposition() + Tile_offset) <= mush_bottom ||
-                                                         ((player_object.get_Yposition() + Tile_offset) >= mush_top)) )
-                 {
-                     player_object.set_Xposition(mush_left - Tile_offset);
-                     return;
-                 }*/
-
+                player_object.set_Yposition(pos_y + Tile_offset - 4);
+            }
+            if (isPlayerMovingDown)
+            {
+                player_object.set_Yposition(pos_y + Tile_offset + 4);
+            }
+            if (isPlayerMovingLeft)
+            {
+                player_object.set_Xposition(pos_x + Tile_offset - 4);
+            }
+            if (isPlayerMovingRight)
+            {
+                player_object.set_Xposition(pos_x + Tile_offset + 4);
             }
         }
+
+        auto isCollided = collision.collision_detect(player_pos, playerWidth, playerHeight, mushroom_pos, mushWidth, mushHeight);
+        if (isCollided)
+        {
+            if (isPlayerMovingDown)
+            {
+                dir = Direction::Down;
+            }
+            if (isPlayerMovingLeft)
+            {
+                dir = Direction::Left;
+            }
+            if (isPlayerMovingRight)
+            {
+                dir = Direction::Right;
+            }
+            if (isPlayerMovingUp)
+            {
+                dir = Direction::Up;
+            }
+            player_object.setPlayer_speed(0);
+        }
+        ++mushroom_ptr;
     }
 }
 
@@ -358,7 +342,8 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
     }
 }
 
-void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser, 
+    vector<shared_ptr<Sprite>>& centipedeSprite_vector, vector<shared_ptr<MushroomField>>& mushField)
 {
     vector2f bulletPos;
     vector2f objectPos;
@@ -366,42 +351,36 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
     while (laserIter != laser.end())
     {
         //collision between  bullet and mushroom
-        for (int row = 0; row < 32; row++)
+        auto mushroom_ptr = mushField.begin();
+        while (mushroom_ptr != mushField.end())
         {
-            for (int col = 0; col < 30; col++)
+            objectPos.x = (*mushroom_ptr)->get_Xpos();
+            objectPos.y = (*mushroom_ptr)->get_Ypos();
+            bulletPos.x = ((*laserIter)->getPosition().x) - bullet_offset;
+            bulletPos.y = ((*laserIter)->getPosition().y) - Tile_offset;
+            auto MushCollidedWith_bullet = collision.collision_detect(objectPos, mushWidth,
+                mushHeight, bulletPos, bulletWidth, bulletHeight);
+
+            if (MushCollidedWith_bullet)
             {
-                if (mushField -> isMushroom(row, col))
+
+                (*mushroom_ptr)->decrementMush_health();
+                if (((*mushroom_ptr)->getMush_health()) == 0)
                 {
-                    objectPos.x = col*offset;
-                    objectPos.y = row*offset;
-                    bulletPos.x = ((*laserIter) -> getPosition().x) - bullet_offset;
-                    bulletPos.y = ((*laserIter) -> getPosition().y) - Tile_offset;
-                    auto MushCollidedWith_bullet = collision.collision_detect(objectPos,mushWidth,mushHeight,bulletPos,bulletWidth,bulletHeight);
-                    if (MushCollidedWith_bullet)
-                    {
-
-                        mushField -> mushArray[row][col] -> decrementMush_health();
-                        if ((mushField -> mushArray[row][col] -> getMush_health()) == 0)
-                        {
-                            //std::cout << "Dead"<<std::endl;
-                            mushField -> mushArray[row][col] = NULL;
-                            score += mushroomPoints;
-                        }
-
-                        if( laserIter != laser.end())
-                        {
-                            laser.erase(laserIter);
-                            return;
-                        }
-                    }
+                    mushField.erase(mushroom_ptr);
+                    score += mushroomPoints;
+                    laser.erase(laserIter);
+                    return;
                 }
             }
-        }
+            ++mushroom_ptr;
+        }                
         ++laserIter;
     }
 }
 
-void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector,
+    vector<shared_ptr<MushroomField>>& mushField)
 {
     //collision between bullet and centipede
     auto iter2 = laser.begin();
@@ -447,11 +426,12 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
         }
         ++iter2;
     }
-    delete_segment_and_spawn_mushroom(centipedeSprite_vector);
+    delete_segment_and_spawn_mushroom(centipedeSprite_vector, mushField);
 
 }
 
-void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centipedeSprite_vector,
+    vector<shared_ptr<MushroomField>>& mushField)
 {
     //Time to delete dead segment
     //This is the part where we get to to spawn a mushroom
@@ -480,15 +460,11 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
             int newYpos = (int)(posToSpawnMushroom.y/offset);
 
             //spawn mushroom.
-            mushField -> SpawnMushroomAt_position(newYpos, newXpos);
+            shared_ptr<MushroomField>mushroom=std::make_shared<MushroomField>(MushroomField
+            (newXpos, newYpos));
+       
             centipede_objectVector.erase(centObject_iter);
             centipedeSprite_vector.erase(centSprite_iter);
-            //error handling if there are no bullets
-            /*  if (!laser.empty())
-              {
-                  laser.erase(laserIter_);
-                  return;
-              }*/
         }
         else
         {
@@ -617,7 +593,8 @@ void Logic::collision_between_player_and_flea(Sprite& player_sprite)
 
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
         vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
-        vector<shared_ptr<Sprite>>& scorpion_sprite, Sprite& player_sprite, vector<shared_ptr<Sprite>>& flea_sprite)
+        vector<shared_ptr<Sprite>>& scorpion_sprite, Sprite& player_sprite, vector<shared_ptr<Sprite>>& flea_sprite,
+    vector<shared_ptr<MushroomField>>& mushField)
 {
     //First we need to have bombs on the field
     auto bullet_sprite_iter = bullet_sprite.begin();
@@ -748,7 +725,7 @@ bool Logic::canSpawn_scorpion()
     return scorpion.getIfCanSpawn_scorpion();
 }
 
-void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion)
+void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion, vector<shared_ptr<MushroomField>>& mushField)
 {
     //only update if we have a scorpion
     if (!scorpion.empty())
@@ -817,16 +794,15 @@ bool Logic::getIfCanSpawnBomb()
 
 vector2f Logic::create_bomb()
 {
-    bomb_controller.generate_position(mushField);
+    bomb_controller.generate_position();
     auto pos_ = bomb_controller.getGeneratedPosition();
     auto bomb_object = std::make_shared<DDTBombs>();
     bomb_object -> set_position(pos_);
     vector_of_bomb_objects.push_back(bomb_object);
-    //std::cout << "bomb Xpos: " << pos_.x << " bomb Ypos: " << pos_.y <<std::endl;
     return pos_;
 }
 
-bool Logic::getIfCanSpawnFlea()
+bool Logic::getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField)
 {
     auto canSpawnFlea = flea_control.set_if_can_spawn_flea(mushField);
     return canSpawnFlea;
@@ -842,7 +818,7 @@ vector2f Logic::create_flea()
     return pos_;
 }
 
-void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite)
+void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite, vector<shared_ptr<MushroomField>>& mushField)
 {
     flea_control.update_flea(flea_object,flea_sprite,mushField);
 }
@@ -875,7 +851,6 @@ Logic::~Logic()
     spider_object_vector.clear();
     scorpion_object_vector.clear();
     flea_object.clear();
-    mushField.reset();
     LaserShots_object.reset();
     vector_of_bomb_objects.clear();
 }
