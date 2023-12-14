@@ -61,11 +61,19 @@ void CentipedeController::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr
     vector2f mushPosition;
     bool isMushroom = false;
     auto isPoisoned = false;
+    auto left = centipede_ptr->getLeft();
+
     for (auto& mushroom : mushField)
     {
         mushPosition.x = mushroom->get_Xpos();
         mushPosition.y = mushroom->get_Ypos();
-        if (mushPosition == pos_)
+
+        vector2f myPos = pos_;
+        myPos.y = pos_.y - Tile_offset;
+
+        if (left) myPos.x = pos_.x - offset;
+
+        if (mushPosition == myPos)
         {
             isMushroom = true;
             isPoisoned = mushroom->getIsPoisoned();

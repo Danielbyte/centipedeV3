@@ -101,7 +101,7 @@ void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
 {
    int percentage_chance = 7;
    srand(time(0));
-   for (auto row = 0; row < 32-2; row++)
+   for (auto row = 2; row < 32-2; row++)
    {
      for (auto col =0; col < 30; col++)
      {
@@ -110,7 +110,7 @@ void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
 
          if (frequency <= percentage_chance)
          {
-             //Do nor spawn mushroom at this row for proper creation of cent
+             //Do not spawn mushroom at this row for proper creation of centipede
             if((row != 0) && (row != 1))
              {
                 shared_ptr<MushroomField>mushroom_ptr = std::make_shared<MushroomField>(MushroomField(col, row));
