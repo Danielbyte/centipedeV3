@@ -458,6 +458,7 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
             //spawn mushroom.
             shared_ptr<MushroomField>mushroom=std::make_shared<MushroomField>(MushroomField
             (newXpos, newYpos));
+            mushField.push_back(mushroom);
        
             centipede_objectVector.erase(centObject_iter);
             centipedeSprite_vector.erase(centSprite_iter);
