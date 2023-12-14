@@ -110,13 +110,8 @@ void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
 
          if (frequency <= percentage_chance)
          {
-             //Do not spawn mushroom at this row for proper creation of centipede
-          
-             
                 shared_ptr<MushroomField>mushroom_ptr = std::make_shared<MushroomField>(MushroomField(col, row));
                 mushField.push_back(mushroom_ptr);
-             
-
          }
      }
    }
@@ -369,9 +364,10 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
                 {
                     mushField.erase(mushroom_ptr);
                     score += mushroomPoints;
-                    laser.erase(laserIter);
-                    return;
                 }
+
+                laser.erase(laserIter);
+                return;
             }
             ++mushroom_ptr;
         }                
