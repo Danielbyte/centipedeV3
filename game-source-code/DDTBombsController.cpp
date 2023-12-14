@@ -6,7 +6,7 @@ DDTBombsController::DDTBombsController():
 
 void DDTBombsController::setIfCanCreateBomb()
 {
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     //generate a random number between 1 and 100
     auto decider1 = (rand() % 100) + 1;
 
@@ -36,8 +36,8 @@ void DDTBombsController::generate_position()
     auto row = (rand() % 20) + 6;
     auto col =(rand() % 20) + 6;
 
-    pos.x = col*offset;
-    pos.y = row*offset;
+    pos.x = (float)col*offset;
+    pos.y = (float)row*offset;
 }
 
 vector2f DDTBombsController::getGeneratedPosition() const

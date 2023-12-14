@@ -82,7 +82,7 @@ vector2f ScorpionController::position_to_spawn_scorpion()
     vector2f spawn_pos;
     spawn_pos.x = (30.f)*offset;
     //randomly generate y position keeping in mind that no spawn in player area
-    srand(time(0));
+    srand((unsigned int)time(0));
     int min = 3;
     int max = 20;
 

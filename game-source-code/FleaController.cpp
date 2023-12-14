@@ -93,7 +93,7 @@ vector2f FleaController::generate_spawn_position()
     //spawn from the top
     position.y = 0;
 
-    position.x = (rand() % max)*offset;
+    position.x = (float)((rand() % max)*offset);
 
     return position;
 }

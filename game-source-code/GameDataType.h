@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
+#include <ctime>
 
 const auto windowWidth = 480ul;
 const auto windowHeight = 512ul;

@@ -1,9 +1,9 @@
 #include "SpiderController.h"
 
 SpiderController::SpiderController():
-    spider_speed{1},
-    left_pos{-(Tile_offset)},
-    right_pos{488},
+    spider_speed{1.0f},
+    left_pos{(float) - (Tile_offset)},
+    right_pos{488.0f},
     spawn_height{376},
     max_pos{376},
     min_pos{496},

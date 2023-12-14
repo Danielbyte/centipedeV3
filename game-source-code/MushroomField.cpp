@@ -4,8 +4,8 @@ MushroomField::MushroomField(int row, int col):
     mushroom_health{4}, //mushroom health initially = 4
     isPoisoned{false} //mushroom initially not poisoned
     {
-        y_position = col*offset;
-        x_position = row*offset;
+        y_position = (float)(col*offset);
+        x_position = (float)(row*offset);
     }
 
 float MushroomField::get_Xpos()

@@ -35,7 +35,7 @@ int Scorpion::get_counter() const
     return counter;
 }
 
-int Scorpion::getScorpion_spawnRate() const
+float Scorpion::getScorpion_spawnRate() const
 {
     return spawnScorpion_rate;
 }

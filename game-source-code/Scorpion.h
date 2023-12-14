@@ -13,7 +13,7 @@ public:
     Scorpion();
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
-    int getScorpion_spawnRate() const;
+    float getScorpion_spawnRate() const;
     vector2f getScorpion_position() const;
 
     bool getIfOffScreen() const;

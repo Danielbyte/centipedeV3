@@ -25,13 +25,13 @@ private:
     std::queue<vector2f> movement_logic;
     vector2f logic_position;
 
-    int spider_speed;
+    float spider_speed;
     //initial left position of spider(if spawned left)
-    int left_pos;
+    float left_pos;
     //initial right position of spider (if spawned right)
-    int right_pos;
+    float right_pos;
     //height at which spider spawns
-    int spawn_height;
+    float spawn_height;
     //the highest point which spider can travel
     int max_pos;
     //lowest point which spider can travel

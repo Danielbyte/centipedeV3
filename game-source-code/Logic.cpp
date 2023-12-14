@@ -100,7 +100,7 @@ void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector,
 void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
 {
    int percentage_chance = 7;
-   srand(time(0));
+   srand((unsigned int)time(NULL));
    for (auto row = 2; row < 32-2; row++)
    {
      for (auto col =0; col < 30; col++)
