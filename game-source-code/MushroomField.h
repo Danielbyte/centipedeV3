@@ -24,9 +24,6 @@ public:
 private:
     float x_position;
     float y_position;
-   // MushroomFieldController* ptr;
-    float horizontalPos;
-    float verticalPos;
     int mushroom_health;
     //see if mushroom is poisoned
     bool isPoisoned;

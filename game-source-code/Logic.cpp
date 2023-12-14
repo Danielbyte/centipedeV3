@@ -111,11 +111,11 @@ void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushField)
          if (frequency <= percentage_chance)
          {
              //Do not spawn mushroom at this row for proper creation of centipede
-            if((row != 0) && (row != 1))
-             {
+          
+             
                 shared_ptr<MushroomField>mushroom_ptr = std::make_shared<MushroomField>(MushroomField(col, row));
                 mushField.push_back(mushroom_ptr);
-             }
+             
 
          }
      }
