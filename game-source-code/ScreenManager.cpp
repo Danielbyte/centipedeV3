@@ -196,6 +196,7 @@ void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
         isPlaying = true;
     if(isPlaying)
     {
+        window.setKeyRepeatEnabled(true);
         if(key == Keyboard::Up)
         {
             logic.player_object.setPlayer_movement(Direction::Up, isPressed, player_sprite);
@@ -217,6 +218,7 @@ void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
         }
         else if (key == Keyboard::Space && shoot_timer >= 2)
         {
+            window.setKeyRepeatEnabled(false);
             create_laserShots();
             shoot_timer = 0;
         }
