@@ -210,7 +210,6 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite,
 
         if ((dir1 != dir) && (dir != Direction::unknown) && (speed == 0))
         {
-            std::cout << "new Direction!" << std::endl;
             player_object.setPlayer_speed(4);
             auto pos_y = player_pos.y;
             auto pos_x = player_pos.x;
@@ -839,6 +838,15 @@ void Logic::set_lunch(float dummy)
 void Logic::setSpiderToHungry(bool var)
 {
     spiderIsHungry = var;
+}
+
+sf::Sprite Logic::getSegmentSprite(int index)
+{
+    auto _counter = centipede_objectVector.at(index)->get_anime_loop();
+    auto isHead = (centipede_objectVector.at(index))->getHead();
+    auto rotation = (centipede_objectVector.at(index))->getRotation();
+    sf::Vector2f segmentPosition = centipede_objectVector.at(index)->get_position();
+    return  (centipede_objectVector.at(index))->getSegmentSprite(segmentPosition,_counter,isHead, rotation);
 }
 
 //free up resources

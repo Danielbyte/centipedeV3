@@ -118,6 +118,8 @@ public:
 
     void create_mushrooms(vector<shared_ptr<MushroomField>>& mushField);
 
+    sf::Sprite getSegmentSprite(int index);
+
 private:
     //dummy variables for tests(to alter spider's lunch time);
     float dummy;

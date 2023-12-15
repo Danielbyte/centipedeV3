@@ -5,7 +5,7 @@ CentipedeController::CentipedeController():
 {}
 
 void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centipede_objectVector,
-        vector<shared_ptr<Sprite>>& centipedeSprite_vector, vector<shared_ptr<MushroomField>>& mushField)
+        vector<shared_ptr<Sprite>>& centipedeSprite_vector,vector<shared_ptr<MushroomField>>& mushField)
 {
     auto centipedeObject_iter = centipede_objectVector.begin();
     auto centipedeSprite_iter = centipedeSprite_vector.begin();
@@ -43,7 +43,7 @@ void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centip
         Movement((*centipedeObject_iter),(*centipedeSprite_iter));
         auto pos_ = (*centipedeObject_iter) -> get_position();
         (*centipedeSprite_iter) -> setPosition(pos_);
-        animation.Animate((*centipedeObject_iter), (*centipedeSprite_iter));
+        animation.Animate((*centipedeObject_iter));
 
         ++centipedeObject_iter;
         ++centipedeSprite_iter;
@@ -254,16 +254,21 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     auto right_ = centipede_ptr -> getRight();
     auto wasMovingLeft = centipede_ptr -> getWasMovingLeft();
     auto wasMovingRight = centipede_ptr -> getWasMovingRight();
+    centipede_ptr->setRotation(0.0f);
+    //std::cout << "Rot: " << centSprite_ptr->getRotation() << std::endl;
 
     if(down_)
     {
         if(wasMovingRight)
         {
-            centSprite_ptr -> rotate(22.5);
+            //centSprite_ptr -> rotate(22.5);
+            centipede_ptr->setRotation(22.5f);
+
         }
         else
         {
-            centSprite_ptr -> rotate(-22.5);
+            //centSprite_ptr -> rotate(-22.5);
+            centipede_ptr->setRotation(-22.5f);
         }
 
         centipede_ptr -> move_down();
@@ -273,11 +278,13 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     {
         if(wasMovingLeft)
         {
-            centSprite_ptr -> rotate(-22.5);
+            //centSprite_ptr -> rotate(-22.5);
+            centipede_ptr->setRotation(-22.5f);
         }
         else
         {
-            centSprite_ptr -> rotate(22.5);
+            //centSprite_ptr -> rotate(22.5);
+            centipede_ptr->setRotation(22.5f);
         }
 
         centipede_ptr -> move_up();

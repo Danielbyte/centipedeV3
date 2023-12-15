@@ -3,8 +3,9 @@
 
 #include "GameDataType.h"
 #include "SfmlDataType.h"
+#include "gameResources.h"
 
-class Centipede
+class Centipede : public GameResources
 {
 public:
     Centipede();
@@ -76,6 +77,9 @@ public:
     //set segment if hit by explosion
     void is_hit(bool);
 
+    void setRotation(float _rotation);
+    float getRotation() const;
+
 private:
     vector2f pos;
     int centipede_speed;
@@ -112,5 +116,6 @@ private:
     //mark segment if is hit by explosion
     bool isHit;
 
+    float rotation;
 };
 #endif // CENTIPEDE_H

@@ -9,7 +9,7 @@ class centipedeAnimation
 {
 public:
     centipedeAnimation();
-    void Animate (shared_ptr<Centipede>&, shared_ptr<Sprite>&);
+    void Animate (shared_ptr<Centipede>&);
     Texture segment_texture;
     Texture head_texture;
     private:

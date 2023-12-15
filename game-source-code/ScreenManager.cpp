@@ -101,10 +101,11 @@ void ScreenManager::run()
 void ScreenManager::draw_game_entities()
 {
     window.draw(player_sprite);
-
-    for (auto& centipede_segments : CentipedeSprite_vector) // draw centipede (only the head for now)
+    auto index = 0;
+    for (auto& centipede_segment : CentipedeSprite_vector) // draw centipede (only the head for now)
     {
-        window.draw(*centipede_segments);
+        window.draw(logic.getSegmentSprite(index));
+        ++index;
     }
 
     for (auto& bullet : bulletSprites_vector) // draw bullets on screen
@@ -348,13 +349,13 @@ void ScreenManager::draw_mushrooms()
 
     for (auto& mushroom : mushField)
     {
-                auto mush_health = mushroom->getMush_health();
-                auto isPoisoned = mushroom -> getIsPoisoned();
-                vector2f mushPosition;
-                mushPosition.x = mushroom->get_Xpos();
-                mushPosition.y = mushroom->get_Ypos();
+       auto mush_health = mushroom->getMush_health();
+       auto isPoisoned = mushroom -> getIsPoisoned();
+       vector2f mushPosition;
+       mushPosition.x = mushroom->get_Xpos();
+       mushPosition.y = mushroom->get_Ypos();
 
-                window.draw(game_resources->getMushroomSprite(mushPosition, isPoisoned, mush_health));
+       window.draw(game_resources->getMushroomSprite(mushPosition, isPoisoned, mush_health));
     }
 }
 
