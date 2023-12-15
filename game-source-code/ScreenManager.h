@@ -6,6 +6,7 @@
 #include "MushroomField.h"
 #include "Spider.h"
 #include "ScoreManager.h"
+#include "gameResources.h"
 
 class ScreenManager
 {
@@ -41,6 +42,8 @@ class ScreenManager
     bool reset_high_score;
 
     private:
+        std::shared_ptr<GameResources> game_resources = std::make_shared<GameResources>();
+
         //Number of body segments to spawn after head
         int bodiesToSpawn;
         //list <CentipedeHead> std::iterator it;
@@ -101,7 +104,7 @@ class ScreenManager
         //scorpion
         bool canSpawnScorpion;
         Texture scorpion_texture;
-
+      
         //spider
         Texture spider_texture;
 

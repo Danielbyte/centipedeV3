@@ -345,15 +345,6 @@ void ScreenManager::create_bomb()
 
 void ScreenManager::draw_mushrooms()
 {
-    Texture mushroomTexture;
-    Sprite mushroomSprite;
-    mushroomTexture.loadFromFile("resources/mushroom.png", intRect(0,0,16,16)); // crop off the first frame only.
-    mushroomSprite.setTexture(mushroomTexture);
-    mushroomSprite.setOrigin(0.f,0.f);
-
-    Texture mushroomTexture_;
-    Sprite mushroomSprite_;
-
 
     for (auto& mushroom : mushField)
     {
@@ -362,85 +353,8 @@ void ScreenManager::draw_mushrooms()
                 vector2f mushPosition;
                 mushPosition.x = mushroom->get_Xpos();
                 mushPosition.y = mushroom->get_Ypos();
-                if (isPoisoned == false)
-                {
-                    if (mush_health == 4)
-                    {
-                        mushroomSprite.setOrigin(vector2f(0, 0));
-                        mushroomSprite.setScale(1,1);
-                        mushroomSprite.setPosition(mushPosition);
-                        window.draw(mushroomSprite);
-                    }
-                    
-                    if (mush_health == 3)
-                    {
 
-                        mushroomTexture_.loadFromFile("resources/mush1.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-                    if (mush_health == 2)
-                    {
-                        mushroomTexture_.loadFromFile("resources/mush2.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-
-                    if (mush_health == 1)
-                    {
-                        mushroomTexture_.loadFromFile("resources/mush3.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-                }
-
-                if(isPoisoned)
-                {
-                    if (mush_health == 4)
-                    {
-                        mushroomTexture_.loadFromFile("resources/pmush1.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-                    if (mush_health == 3)
-                    {
-
-                        mushroomTexture_.loadFromFile("resources/pmush2.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-                    if (mush_health == 2)
-                    {
-                        mushroomTexture_.loadFromFile("resources/pmush3.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-
-                    if (mush_health == 1)
-                    {
-                        mushroomTexture_.loadFromFile("resources/pmush4.png");
-                        mushroomSprite_.setTexture(mushroomTexture_);
-                        mushroomSprite_.setOrigin(vector2f(0.f, 0.f));
-                        mushroomSprite_.setPosition(mushPosition);
-                        window.draw(mushroomSprite_);
-                    }
-
-                }
-
-            
-        
+                window.draw(game_resources->getMushroomSprite(mushPosition, isPoisoned, mush_health));
     }
 }
 
