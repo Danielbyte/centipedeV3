@@ -255,20 +255,22 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     auto wasMovingLeft = centipede_ptr -> getWasMovingLeft();
     auto wasMovingRight = centipede_ptr -> getWasMovingRight();
     centipede_ptr->setRotation(0.0f);
-    //std::cout << "Rot: " << centSprite_ptr->getRotation() << std::endl;
+
+    sf::Vector2f segmentPos = centipede_ptr->get_position();
+    auto isHead = centipede_ptr->getHead();
+    auto _counter = centipede_ptr->get_anime_loop();
+    centipede_ptr->getSegmentTexture(_counter, isHead, centSprite_ptr);
+    centSprite_ptr->setPosition(segmentPos);
 
     if(down_)
     {
         if(wasMovingRight)
         {
-            //centSprite_ptr -> rotate(22.5);
-            centipede_ptr->setRotation(22.5f);
-
+            centSprite_ptr->rotate(22.5f);
         }
         else
         {
-            //centSprite_ptr -> rotate(-22.5);
-            centipede_ptr->setRotation(-22.5f);
+            centSprite_ptr -> rotate(-22.5);
         }
 
         centipede_ptr -> move_down();
@@ -278,13 +280,12 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     {
         if(wasMovingLeft)
         {
-            //centSprite_ptr -> rotate(-22.5);
-            centipede_ptr->setRotation(-22.5f);
+            centSprite_ptr -> rotate(-22.5);
         }
         else
         {
-            //centSprite_ptr -> rotate(22.5);
-            centipede_ptr->setRotation(22.5f);
+            
+            centSprite_ptr -> rotate(22.5);
         }
 
         centipede_ptr -> move_up();

@@ -84,102 +84,98 @@ sf::Sprite GameResources::getMushroomSprite(sf::Vector2f mushroomPosition, bool 
 	}
 }
 
-sf::Sprite GameResources::getSegmentSprite(sf::Vector2f segmentPosition, int counter, bool isHead, float rotation)
+void GameResources::getSegmentTexture(int counter, bool isHead, shared_ptr<sf::Sprite>& segment_sprite)
 {
 	if (isHead)
 	{
-		centipedeHead_s.setPosition(segmentPosition);
-		centipedeHead_s.rotate(rotation);
 		switch (counter)
 		{
 		case 0:
 		case 1:
 		case 2:
-			centipedeHead_s.setTexture(head1_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head1_t);
+			break;
 		case 3:
 		case 4:
 		case 5:
-			centipedeHead_s.setTexture(head2_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head2_t);
+			break;
 		case 6:
 		case 7:
 		case 8:
-			centipedeHead_s.setTexture(head3_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head3_t);
+			break;
 		case 9:
 		case 10:
 		case 11:
-			centipedeHead_s.setTexture(head4_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head4_t);
+			break;
 		case 12:
 		case 13:
 		case 14:
-			centipedeHead_s.setTexture(head5_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head5_t);
+			break;
 		case 15:
 		case 16:
 		case 17:
-			centipedeHead_s.setTexture(head6_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head6_t);
+			break;
 		case 18:
 		case 19:
 		case 20:
-			centipedeHead_s.setTexture(head7_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head7_t);
+			break;
 		case 21:
-			centipedeHead_s.setTexture(head8_t);
-			return centipedeHead_s;
+			segment_sprite->setTexture(head8_t);
+			break;
 		default:
-			//return centipedeHead_s;
 			break;
 		}
+
+		return;
 	}
 
-	centipedeBody_s.setPosition(segmentPosition);
-	centipedeBody_s.rotate(rotation);
 	switch (counter)
 	{
 	case 0:
 	case 1:
 	case 2:
-		centipedeBody_s.setTexture(body1_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body1_t);
+		break;
 	case 3:
 	case 4:
 	case 5:
-		centipedeBody_s.setTexture(body2_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body2_t);
+		break;
 	case 6:
 	case 7:
 	case 8:
-		centipedeBody_s.setTexture(body3_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body3_t);
+		break;
 	case 9:
 	case 10:
 	case 11:
-		centipedeBody_s.setTexture(body4_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body4_t);
+		break;
 	case 12:
 	case 13:
 	case 14:
-		centipedeBody_s.setTexture(body5_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body5_t);
+		break;
 	case 15:
 	case 16:
 	case 17:
-		centipedeBody_s.setTexture(body6_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body6_t);
+		break;
 	case 18:
 	case 19:
 	case 20:
-		centipedeBody_s.setTexture(body7_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body7_t);
+		break;
 	case 21:
-		centipedeBody_s.setTexture(body8_t);
-		return centipedeBody_s;
+		segment_sprite->setTexture(body8_t);
+		break;
 	default:
-		//return centipedeBody_s;
 		break;
 	}
 }

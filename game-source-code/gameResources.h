@@ -10,7 +10,7 @@ class GameResources
 public:
 	GameResources();
 	sf::Sprite getMushroomSprite(sf::Vector2f mushroomPosition, bool isPoisoned, int mushroomHealth);
-	sf::Sprite getSegmentSprite(sf::Vector2f segmentPosition, int counter, bool isHead, float rotation);
+	void getSegmentTexture(int counter, bool isHead, shared_ptr<sf::Sprite>& segment_sprite);
 
 private:
 	void load_resources();

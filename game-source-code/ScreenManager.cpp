@@ -101,11 +101,10 @@ void ScreenManager::run()
 void ScreenManager::draw_game_entities()
 {
     window.draw(player_sprite);
-    auto index = 0;
+   
     for (auto& centipede_segment : CentipedeSprite_vector) // draw centipede (only the head for now)
     {
-        window.draw(logic.getSegmentSprite(index));
-        ++index;
+        window.draw(*centipede_segment);
     }
 
     for (auto& bullet : bulletSprites_vector) // draw bullets on screen

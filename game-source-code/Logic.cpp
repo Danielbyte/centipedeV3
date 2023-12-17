@@ -442,8 +442,6 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
             //if it is not the tail
             if (newCent_sprite != centipedeSprite_vector.end())
             {
-                (*newCent_sprite) -> setOrigin(vector2f(centipedeBody_size/2.f, centipedeBody_size/2.f));
-                (*newCent_sprite) -> setTexture(centipede_texture);
                 // set to head
                 auto body_segment_behind = (centObject_iter + 1);
                 (*body_segment_behind) -> setHead(true);
@@ -838,15 +836,6 @@ void Logic::set_lunch(float dummy)
 void Logic::setSpiderToHungry(bool var)
 {
     spiderIsHungry = var;
-}
-
-sf::Sprite Logic::getSegmentSprite(int index)
-{
-    auto _counter = centipede_objectVector.at(index)->get_anime_loop();
-    auto isHead = (centipede_objectVector.at(index))->getHead();
-    auto rotation = (centipede_objectVector.at(index))->getRotation();
-    sf::Vector2f segmentPosition = centipede_objectVector.at(index)->get_position();
-    return  (centipede_objectVector.at(index))->getSegmentSprite(segmentPosition,_counter,isHead, rotation);
 }
 
 //free up resources
