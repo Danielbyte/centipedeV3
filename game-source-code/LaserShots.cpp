@@ -14,7 +14,7 @@ void LaserShots::update()
     //this ->shape.move(this ->laserSpeed*this ->direction);
 }
 
-vector2f LaserShots::getBullet_direction() const
+sf::Vector2f LaserShots::getBullet_direction() const
 {
     return direction;
 }

@@ -40,7 +40,7 @@ float Scorpion::getScorpion_spawnRate() const
     return spawnScorpion_rate;
 }
 
-vector2f Scorpion::getScorpion_position() const
+sf::Vector2f Scorpion::getScorpion_position() const
 {
     return pos;
 }
@@ -55,7 +55,7 @@ float Scorpion::get_scorpion_speed() const
     return scorpion_speed;
 }
 
-void Scorpion::set_position(vector2f pos)
+void Scorpion::set_position(sf::Vector2f pos)
 {
     this -> pos = pos;
 }

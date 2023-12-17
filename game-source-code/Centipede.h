@@ -2,7 +2,6 @@
 #define CENTIPEDE_H
 
 #include "GameDataType.h"
-#include "SfmlDataType.h"
 #include "gameResources.h"
 
 class Centipede : public GameResources
@@ -14,11 +13,11 @@ public:
     void move_left();
     void move_up();
     void move_down();
-    void set_position(vector2f position);
-    void set_Xpos (vector2f position_);
-    void set_Ypos(vector2f _position);
+    void set_position(sf::Vector2f position);
+    void set_Xpos (sf::Vector2f position_);
+    void set_Ypos(sf::Vector2f);
     // get centipede piece position
-    vector2f get_position() const;
+    sf::Vector2f get_position() const;
 
     int getCentipede_speed () const;
 
@@ -81,7 +80,7 @@ public:
     float getRotation() const;
 
 private:
-    vector2f pos;
+    sf::Vector2f pos;
     int centipede_speed;
     bool head;
 

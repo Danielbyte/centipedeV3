@@ -2,7 +2,7 @@
 #define CENTIPEDEANIMATION_H
 
 #include "Centipede.h"
-#include "SfmlDataType.h"
+#include "gameResources.h"
 #include "GameDataType.h"
 
 class centipedeAnimation
@@ -10,8 +10,8 @@ class centipedeAnimation
 public:
     centipedeAnimation();
     void Animate (shared_ptr<Centipede>&);
-    Texture segment_texture;
-    Texture head_texture;
+    sf::Texture segment_texture;
+    sf::Texture head_texture;
     private:
 };
 #endif // CENTIPEDEANIMATION_H

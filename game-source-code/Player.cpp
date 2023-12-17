@@ -15,11 +15,11 @@ Player::Player():
     player_image{"resources/player.png"}
 {}
 
-void Player::setPlayer_movement(Direction dir, bool isPressed, Sprite& player_sprite)
+void Player::setPlayer_movement(Direction dir, bool isPressed, sf::Sprite& player_sprite)
 {
     //get the player speed
     player_speed = getPlayer_speed();
-    Clock dt_clock;
+    sf::Clock dt_clock;
     auto dt = dt_clock.restart().asSeconds();
 
     switch(dir)

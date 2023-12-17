@@ -4,7 +4,7 @@ FleaController::FleaController():
     min_mushrooms{5} //if there is less than 5 mushes in player area, call abuti flea
 {}
 
-void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<Sprite>>& flea_sprite,
+void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<sf::Sprite>>& flea_sprite,
                                  vector<shared_ptr<MushroomField>>& mushField)
 {
     //only going to have one flea per instance
@@ -30,11 +30,11 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
 
 }
 
-void FleaController::spawn_mushroom(vector2f position, vector<shared_ptr<MushroomField>>& mushField)
+void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<MushroomField>>& mushField)
 {
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
     bool isMushroom = false;
-    vector2f mushPosition;
+    sf::Vector2f mushPosition;
     for (auto& mushroom : mushField)
     {
         
@@ -86,10 +86,10 @@ bool FleaController::set_if_can_spawn_flea(vector<shared_ptr<MushroomField>>& mu
 
 }
 
-vector2f FleaController::generate_spawn_position()
+sf::Vector2f FleaController::generate_spawn_position()
 {
     int max = 29;
-    vector2f position;
+    sf::Vector2f position;
     //spawn from the top
     position.y = 0;
 
@@ -98,7 +98,7 @@ vector2f FleaController::generate_spawn_position()
     return position;
 }
 
-void FleaController::animate_flea(shared_ptr<Flea>& flea_obj_ptr, shared_ptr<Sprite>& flea_sprite_ptr)
+void FleaController::animate_flea(shared_ptr<Flea>& flea_obj_ptr, shared_ptr<sf::Sprite>& flea_sprite_ptr)
 {
     auto counter = flea_obj_ptr -> get_counter();
     if(counter == 0)

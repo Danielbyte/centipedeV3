@@ -22,10 +22,10 @@ Centipede::Centipede():
     rotation{0.0f}
     {
         //set the initial position of centipede
-        pos = vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
+        pos = sf::Vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
     }
 
-vector2f Centipede::get_position() const
+sf::Vector2f Centipede::get_position() const
 {
     return pos;
 }
@@ -54,17 +54,17 @@ void Centipede::move_up()
     pos.y -= centipede_speed;
 }
 
-void Centipede::set_position(vector2f position)
+void Centipede::set_position(sf::Vector2f position)
 {
     pos = position;
 }
 
-void Centipede::set_Xpos(vector2f position_)
+void Centipede::set_Xpos(sf::Vector2f position_)
 {
     pos.x = position_.x;
 }
 
-void Centipede::set_Ypos(vector2f _position)
+void Centipede::set_Ypos(sf::Vector2f _position)
 {
     pos.y = _position.y;
 }

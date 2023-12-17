@@ -1,16 +1,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "GameDataType.h"
-#include "SfmlDataType.h"
-//#include "ScreenManager.h"
-//#include "Logic.h"
+#include "gameResources.h"
 
 class Player
 {
 public:
     Player();
-    void setPlayer_movement(Direction, bool, Sprite&);
-    void setPlayer_movement(Direction, Sprite&, sf::Time);
+    void setPlayer_movement(Direction, bool, sf::Sprite&);
+    void setPlayer_movement(Direction, sf::Sprite&, sf::Time);
     bool getPlayer_movement(Direction) const;
 
     void set_Xposition(float);

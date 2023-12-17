@@ -5,7 +5,7 @@ CentipedeController::CentipedeController():
 {}
 
 void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centipede_objectVector,
-        vector<shared_ptr<Sprite>>& centipedeSprite_vector,vector<shared_ptr<MushroomField>>& mushField)
+        vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,vector<shared_ptr<MushroomField>>& mushField)
 {
     auto centipedeObject_iter = centipede_objectVector.begin();
     auto centipedeSprite_iter = centipedeSprite_vector.begin();
@@ -58,7 +58,7 @@ void CentipedeController::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr
     int newY = (int)(pos_.y/offset);
     auto wasGoingDown = centipede_ptr -> getWasMovingDown();
     auto wasGoingUp = centipede_ptr -> getWasMovingUp();
-    vector2f mushPosition;
+    sf::Vector2f mushPosition;
     bool isMushroom = false;
     auto isPoisoned = false;
     auto left = centipede_ptr->getLeft();
@@ -68,7 +68,7 @@ void CentipedeController::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr
         mushPosition.x = mushroom->get_Xpos();
         mushPosition.y = mushroom->get_Ypos();
 
-        vector2f myPos = pos_;
+        sf::Vector2f myPos = pos_;
         myPos.y = pos_.y - Tile_offset;
 
         if (left) myPos.x = pos_.x - offset;
@@ -246,7 +246,7 @@ void CentipedeController::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr
     }
 }
 
-void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<Sprite>& centSprite_ptr)
+void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_ptr<sf::Sprite>& centSprite_ptr)
 {
     auto down_ = centipede_ptr -> getDown();
     auto up_ = centipede_ptr -> getUp();

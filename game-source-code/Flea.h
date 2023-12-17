@@ -2,16 +2,16 @@
 #define FLEA_H
 
 #include "GameDataType.h"
-#include "SfmlDataType.h"
+#include "gameResources.h"
 
 class Flea
 {
 public:
     Flea();
-    vector2f get_position() const;
+    sf::Vector2f get_position() const;
     int get_flea_speed() const;
     void double_flea_speed();
-    void set_position(vector2f);
+    void set_position(sf::Vector2f);
     int get_flea_spawn_chance() const;
     void decrement_health();
     int get_flea_health() const;
@@ -26,7 +26,7 @@ public:
 
 private:
     int flea_speed;
-    vector2f pos;
+    sf::Vector2f pos;
     //health of flea
     int health;
     //the rate at which the flea will spawn a mushroom(i.e once in every 8 frames)

@@ -8,7 +8,7 @@ DDTBombs::DDTBombs():
 //zero bombs initially
 int DDTBombs::number_of_bombs = 0;
 
-vector2f DDTBombs::get_position() const
+sf::Vector2f DDTBombs::get_position() const
 {
     return pos;
 }
@@ -33,7 +33,7 @@ int DDTBombs::getNumberOfBombs() const
     return number_of_bombs;
 }
 
-void DDTBombs::set_position(vector2f pos_)
+void DDTBombs::set_position(sf::Vector2f pos_)
 {
     pos = pos_;
 }

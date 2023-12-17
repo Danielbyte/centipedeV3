@@ -46,7 +46,7 @@ bool Collision::isCollidedWithBullet(vector2d bulletPos, float bulletSize, vecto
     }
 }
 
-bool Collision::collision_detect(vector2f obj1Pos, float obj1Width, float obj1Height, vector2f obj2Pos, float obj2Width, float obj2Height)
+bool Collision::collision_detect(sf::Vector2f obj1Pos, float obj1Width, float obj1Height, sf::Vector2f obj2Pos, float obj2Width, float obj2Height)
 {
     //object 1 box
     auto left_side1 = obj1Pos.x;

@@ -1,7 +1,6 @@
 #ifndef SCORPION_H
 #define SCORPION_H
 
-#include "SfmlDataType.h"
 #include "StopWatch.h"
 #include "GameDataType.h"
 #include "Centipede.h"
@@ -14,18 +13,18 @@ public:
     void setIfCanSpawn_scorpion(bool var);
     bool getIfCanSpawn_scorpion() const;
     float getScorpion_spawnRate() const;
-    vector2f getScorpion_position() const;
+    sf::Vector2f getScorpion_position() const;
 
     bool getIfOffScreen() const;
     void reset_counter();
     void increment_counter();
     int get_counter() const;
     float get_scorpion_speed() const;
-    void set_position(vector2f);
+    void set_position(sf::Vector2f);
 
 
 private:
-    vector2f pos;
+    sf::Vector2f pos;
     float scorpion_speed;
     float spawnScorpion_rate;
 

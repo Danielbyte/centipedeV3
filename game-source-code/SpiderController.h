@@ -1,7 +1,6 @@
 #ifndef SPIDERCONTROLLER_H
 #define SPIDERCONTROLLER_H
 #include "Spider.h"
-#include "SfmlDataType.h"
 #include "GameDataType.h"
 #include <ctime>
 #include <queue>
@@ -11,8 +10,8 @@ class SpiderController
 public:
     SpiderController();
     ~SpiderController();
-    void update_spider(vector<shared_ptr<Sprite>>&, vector<shared_ptr<Spider>>&);
-    Texture spider_texture;
+    void update_spider(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<Spider>>&);
+    sf::Texture spider_texture;
 private:
 
     void move_up();
@@ -22,8 +21,8 @@ private:
     int selection;
 
     //queue to store the movement logic of spider(instructions/orders)
-    std::queue<vector2f> movement_logic;
-    vector2f logic_position;
+    std::queue<sf::Vector2f> movement_logic;
+    sf::Vector2f logic_position;
 
     float spider_speed;
     //initial left position of spider(if spawned left)
@@ -51,7 +50,7 @@ private:
     Direction direction;
 
     void delete_queue();
-    void Animate_spider(shared_ptr<Sprite>&, shared_ptr<Spider>&);
+    void Animate_spider(shared_ptr<sf::Sprite>&, shared_ptr<Spider>&);
 
 };
 #endif // SPIDERCONTROLLER_H

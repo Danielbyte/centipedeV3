@@ -40,17 +40,17 @@ void DDTBombsController::generate_position()
     pos.y = (float)row*offset;
 }
 
-vector2f DDTBombsController::getGeneratedPosition() const
+sf::Vector2f DDTBombsController::getGeneratedPosition() const
 {
     return pos;
 }
 
-void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<Sprite>>& bombSprite,
+void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<sf::Sprite>>& bombSprite,
                                    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<Spider>>& spiderObj,
-                                   vector<shared_ptr<Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
-                                   vector<shared_ptr<Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
-                                   vector<shared_ptr<Sprite>>& scorpion_sprite,Player& player_obj, Sprite& player_sprite,
-                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<Sprite>>& flea_sprite, int& _score)
+                                   vector<shared_ptr<sf::Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
+                                   vector<shared_ptr<sf::Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
+                                   vector<shared_ptr<sf::Sprite>>& scorpion_sprite,Player& player_obj, sf::Sprite& player_sprite,
+                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -118,15 +118,15 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
     }
 }
 
-void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite,
+void DDTBombsController::explosion_and_mush(shared_ptr<sf::Sprite>& bomb_sprite,
     vector<shared_ptr<MushroomField>>& mushField,int& _score)
 {
     auto mushroom_ptr = mushField.begin();
     while (mushroom_ptr != mushField.end())
     {
         //should kill mushroom within radious
-        vector2f mushPos;
-        vector2f explosion_pos = bomb_sprite->getPosition();
+        sf::Vector2f mushPos;
+        sf::Vector2f explosion_pos = bomb_sprite->getPosition();
         explosion_pos.x = explosion_pos.x;
         explosion_pos.y = explosion_pos.y;
         auto explosion_width = bomb_sprite->getGlobalBounds().width;
@@ -157,8 +157,8 @@ void DDTBombsController::explosion_and_mush(shared_ptr<Sprite>& bomb_sprite,
     }
 }
 
-void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Spider>>& spider_obj,
-        vector<shared_ptr<Sprite>>& spider_sprite, int& _score)
+void DDTBombsController::explosion_and_spider(shared_ptr<sf::Sprite>& bomb_sprite, vector<shared_ptr<Spider>>& spider_obj,
+        vector<shared_ptr<sf::Sprite>>& spider_sprite, int& _score)
 {
     //these vectors will either have one spider object/sprite nothing
     auto spiderObject_iter = spider_obj.begin();
@@ -166,8 +166,8 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
     if(!spider_obj.empty())
     {
         bool isCollided;
-        vector2f SpiderPos;
-        vector2f explosion_pos;
+        sf::Vector2f SpiderPos;
+        sf::Vector2f explosion_pos;
         SpiderPos = (*spiderSprite_iter) -> getPosition();
         explosion_pos = bomb_sprite -> getPosition();
         auto explosion_width = bomb_sprite -> getGlobalBounds().width;
@@ -211,14 +211,14 @@ void DDTBombsController::explosion_and_spider(shared_ptr<Sprite>& bomb_sprite, v
     return;
 }
 
-void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Centipede>>& centipede_obj,
-        vector<shared_ptr<Sprite>>& centipede_sprite, int& _score)
+void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sprite, vector<shared_ptr<Centipede>>& centipede_obj,
+        vector<shared_ptr<sf::Sprite>>& centipede_sprite, int& _score)
 {
     for(auto& segment : centipede_obj)
     {
         bool isCollided;
-        vector2f explosion_pos;
-        vector2f segment_pos;
+        sf::Vector2f explosion_pos;
+        sf::Vector2f segment_pos;
         segment_pos.x = (segment -> get_position().x) - Tile_offset;
         segment_pos.y = (segment -> get_position().y) - Tile_offset;
         explosion_pos = bomb_sprite -> getPosition();
@@ -312,16 +312,16 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<Sprite>& bomb_sprite
     }
 }
 
-void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,vector<shared_ptr<Scorpion>>& scorpionObj,
-        vector<shared_ptr<Sprite>>& scorpion_sprite, int& _score)
+void DDTBombsController::explosion_and_scorpion(shared_ptr<sf::Sprite>& bomb_sprite,vector<shared_ptr<Scorpion>>& scorpionObj,
+        vector<shared_ptr<sf::Sprite>>& scorpion_sprite, int& _score)
 {
     //only execute when we have a spider
     if(!scorpion_sprite.empty())
     {
 
         bool isCollided;
-        vector2f explosion_pos;
-        vector2f scorpion_pos;
+        sf::Vector2f explosion_pos;
+        sf::Vector2f scorpion_pos;
 
         //scorpion will always have on object
         auto scorpion_sprite_iter = scorpion_sprite.begin();
@@ -372,11 +372,11 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<Sprite>& bomb_sprite,
     return;
 }
 
-void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, Player& player_object, Sprite& player_sprite)
+void DDTBombsController::explosion_and_player(shared_ptr<sf::Sprite>& bomb_sprite, Player& player_object, sf::Sprite& player_sprite)
 {
     bool isCollided;
-    vector2f player_pos;
-    vector2f explosion_pos;
+    sf::Vector2f player_pos;
+    sf::Vector2f explosion_pos;
     explosion_pos = bomb_sprite -> getPosition();
     player_pos = player_sprite.getPosition();
     player_pos.x = player_pos.x - Tile_offset;
@@ -396,7 +396,7 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
         }
         else
         {
-            vector2f newPos;
+            sf::Vector2f newPos;
             player_object.set_Xposition(240.f);
             player_object.set_Yposition(376.f);
             newPos.x = player_object.get_Xposition();
@@ -417,7 +417,7 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
         }
         else
         {
-            vector2f newPos;
+            sf::Vector2f newPos;
             player_object.set_Xposition(240.f);
             player_object.set_Yposition(376.f);
             newPos.x = player_object.get_Xposition();
@@ -438,7 +438,7 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
         }
         else
         {
-            vector2f newPos;
+            sf::Vector2f newPos;
             player_object.set_Xposition(240.f);
             player_object.set_Yposition(376.f);
             newPos.x = player_object.get_Xposition();
@@ -459,7 +459,7 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
         }
         else
         {
-            vector2f newPos;
+            sf::Vector2f newPos;
             player_object.set_Xposition(240.f);
             player_object.set_Yposition(376.f);
             newPos.x = player_object.get_Xposition();
@@ -469,14 +469,14 @@ void DDTBombsController::explosion_and_player(shared_ptr<Sprite>& bomb_sprite, P
     }
 }
 
-void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vector<shared_ptr<Flea>>& flea_obj,
-        vector<shared_ptr<Sprite>>& flea_sprite,int& _score)
+void DDTBombsController::explosion_and_flea(shared_ptr<sf::Sprite>& bomb_sprite, vector<shared_ptr<Flea>>& flea_obj,
+        vector<shared_ptr<sf::Sprite>>& flea_sprite,int& _score)
 {
     if(!flea_sprite.empty())
     {
         bool isCollided;
-        vector2f flea_pos;
-        vector2f explosion_pos;
+        sf::Vector2f flea_pos;
+        sf::Vector2f explosion_pos;
         auto flea_sprite_iter = flea_sprite.begin();
         flea_pos = (*flea_sprite_iter) -> getPosition();
         explosion_pos = bomb_sprite -> getPosition();
@@ -524,8 +524,8 @@ void DDTBombsController::explosion_and_flea(shared_ptr<Sprite>& bomb_sprite, vec
 }
 
 //Quadrant collisions(general)
-bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
-        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+bool DDTBombsController::fourth_quadrant_collisions(sf::Vector2f obj1Pos, float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
 {
     obj2Width = obj2Width/2;
     obj2Height = obj2Height/2;
@@ -533,8 +533,8 @@ bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos, float obj1
     return isCollided;
 }
 
-bool DDTBombsController::third_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
-        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+bool DDTBombsController::third_quadrant_collisions(sf::Vector2f obj1Pos, float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
 {
     obj2Width = obj2Width/2;
     obj2Height = obj2Height/2;
@@ -543,8 +543,8 @@ bool DDTBombsController::third_quadrant_collisions(vector2f obj1Pos, float obj1W
     return isCollided;
 }
 
-bool DDTBombsController::second_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
-        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+bool DDTBombsController::second_quadrant_collisions(sf::Vector2f obj1Pos, float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
 {
     obj2Width = obj2Width/2;
     obj2Height = obj2Height/2;
@@ -554,8 +554,8 @@ bool DDTBombsController::second_quadrant_collisions(vector2f obj1Pos, float obj1
     return isCollided;
 }
 
-bool DDTBombsController::first_quadrant_collisions(vector2f obj1Pos, float obj1Width, float obj1Height,
-        vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
+bool DDTBombsController::first_quadrant_collisions(sf::Vector2f obj1Pos, float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos, float obj2Width, float obj2Height, bool& isCollided)
 {
     obj2Width = obj2Width/2;
     obj2Height = obj2Height/2;
@@ -565,8 +565,8 @@ bool DDTBombsController::first_quadrant_collisions(vector2f obj1Pos, float obj1W
 }
 
 //Quadrant collisions specific to mushrooms
-bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
+bool DDTBombsController::fourth_quadrant_collisions(sf::Vector2f obj1Pos,float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
 {
     bool isCollided;
     obj2Width = obj2Width/2;
@@ -580,8 +580,8 @@ bool DDTBombsController::fourth_quadrant_collisions(vector2f obj1Pos,float obj1W
     return isCollided;
 }
 
-bool DDTBombsController::third_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
+bool DDTBombsController::third_quadrant_collisions(sf::Vector2f obj1Pos,float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
 {
 
     bool isCollided;
@@ -597,8 +597,8 @@ bool DDTBombsController::third_quadrant_collisions(vector2f obj1Pos,float obj1Wi
     return isCollided;
 }
 
-bool DDTBombsController::second_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
+bool DDTBombsController::second_quadrant_collisions(sf::Vector2f obj1Pos,float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
 {
 
     bool isCollided;
@@ -615,8 +615,8 @@ bool DDTBombsController::second_quadrant_collisions(vector2f obj1Pos,float obj1W
     return isCollided;
 }
 
-bool DDTBombsController::first_quadrant_collisions(vector2f obj1Pos,float obj1Width, float obj1Height,
-        vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
+bool DDTBombsController::first_quadrant_collisions(sf::Vector2f obj1Pos,float obj1Width, float obj1Height,
+        sf::Vector2f obj2Pos,float obj2Width, float obj2Height,int& _score)
 {
 
     bool isCollided;

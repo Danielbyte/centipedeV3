@@ -2,7 +2,7 @@
 #define SPIDER_H
 
 #include "GameDataType.h"
-#include "SfmlDataType.h"
+#include "gameResources.h"
 #include <ctime>
 
 class Spider
@@ -25,13 +25,13 @@ public:
     void setIfCanSpawnSpider(bool);
     bool getIfCanSpawnSpider() const;
 
-    vector2f get_position() const;
+    sf::Vector2f get_position() const;
 
     void increment_counter();
     void reset_counter();
     int get_counter() const;
 
-    void set_position(vector2f);
+    void set_position(sf::Vector2f);
     bool getIsNew() const;
     void setToOld();
     bool getIsHungry();
@@ -45,7 +45,7 @@ private:
     int xSlowMovementSpeed;
     int yMovementSpeed;
     int counter;
-    vector2f pos;
+    sf::Vector2f pos;
     int spiderSpawnRate;
     Direction start_direction;
     bool canSpawnSpider;

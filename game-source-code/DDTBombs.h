@@ -1,17 +1,15 @@
 #ifndef DDTBOMBS_H
 #define DDTBOMBS_H
 
-#include "SfmlDataType.h"
+#include "gameResources.h"
 
 class DDTBombs
 {
 public:
     DDTBombs();
-    //define What happens at destruction of an object
-    //~DDTBombs();
 
-    vector2f get_position() const;
-    void set_position(vector2f);
+    sf::Vector2f get_position() const;
+    void set_position(sf::Vector2f);
     int getNumberOfBombs() const;
     void setExplosion(bool);
     bool getIfcanExplode() const;
@@ -19,7 +17,7 @@ public:
     int get_counter() const;
     void reset_counter();
 private:
-    vector2f pos;
+    sf::Vector2f pos;
     bool canExplode;
     //variable to create animations
     int counter;

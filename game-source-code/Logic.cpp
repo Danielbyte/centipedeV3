@@ -14,7 +14,7 @@ Logic::Logic():
    // isHit = false;
 }
 
-void Logic::update_player(Sprite& player_sprite)
+void Logic::update_player(sf::Sprite& player_sprite)
 {
     auto x = player_object.get_Xposition();
     auto y = player_object.get_Yposition();
@@ -22,10 +22,10 @@ void Logic::update_player(Sprite& player_sprite)
     player_sprite.setPosition(x,y);
 }
 
-void Logic::updateLaserShots(vector<shared_ptr<Sprite>>& bullet_vector)
+void Logic::updateLaserShots(vector<shared_ptr<sf::Sprite>>& bullet_vector)
 {
 
-    vector2f direction;
+    sf::Vector2f direction;
     float laser_speed = LaserShots_object ->getLaser_speed();
     direction = LaserShots_object ->getBullet_direction();
    
@@ -46,7 +46,7 @@ void Logic::updateLaserShots(vector<shared_ptr<Sprite>>& bullet_vector)
 
 }
 
-void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<shared_ptr<Sprite>>& centipedeSprite_vector)
+void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector)
 {
     isHead = _isHead;
     bodySegmentsTo_spawn = numbOfBody_segments;
@@ -60,11 +60,11 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
         centipede_objectVector.push_back(centipede_object);
 
         //Centipede Sprite setUp
-        auto centipede_sprite = std::make_shared<Sprite>(Sprite());
+        auto centipede_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
         if (!centipede_texture.loadFromFile("resources/centipede_head.png")) throw CouldNotLoadPicture{};
-        centipede_sprite -> setOrigin(vector2f(X_enemy_size/2.0f, Y_enemy_size/2.0f));
+        centipede_sprite -> setOrigin(sf::Vector2f(X_enemy_size/2.0f, Y_enemy_size/2.0f));
         centipede_sprite -> setTexture(centipede_texture);
-        centipede_sprite -> setTextureRect(intRect(0, 0, 16, 16));
+        centipede_sprite -> setTextureRect(sf::IntRect(0, 0, 16, 16));
         //auto index = centipede_objectVector.size() - 1; // get the position of centipede body/head segment
         centipede_sprite -> setPosition(pos);
         centipedeSprite_vector.push_back(centipede_sprite);
@@ -75,11 +75,11 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
     {
 
         //initialize body segment sprite
-        auto centipedeBody_sprite = std::make_shared<Sprite>(Sprite());
+        auto centipedeBody_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
         if(!centipedeBody_texture.loadFromFile("resources/centipede_body.png")) throw CouldNotLoadPicture{};
-        centipedeBody_sprite -> setOrigin(vector2f(centipedeBody_size/2.0f, centipedeBody_size/2.0f));
+        centipedeBody_sprite -> setOrigin(sf::Vector2f(centipedeBody_size/2.0f, centipedeBody_size/2.0f));
         centipedeBody_sprite -> setTexture(centipedeBody_texture);
-        centipedeBody_sprite -> setTextureRect(intRect(0,0,16,16));
+        centipedeBody_sprite -> setTextureRect(sf::IntRect(0,0,16,16));
         auto index = centipede_objectVector.size() - 1;
         //std::cout << index + 1 << std::endl;
         centipedeBody_sprite -> setPosition((centipede_objectVector).at(index) -> get_position());
@@ -91,7 +91,7 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
     return;
 }
 
-void Logic::update_centipede(vector<shared_ptr<Sprite>>& centipedeSprite_vector, 
+void Logic::update_centipede(vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector, 
     vector<shared_ptr<MushroomField>>& mushField)
 {
     centipede_controller.update_centipede(centipede_objectVector,centipedeSprite_vector,mushField);
@@ -126,8 +126,8 @@ void Logic::collision_between_mush_and_spider(bool isTest,vector<shared_ptr<Mush
         {
             //This vector always contains one spider
             auto spider_iter = spider_object_vector.begin();
-            vector2f mushPos;
-            vector2f spiderPos;
+            sf::Vector2f mushPos;
+            sf::Vector2f spiderPos;
             mushPos.x = (*mushroom_iter)->get_Xpos();
             mushPos.y = (*mushroom_iter)->get_Ypos();
 
@@ -164,11 +164,11 @@ void Logic::collision_between_mush_and_spider(bool isTest,vector<shared_ptr<Mush
     }
 }
 
-void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite,
+void Logic::collisionBetween_mushAndPlayer(sf::Sprite& player_sprite,
     vector<shared_ptr<MushroomField>>& mushField)
 {
-    vector2f player_pos;
-    vector2f mushroom_pos;
+    sf::Vector2f player_pos;
+    sf::Vector2f mushroom_pos;
     auto mushroom_ptr = mushField.begin();
     while (mushroom_ptr != mushField.end())
     {
@@ -258,13 +258,13 @@ void Logic::collisionBetween_mushAndPlayer(Sprite& player_sprite,
 }
 
 
-void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
+void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
 {
     //collision between player and centipede
     for (auto& centipede_segment : centipede_objectVector)
     {
-        vector2f player_pos_;
-        vector2f centipede_pos;
+        sf::Vector2f player_pos_;
+        sf::Vector2f centipede_pos;
 
         player_pos_.x = player_sprite.getPosition().x - Tile_offset;
         player_pos_.y = player_sprite.getPosition().y - Tile_offset;
@@ -279,14 +279,14 @@ void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
             //decrement player lives
             player_object.decrement_lives();
             //reset player position
-            vector2f playerPos;
+            sf::Vector2f playerPos;
             playerPos.x = 240;
             playerPos.y = 376 ;
             //update the player object position
             player_object.set_Xposition(playerPos.x);
             player_object.set_Yposition(playerPos.y);
             //Update the player sprite
-            player_sprite.setPosition(vector2f(playerPos));
+            player_sprite.setPosition(sf::Vector2f(playerPos));
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -299,10 +299,10 @@ void Logic::collision_between_centipede_and_player(Sprite& player_sprite)
     }
 }
 
-void Logic::collision_between_player_and_spider(Sprite& player_sprite)
+void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
 {
-    vector2f playePos;
-    vector2f spiderPos;
+    sf::Vector2f playePos;
+    sf::Vector2f spiderPos;
 
     playePos.x = player_object.get_Xposition() - Tile_offset;
     playePos.y = player_object.get_Yposition() - Tile_offset;
@@ -316,14 +316,14 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
         {
             player_object.decrement_lives();
             //reset player position
-            vector2f playerPos;
+            sf::Vector2f playerPos;
             playerPos.x = 16;
             playerPos.y = 504 ;
             //update the player object position
             player_object.set_Xposition(playerPos.x);
             player_object.set_Yposition(playerPos.y);
             //Update the player sprite
-            player_sprite.setPosition(vector2f(playerPos));
+            player_sprite.setPosition(sf::Vector2f(playerPos));
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -336,11 +336,11 @@ void Logic::collision_between_player_and_spider(Sprite& player_sprite)
     }
 }
 
-void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser, 
-    vector<shared_ptr<Sprite>>& centipedeSprite_vector, vector<shared_ptr<MushroomField>>& mushField)
+void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<sf::Sprite>>& laser, 
+    vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector, vector<shared_ptr<MushroomField>>& mushField)
 {
-    vector2f bulletPos;
-    vector2f objectPos;
+    sf::Vector2f bulletPos;
+    sf::Vector2f objectPos;
     auto laserIter = laser.begin();
     while (laserIter != laser.end())
     {
@@ -374,7 +374,7 @@ void Logic::collisionBetweenBulletsAndObjects (vector<shared_ptr<Sprite>>& laser
     }
 }
 
-void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& laser, vector<shared_ptr<Sprite>>& centipedeSprite_vector,
+void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>>& laser, vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,
     vector<shared_ptr<MushroomField>>& mushField)
 {
     //collision between bullet and centipede
@@ -383,8 +383,8 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
     {
         for (auto& centipedeObject : centipede_objectVector)
         {
-            vector2f bulletSprite_pos;
-            vector2f centipedeObject_pos;
+            sf::Vector2f bulletSprite_pos;
+            sf::Vector2f centipedeObject_pos;
 
             //current position of laser bullet
             bulletSprite_pos.x = ((*iter2) -> getPosition().x) - bullet_offset;
@@ -425,7 +425,7 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<Sprite>>& l
 
 }
 
-void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centipedeSprite_vector,
+void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,
     vector<shared_ptr<MushroomField>>& mushField)
 {
     //Time to delete dead segment
@@ -447,7 +447,7 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
                 (*body_segment_behind) -> setHead(true);
             }
             //capture position to spawn mushroom
-            vector2f posToSpawnMushroom;
+            sf::Vector2f posToSpawnMushroom;
             posToSpawnMushroom = (*centObject_iter) ->get_position();
             int newXpos = (int)(posToSpawnMushroom.x/offset);
             int newYpos = (int)(posToSpawnMushroom.y/offset);
@@ -469,7 +469,7 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<Sprite>>& centip
     }
 }
 
-void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet, vector<shared_ptr<Sprite>>& spider)
+void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bullet, vector<shared_ptr<sf::Sprite>>& spider)
 {
     auto spider_iter = spider_object_vector.begin();
     auto spiderSprite_iter = spider.begin();
@@ -478,8 +478,8 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
         auto bullet_iter = bullet.begin();
         while (bullet_iter != bullet.end())
         {
-            vector2f bulletPos;
-            vector2f spiderPos;
+            sf::Vector2f bulletPos;
+            sf::Vector2f spiderPos;
             bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
             bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
 
@@ -501,7 +501,7 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<Sprite>>& bullet,
     }
 }
 
-void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& flea_sprite)
+void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bullet_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite)
 {
 
     if(!flea_object.empty())
@@ -511,8 +511,8 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet
         auto bullet_iter = bullet_sprite.begin();
         while(bullet_iter != bullet_sprite.end())
         {
-            vector2f fleaPos;
-            vector2f bulletPos;
+            sf::Vector2f fleaPos;
+            sf::Vector2f bulletPos;
 
             bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
             bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
@@ -547,10 +547,10 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<Sprite>>& bullet
 
 }
 
-void Logic::collision_between_player_and_flea(Sprite& player_sprite)
+void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
 {
-    vector2f playePos;
-    vector2f fleaPos;
+    sf::Vector2f playePos;
+    sf::Vector2f fleaPos;
 
     playePos.x = player_object.get_Xposition() - Tile_offset;
     playePos.y = player_object.get_Yposition() - Tile_offset;
@@ -564,14 +564,14 @@ void Logic::collision_between_player_and_flea(Sprite& player_sprite)
         {
             player_object.decrement_lives();
             //reset player position
-            vector2f playerPos;
+            sf::Vector2f playerPos;
             playerPos.x = 16;
             playerPos.y = 504 ;
             //update the player object position
             player_object.set_Xposition(playerPos.x);
             player_object.set_Yposition(playerPos.y);
             //Update the player sprite
-            player_sprite.setPosition(vector2f(playerPos));
+            player_sprite.setPosition(sf::Vector2f(playerPos));
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -585,9 +585,9 @@ void Logic::collision_between_player_and_flea(Sprite& player_sprite)
 }
 
 
-void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet_sprite, vector<shared_ptr<Sprite>>& bomb_sprite,
-        vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Sprite>>& centipede_sprite,
-        vector<shared_ptr<Sprite>>& scorpion_sprite, Sprite& player_sprite, vector<shared_ptr<Sprite>>& flea_sprite,
+void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bullet_sprite, vector<shared_ptr<sf::Sprite>>& bomb_sprite,
+        vector<shared_ptr<sf::Sprite>>& spider_sprite, vector<shared_ptr<sf::Sprite>>& centipede_sprite,
+        vector<shared_ptr<sf::Sprite>>& scorpion_sprite, sf::Sprite& player_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite,
     vector<shared_ptr<MushroomField>>& mushField)
 {
     //First we need to have bombs on the field
@@ -596,8 +596,8 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
     {
         for (auto& bomb : vector_of_bomb_objects)
         {
-            vector2f bulletPos;
-            vector2f bombPos;
+            sf::Vector2f bulletPos;
+            sf::Vector2f bombPos;
             bulletPos.x = ((*bullet_sprite_iter) -> getPosition().x) - bullet_offset;
             bulletPos.y = ((*bullet_sprite_iter) -> getPosition().y) - Tile_offset;
 
@@ -623,7 +623,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<Sprite>>& bullet
     return;
 }
 
-void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>& bulletSpriteVector,vector<shared_ptr<Sprite>>& scorpion_sprite)
+void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>& bulletSpriteVector,vector<shared_ptr<sf::Sprite>>& scorpion_sprite)
 {
     auto scorpion_iter = scorpion_object_vector.begin();
     auto scorpion_sprite_iter = scorpion_sprite.begin();
@@ -632,8 +632,8 @@ void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>& bu
         auto bullet_iter = bulletSpriteVector.begin();
         while (bullet_iter != bulletSpriteVector.end())
         {
-            vector2f bulletPos;
-            vector2f scorpionPos;
+            sf::Vector2f bulletPos;
+            sf::Vector2f scorpionPos;
             bulletPos.x = ((*bullet_iter) -> getPosition().x) - bullet_offset;
             bulletPos.y = ((*bullet_iter) -> getPosition().y) - Tile_offset;
 
@@ -655,7 +655,7 @@ void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<Sprite>>& bu
     }
 }
 
-void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
+void Logic::spawn_behind(vector<shared_ptr<sf::Sprite>>& CentipdeSprite_vector)
 {
     //create a new centipede body object
     bool _ishead = false;
@@ -671,15 +671,15 @@ void Logic::spawn_behind(vector<shared_ptr<Sprite>>& CentipdeSprite_vector)
     }
 }
 
-void Logic::create_bullet(vector<shared_ptr<Sprite>>& bullet)
+void Logic::create_bullet(vector<shared_ptr<sf::Sprite>>& bullet)
 {
     //bullet object
-    vector2f bullet_pos;
+    sf::Vector2f bullet_pos;
     bullet_pos.x = player_object.get_Xposition();
     bullet_pos.y = player_object.get_Yposition() - Tile_offset;
 
     //bullet sprite setup
-    auto bullet_sprite = std::make_shared<Sprite>(Sprite());
+    auto bullet_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     if(!bullet_texture.loadFromFile("resources/bullet.png")) throw CouldNotLoadPicture{};
     bullet_sprite ->setTexture(bullet_texture);
     bullet_sprite ->setPosition(bullet_pos);
@@ -692,7 +692,7 @@ int Logic::getKilled_segments() const
     return shotCent_segments;
 }
 
-vector2f Logic::create_scorpion()
+sf::Vector2f Logic::create_scorpion()
 {
     auto scorpion_object = std::make_shared<Scorpion>();
     auto _pos = control_scorpion.position_to_spawn_scorpion();
@@ -719,7 +719,7 @@ bool Logic::canSpawn_scorpion()
     return scorpion.getIfCanSpawn_scorpion();
 }
 
-void Logic::update_scorpion(vector<shared_ptr<Sprite>>& scorpion, vector<shared_ptr<MushroomField>>& mushField)
+void Logic::update_scorpion(vector<shared_ptr<sf::Sprite>>& scorpion, vector<shared_ptr<MushroomField>>& mushField)
 {
     //only update if we have a scorpion
     if (!scorpion.empty())
@@ -744,7 +744,7 @@ bool Logic::getIfCanSpawnSpider()
     return spider.getIfCanSpawnSpider();
 }
 
-vector2f Logic::create_spider()
+sf::Vector2f Logic::create_spider()
 {
     auto spider_object = std::make_shared<Spider>();
     auto pos_ = spider_object -> get_position();
@@ -752,7 +752,7 @@ vector2f Logic::create_spider()
     return pos_;
 }
 
-void Logic::update_spider(vector<shared_ptr<Sprite>>& spider_sprite)
+void Logic::update_spider(vector<shared_ptr<sf::Sprite>>& spider_sprite)
 {
     if (!spider_sprite.empty())
     {
@@ -786,7 +786,7 @@ bool Logic::getIfCanSpawnBomb()
     }
 }
 
-vector2f Logic::create_bomb()
+sf::Vector2f Logic::create_bomb()
 {
     bomb_controller.generate_position();
     auto pos_ = bomb_controller.getGeneratedPosition();
@@ -802,17 +802,17 @@ bool Logic::getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField)
     return canSpawnFlea;
 }
 
-vector2f Logic::create_flea()
+sf::Vector2f Logic::create_flea()
 {
     auto flea = std::make_shared<Flea>();
-    vector2f pos_;
+    sf::Vector2f pos_;
     pos_ = flea_control.generate_spawn_position();
     flea -> set_position(pos_);
     flea_object.push_back(flea);
     return pos_;
 }
 
-void Logic::update_flea(vector<shared_ptr<Sprite>>& flea_sprite, vector<shared_ptr<MushroomField>>& mushField)
+void Logic::update_flea(vector<shared_ptr<sf::Sprite>>& flea_sprite, vector<shared_ptr<MushroomField>>& mushField)
 {
     flea_control.update_flea(flea_object,flea_sprite,mushField);
 }

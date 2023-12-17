@@ -12,12 +12,12 @@ int Flea::get_flea_speed() const
     return flea_speed;
 }
 
-vector2f Flea::get_position() const
+sf::Vector2f Flea::get_position() const
 {
     return pos;
 }
 
-void Flea::set_position(vector2f pos)
+void Flea::set_position(sf::Vector2f pos)
 {
     this -> pos = pos;
 }

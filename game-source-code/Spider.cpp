@@ -64,7 +64,7 @@ bool Spider::getIfCanSpawnSpider() const
     return canSpawnSpider;
 }
 
-vector2f Spider::get_position() const
+sf::Vector2f Spider::get_position() const
 {
     return pos;
 }
@@ -84,7 +84,7 @@ void Spider::reset_counter()
     counter = 0;
 }
 
-void Spider::set_position(vector2f pos_)
+void Spider::set_position(sf::Vector2f pos_)
 {
     pos = pos_;
 }

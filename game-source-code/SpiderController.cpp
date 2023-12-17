@@ -12,7 +12,7 @@ SpiderController::SpiderController():
 
 {}
 
-void SpiderController::update_spider(vector<shared_ptr<Sprite>>& spider_sprite, vector<shared_ptr<Spider>>& spider_obj)
+void SpiderController::update_spider(vector<shared_ptr<sf::Sprite>>& spider_sprite, vector<shared_ptr<Spider>>& spider_obj)
 {
     //It is known that there will be only one spider at a time
     auto spiderObj_iter = spider_obj.begin();
@@ -186,7 +186,7 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
         //moving left
         direction = Direction::Left;
         direction_marker = -1;
-        vector2f pos_;
+        sf::Vector2f pos_;
         //place spider on the right (will move from right to left)
         pos_.x = right_pos;
         pos_.y = spawn_height;
@@ -198,7 +198,7 @@ void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
         //moving right
         direction = Direction::Right;
         direction_marker = 1;
-        vector2f pos_;
+        sf::Vector2f pos_;
         //place spider on the left (will move from left to right)
         pos_.x = left_pos;
         pos_.y = spawn_height;
@@ -220,7 +220,7 @@ void SpiderController::delete_queue()
     }
 }
 
-void SpiderController::Animate_spider(shared_ptr<Sprite>& spider_sprite, shared_ptr<Spider>& spider_object)
+void SpiderController::Animate_spider(shared_ptr<sf::Sprite>& spider_sprite, shared_ptr<Spider>& spider_object)
 {
     auto counter = spider_object -> get_counter();
     if (counter == 0)

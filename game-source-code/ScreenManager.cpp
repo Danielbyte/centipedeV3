@@ -6,7 +6,7 @@ ScreenManager::ScreenManager():
     reset_high_score{false},
     bodiesToSpawn{11}, //spawn 11 body segments
     isPlaying{false},
-    window(VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
+    window(sf::VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
     isGameOver{false}
 
@@ -22,7 +22,7 @@ void ScreenManager::initialize_player()
     if(!playerSprite_texture.loadFromFile("resources/player.png")) throw CouldNotLoadPicture{};
     player_sprite.setTexture(playerSprite_texture);
     player_sprite.setPosition(logic.player_object.get_Xposition(), logic.player_object.get_Yposition());
-    player_sprite.setOrigin(vector2f(player_size/2, player_size/2));
+    player_sprite.setOrigin(sf::Vector2f(player_size/2, player_size/2));
 }
 
 void ScreenManager::initialize_screen()
@@ -31,16 +31,16 @@ void ScreenManager::initialize_screen()
     splash_screenFont.loadFromFile("resources/sansation.ttf");
     splash_screenDisplay.setFont(splash_screenFont);
     splash_screenDisplay.setCharacterSize(20);
-    splash_screenDisplay.setStyle(Text::Regular);
-    splash_screenDisplay.setFillColor(Color::Red);
+    splash_screenDisplay.setStyle(sf::Text::Regular);
+    splash_screenDisplay.setFillColor(sf::Color::Red);
     splash_screenDisplay.setPosition(10,180);
     splash_screenDisplay.setString("Welcome to Centipede++");
 
     //game instructions set up
     game_instructions.setFont(splash_screenFont);
     game_instructions.setCharacterSize(20);
-    game_instructions.setStyle(Text::Regular);
-    game_instructions.setFillColor(Color::Red);
+    game_instructions.setStyle(sf::Text::Regular);
+    game_instructions.setFillColor(sf::Color::Red);
     game_instructions.setPosition(10, 220);
     game_instructions.setString("INSTRUCTIONS: \nPress Enter to start game!"
                                 "\nPress Escape(Esc) to quit!"
@@ -49,20 +49,20 @@ void ScreenManager::initialize_screen()
 
     playerLives_display.setFont(Displays);
     playerLives_display.setCharacterSize(12);
-    playerLives_display.setStyle(Text::Bold);
-    playerLives_display.setFillColor(Color::Red);
+    playerLives_display.setStyle(sf::Text::Bold);
+    playerLives_display.setFillColor(sf::Color::Red);
     playerLives_display.setPosition(0,0);
 
     currentScore_display.setFont(Displays);
     currentScore_display.setCharacterSize(12);
-    currentScore_display.setStyle(Text::Bold);
-    currentScore_display.setFillColor(Color::Red);
+    currentScore_display.setStyle(sf::Text::Bold);
+    currentScore_display.setFillColor(sf::Color::Red);
     currentScore_display.setPosition(70, 0);
 
     highScore_display.setFont(Displays);
     highScore_display.setCharacterSize(12);
-    highScore_display.setStyle(Text::Bold);
-    highScore_display.setFillColor(Color::Green);
+    highScore_display.setStyle(sf::Text::Bold);
+    highScore_display.setFillColor(sf::Color::Green);
     highScore_display.setPosition(300, 0);
 
 }
@@ -139,25 +139,25 @@ void ScreenManager::draw_game_entities()
 
 void ScreenManager::process_events()
 {
-    Event event;
+    sf::Event event;
     while(window.pollEvent(event))
     {
         switch(event.type)
         {
-        case Event::KeyPressed:
-            if(event.key.code == Keyboard::Escape)
+        case sf::Event::KeyPressed:
+            if(event.key.code == sf::Keyboard::Escape)
             {
                 quit_game = true;
                 window.close();
             }
 
-            else if ((event.key.code == Keyboard::RShift && isGameOver) || (event.key.code == Keyboard::LShift && isGameOver))
+            else if ((event.key.code == sf::Keyboard::RShift && isGameOver) || (event.key.code == sf::Keyboard::LShift && isGameOver))
             {
                 restart_game = true;
                 window.close();
             }
 
-            else if(event.key.code == Keyboard::R && isGameOver)
+            else if(event.key.code == sf::Keyboard::R && isGameOver)
             {
                 reset_high_score = true;
                 //window.close();
@@ -167,11 +167,11 @@ void ScreenManager::process_events()
                 keyboard_handling(event.key.code, true);
             break;
 
-        case Event::KeyReleased:
+        case sf::Event::KeyReleased:
             keyboard_handling(event.key.code, false);
             break;
 
-        case Event::Closed:
+        case sf::Event::Closed:
             quit_game = true;
             window.close();
             break;
@@ -183,7 +183,7 @@ void ScreenManager::process_events()
     }
 }
 
-void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
+void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
 {
 
 
@@ -192,31 +192,31 @@ void ScreenManager::keyboard_handling(Keyboard key, bool isPressed)
         shoot_timer++;
     }
 
-    if(key == Keyboard::Enter) //player wants to play
+    if(key == sf::Keyboard::Enter) //player wants to play
         isPlaying = true;
     if(isPlaying)
     {
         window.setKeyRepeatEnabled(true);
-        if(key == Keyboard::Up)
+        if(key == sf::Keyboard::Up)
         {
             logic.player_object.setPlayer_movement(Direction::Up, isPressed, player_sprite);
         }
-        else if(key == Keyboard::Down)
+        else if(key == sf::Keyboard::Down)
         {
             //player should move down
             logic.player_object.setPlayer_movement(Direction::Down, isPressed, player_sprite);
         }
-        else if(key == Keyboard::Right)
+        else if(key == sf::Keyboard::Right)
         {
             //player should move right
             logic.player_object.setPlayer_movement(Direction::Right, isPressed, player_sprite);
         }
-        else if(key == Keyboard::Left)
+        else if(key == sf::Keyboard::Left)
         {
             //player should move down
             logic.player_object.setPlayer_movement(Direction::Left, isPressed,player_sprite);
         }
-        else if (key == Keyboard::Space && shoot_timer >= 2)
+        else if (key == sf::Keyboard::Space && shoot_timer >= 2)
         {
             window.setKeyRepeatEnabled(false);
             create_laserShots();
@@ -312,10 +312,10 @@ void ScreenManager::create_enemy()
 
 void ScreenManager::create_scorpion()
 {
-    vector2f pos_ = logic.create_scorpion();
-    auto scorpion_sprite = std::make_shared<Sprite>(Sprite());
+    sf::Vector2f pos_ = logic.create_scorpion();
+    auto scorpion_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
-    scorpion_sprite -> setOrigin(vector2f(0.f, 0.f));
+    scorpion_sprite -> setOrigin(sf::Vector2f(0.f, 0.f));
     scorpion_sprite -> setTexture(scorpion_texture);
     scorpion_sprite -> setPosition(pos_);
     scorpion_sprite_vector.push_back(scorpion_sprite);
@@ -323,10 +323,10 @@ void ScreenManager::create_scorpion()
 
 void ScreenManager::create_spider()
 {
-    vector2f pos_ = logic.create_spider();
-    auto spider_sprite = std::make_shared<Sprite>(Sprite());
+    sf::Vector2f pos_ = logic.create_spider();
+    auto spider_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
-    spider_sprite -> setOrigin(vector2f(0.f,0.f));
+    spider_sprite -> setOrigin(sf::Vector2f(0.f,0.f));
     spider_sprite -> setTexture(spider_texture);
     spider_sprite -> setPosition(pos_);
     spider_sprite_vector.push_back(spider_sprite);
@@ -334,11 +334,11 @@ void ScreenManager::create_spider()
 
 void ScreenManager::create_bomb()
 {
-    vector2f pos = logic.create_bomb();
-    auto bomb_sprite = std::make_shared<Sprite>(Sprite());
+    sf::Vector2f pos = logic.create_bomb();
+    auto bomb_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
     bomb_sprite ->setTexture(bomb_texture);
-    bomb_sprite -> setOrigin(vector2f(8.f, 8.f));
+    bomb_sprite -> setOrigin(sf::Vector2f(8.f, 8.f));
     bomb_sprite -> setPosition(pos);
     DDTBombs_spiteVector.push_back(bomb_sprite);
 }
@@ -350,7 +350,7 @@ void ScreenManager::draw_mushrooms()
     {
        auto mush_health = mushroom->getMush_health();
        auto isPoisoned = mushroom -> getIsPoisoned();
-       vector2f mushPosition;
+       sf::Vector2f mushPosition;
        mushPosition.x = mushroom->get_Xpos();
        mushPosition.y = mushroom->get_Ypos();
 
@@ -404,7 +404,7 @@ void ScreenManager::update_game()
         isPlaying = false;
         isGameOver = true;
         window.clear();
-        splash_screenDisplay.setFillColor(Color::Green);
+        splash_screenDisplay.setFillColor(sf::Color::Green);
         splash_screenDisplay.setString("YOU WIN!"
                                        "\nGAME OVER"
                                        "\nPress Escape(Esc) key to quit"
@@ -414,11 +414,11 @@ void ScreenManager::update_game()
 
 void ScreenManager::create_flea()
 {
-    auto flea_sprite = std::make_shared<Sprite>(Sprite());
+    auto flea_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     auto pos = logic.create_flea();
     if(!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
     flea_sprite ->setTexture(flea_texture);
-    flea_sprite -> setOrigin(vector2f(0.f,0.f));
+    flea_sprite -> setOrigin(sf::Vector2f(0.f,0.f));
     flea_sprite -> setPosition(pos);
     FleaSprite_vector.push_back(flea_sprite);
 }

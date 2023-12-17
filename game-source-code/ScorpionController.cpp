@@ -1,6 +1,6 @@
 #include "ScorpionController.h"
 
-void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<Sprite>>&scorpion_sprite,
+void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>&scorpion_sprite,
         vector<shared_ptr<MushroomField>>& mushField)
 {
     animate_scorpion(scorpionObj, scorpion_sprite);
@@ -8,13 +8,13 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
     if(!scorpionObj.empty())
     {
         auto scorpionObj_iter = scorpionObj.begin();
-        vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
+        sf::Vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
         poison_mushroom(pos_, mushField);
     }
 
 }
 
-void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<Sprite>>& scorpion_sprite)
+void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite)
 {
     auto scorpion_sprite_iter = scorpion_sprite.begin();
     auto scorpionObj_iter = scorpionObj.begin();
@@ -59,11 +59,11 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     (*scorpionObj_iter)-> increment_counter();
 }
 
-void ScorpionController::poison_mushroom(vector2f pos_, vector<shared_ptr<MushroomField>>& mushField)
+void ScorpionController::poison_mushroom(sf::Vector2f pos_, vector<shared_ptr<MushroomField>>& mushField)
 {
     for (auto& mushroom : mushField)
     {
-        vector2f mushPosition;
+        sf::Vector2f mushPosition;
         mushPosition.x = mushroom->get_Xpos();
         mushPosition.y = mushroom->get_Ypos();
         auto isCollided = collision.collision_detect(mushPosition, mushWidth, mushHeight, pos_, scorpion_width,
@@ -77,9 +77,9 @@ void ScorpionController::poison_mushroom(vector2f pos_, vector<shared_ptr<Mushro
 
 }
 
-vector2f ScorpionController::position_to_spawn_scorpion()
+sf::Vector2f ScorpionController::position_to_spawn_scorpion()
 {
-    vector2f spawn_pos;
+    sf::Vector2f spawn_pos;
     spawn_pos.x = (30.f)*offset;
     //randomly generate y position keeping in mind that no spawn in player area
     srand((unsigned int)time(0));
