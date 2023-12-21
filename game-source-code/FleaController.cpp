@@ -5,7 +5,7 @@ FleaController::FleaController():
 {}
 
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<sf::Sprite>>& flea_sprite,
-                                 vector<shared_ptr<MushroomField>>& mushField)
+                                 vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites)
 {
     //only going to have one flea per instance
     auto flea_sprite_iter = flea_sprite.begin();
@@ -24,13 +24,14 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
     {
         (*flea_sprite_iter) -> setPosition(pos_);
         (*flea_object_iter) -> set_position(pos_);
-        spawn_mushroom(pos_, mushField);
+        spawn_mushroom(pos_, mushField, mushroom_sprites);
         animate_flea((*flea_object_iter),(*flea_sprite_iter));
     }
 
 }
 
-void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<MushroomField>>& mushField)
+void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<MushroomField>>& mushField, 
+    vector<shared_ptr<MushroomResources>>& mushroom_sprites)
 {
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
     bool isMushroom = false;
@@ -58,7 +59,14 @@ void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<Mus
     if (random <= flea_spawn_chance)
     {
         shared_ptr<MushroomField>newMushroom = std::make_shared<MushroomField>(MushroomField(x, y));
+
+        auto xPos = newMushroom->get_Xpos();
+        auto yPos = newMushroom->get_Ypos();
+        shared_ptr<MushroomResources>mushroom_sprite = std::make_shared<MushroomResources>(MushroomResources(xPos, yPos));
+        mushroom_sprite->update_sprite(newMushroom->getIsPoisoned(), newMushroom->getMush_health());
+
         mushField.push_back(newMushroom);
+        mushroom_sprites.push_back(mushroom_sprite);
     }
 }
 

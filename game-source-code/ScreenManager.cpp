@@ -14,7 +14,7 @@ ScreenManager::ScreenManager():
     initialize_screen();
     initialize_player();
     create_enemy();
-    logic.create_mushrooms(mushField);
+    logic.create_mushrooms(mushField, mushroom_sprites);
 }
 
 void ScreenManager::initialize_player()
@@ -264,7 +264,7 @@ void ScreenManager::update()
     if(!FleaSprite_vector.empty())
     {
         //ask the logic to update flea
-        logic.update_flea(FleaSprite_vector,mushField);
+        logic.update_flea(FleaSprite_vector,mushField, mushroom_sprites);
     }
 
 
@@ -281,20 +281,20 @@ void ScreenManager::update_game_entities()
     logic.updateLaserShots(bulletSprites_vector);
     logic.update_centipede(CentipedeSprite_vector,mushField);
     //logic.collisionBetween_mushAndPlayer(player_sprite);
-    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector,mushField);
-    logic.collision_between_mush_and_spider(false,mushField);
+    logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites);
+    logic.collision_between_mush_and_spider(false,mushField, mushroom_sprites);
 
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
                                             CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,
-                                            FleaSprite_vector,mushField);
+                                            FleaSprite_vector,mushField, mushroom_sprites);
 
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
     logic.collision_between_player_and_flea(player_sprite);
     logic.collision_between_centipede_and_player(player_sprite);
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
-    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField);
+    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites);
     logic.update_spider(spider_sprite_vector);
     logic.update_scorpion(scorpion_sprite_vector,mushField);
 }
@@ -346,15 +346,9 @@ void ScreenManager::create_bomb()
 void ScreenManager::draw_mushrooms()
 {
 
-    for (auto& mushroom : mushField)
+    for (auto& mushroom_sprite : mushroom_sprites)
     {
-       auto mush_health = mushroom->getMush_health();
-       auto isPoisoned = mushroom -> getIsPoisoned();
-       sf::Vector2f mushPosition;
-       mushPosition.x = mushroom->get_Xpos();
-       mushPosition.y = mushroom->get_Ypos();
-
-       window.draw(game_resources->getMushroomSprite(mushPosition, isPoisoned, mush_health));
+       window.draw(mushroom_sprite->get_sprite());
     }
 }
 

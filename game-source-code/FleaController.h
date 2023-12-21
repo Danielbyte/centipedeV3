@@ -4,18 +4,21 @@
 #include "Flea.h"
 #include "GameDataType.h"
 #include "MushroomField.h"
+#include "mushroomResources.h"
 
 class FleaController
 {
 public:
     FleaController();
-    void update_flea(vector<shared_ptr<Flea>>&,vector<shared_ptr<sf::Sprite>>&,vector<shared_ptr<MushroomField>>&);
+    void update_flea(vector<shared_ptr<Flea>>&,vector<shared_ptr<sf::Sprite>>&,vector<shared_ptr<MushroomField>>&,
+        vector<shared_ptr<MushroomResources>>& mushroom_sprites);
     bool set_if_can_spawn_flea(vector<shared_ptr<MushroomField>>&);
     sf::Vector2f generate_spawn_position();
     sf::Texture flea_texture;
 
 private:
-    void spawn_mushroom(sf::Vector2f, vector<shared_ptr<MushroomField>>&);
+    void spawn_mushroom(sf::Vector2f, vector<shared_ptr<MushroomField>>&,
+        vector<shared_ptr<MushroomResources>>& mushroom_sprites);
 
     void animate_flea(shared_ptr<Flea>&, shared_ptr<sf::Sprite>&);
     //minimum mushrooms that can be at player area

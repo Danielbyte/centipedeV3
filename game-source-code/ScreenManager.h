@@ -5,6 +5,7 @@
 #include "MushroomField.h"
 #include "Spider.h"
 #include "ScoreManager.h"
+#include "mushroomResources.h"
 
 class ScreenManager
 {
@@ -31,7 +32,9 @@ class ScreenManager
     vector <shared_ptr<sf::Sprite>> bulletSprites_vector;
     vector <shared_ptr<sf::Sprite>> CentipedeSprite_vector;
     vector<shared_ptr<sf::Sprite>> FleaSprite_vector;
+
     vector<shared_ptr<MushroomField>> mushField;
+    vector <shared_ptr<MushroomResources>> mushroom_sprites;
 
     sf::Texture playerSprite_texture;
     sf::Sprite player_sprite;

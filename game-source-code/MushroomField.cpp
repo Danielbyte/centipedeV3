@@ -21,7 +21,7 @@ float MushroomField::get_Ypos()
 void MushroomField::decrementMush_health()
 {
     if (mushroom_health > 0){mushroom_health--;}
-    //std::cout << "mush_health: " << mushroom_health << std::endl;
+    //std::cout << "mush_health: " << mushroom_health << std::endl;`
     //if (mushroom_health == 0)
     //{
        // int x = (int)(x_position/offset);

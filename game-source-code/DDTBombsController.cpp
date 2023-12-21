@@ -46,11 +46,12 @@ sf::Vector2f DDTBombsController::getGeneratedPosition() const
 }
 
 void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<sf::Sprite>>& bombSprite,
-                                   vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<Spider>>& spiderObj,
-                                   vector<shared_ptr<sf::Sprite>>& spiderSprite,vector<shared_ptr<Centipede>>& centipedeobj,
-                                   vector<shared_ptr<sf::Sprite>>& centipedeSpite,vector<shared_ptr<Scorpion>>& scorpionObj,
-                                   vector<shared_ptr<sf::Sprite>>& scorpion_sprite,Player& player_obj, sf::Sprite& player_sprite,
-                                   vector<shared_ptr<Flea>>& fleaObj, vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score)
+                                   vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites,
+                                   vector<shared_ptr<Spider>>& spiderObj, vector<shared_ptr<sf::Sprite>>& spiderSprite,
+                                   vector<shared_ptr<Centipede>>& centipedeobj, vector<shared_ptr<sf::Sprite>>& centipedeSpite,
+                                   vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite,
+                                   Player& player_obj, sf::Sprite& player_sprite, vector<shared_ptr<Flea>>& fleaObj,
+                                   vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -94,7 +95,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 (*bombSprite_iter) -> setTexture(bomb_texture);
                 (*bombSprite_iter) -> setScale(4,4);
                 //check collision between explosion and mushroom(final radius)
-                explosion_and_mush((*bombSprite_iter), mushField, _score);
+                explosion_and_mush((*bombSprite_iter), mushField, mushroom_sprites, _score);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
@@ -119,9 +120,10 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
 }
 
 void DDTBombsController::explosion_and_mush(shared_ptr<sf::Sprite>& bomb_sprite,
-    vector<shared_ptr<MushroomField>>& mushField,int& _score)
+    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites,int& _score)
 {
     auto mushroom_ptr = mushField.begin();
+    auto mushroom_sprite = mushroom_sprites.begin();
     while (mushroom_ptr != mushField.end())
     {
         //should kill mushroom within radious
@@ -149,10 +151,12 @@ void DDTBombsController::explosion_and_mush(shared_ptr<sf::Sprite>& bomb_sprite,
        if (col1 || col2 || col3 || col4)
        {
            mushField.erase(mushroom_ptr);
+           mushroom_sprites.erase(mushroom_sprite);
        }
        else
        {
            ++mushroom_ptr;
+           ++mushroom_sprite;
        }
     }
 }

@@ -68,12 +68,14 @@ void CentipedeController::checkFor_mushroom(shared_ptr<Centipede>& centipede_ptr
         mushPosition.x = mushroom->get_Xpos();
         mushPosition.y = mushroom->get_Ypos();
 
-        sf::Vector2f myPos = pos_;
-        myPos.y = pos_.y - Tile_offset;
+        sf::Vector2f segmentPos = pos_;
+        segmentPos.y = pos_.y - Tile_offset;
 
-        if (left) myPos.x = pos_.x - offset;
+        if (left) segmentPos.x = pos_.x - offset;
 
-        if (mushPosition == myPos)
+        //Difference between mushroom and segment positions
+        auto mushSegmentPosDiff = abs(segmentPos.x - mushPosition.x);
+        if (mushPosition == segmentPos || (mushSegmentPosDiff <= 0.01f && segmentPos.y == mushPosition.y))
         {
             isMushroom = true;
             isPoisoned = mushroom->getIsPoisoned();
