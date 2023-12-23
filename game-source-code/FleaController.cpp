@@ -37,12 +37,17 @@ void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<Mus
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
     bool isMushroom = false;
     sf::Vector2f mushPosition;
+
+    //The position of the flea
+    int x = (int)(position.x / offset); //Horizontal spawning position
+    int y = (int)(position.y / offset); //Vertical spawning position
+
     for (auto& mushroom : mushField)
     {
         
-        mushPosition.y = mushroom->get_Ypos();
-        mushPosition.x = mushroom->get_Xpos();
-        if (mushPosition == position)
+        int mushroomXpos = (int)((mushroom->get_Xpos())/offset);
+        int mushroomYpos = (int)((mushroom->get_Ypos())/offset);
+        if (mushroomXpos == x && mushroomYpos == y)
         {
             isMushroom = true;
             break;
@@ -54,10 +59,6 @@ void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<Mus
     }
     
     auto random = (rand() % 100 + 1);
-    //The position of the flea
-    int x = (int)(position.x / offset);
-    int y = (int)(position.y / offset);
-
     auto deltaYdistance = abs(y - previousYpos); //This variable monitors the flea to not spawn multiple mushrooms in the same position
     if (random <= flea_spawn_chance && deltaYdistance != 0)
     {
