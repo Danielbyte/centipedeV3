@@ -26,5 +26,8 @@ private:
 
     shared_ptr<MushroomResources>mushroom_resource = std::make_shared<MushroomResources>();
     int previousYpos;
+
+    void load_resources();
+    sf::Texture flea1_t, flea2_t, flea3_t, flea4_t;
 };
 #endif // FLEACONTROLLER_H
