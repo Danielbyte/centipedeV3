@@ -100,6 +100,7 @@ void ScreenManager::run()
 
 void ScreenManager::draw_game_entities()
 {
+    draw_mushrooms();
     window.draw(player_sprite);
    
     for (auto& centipede_segment : CentipedeSprite_vector) // draw centipede (only the head for now)
@@ -275,8 +276,7 @@ void ScreenManager::update()
 
 void ScreenManager::update_game_entities()
 {
-    draw_mushrooms();
-
+    
     logic.update_player(player_sprite);
     logic.updateLaserShots(bulletSprites_vector);
     logic.update_centipede(CentipedeSprite_vector,mushField);
@@ -296,7 +296,7 @@ void ScreenManager::update_game_entities()
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
     logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites);
     logic.update_spider(spider_sprite_vector);
-    logic.update_scorpion(scorpion_sprite_vector,mushField);
+    logic.update_scorpion(scorpion_sprite_vector,mushField, mushroom_sprites);
 }
 
 void ScreenManager::create_laserShots()
@@ -345,10 +345,10 @@ void ScreenManager::create_bomb()
 
 void ScreenManager::draw_mushrooms()
 {
-
+  
     for (auto& mushroom_sprite : mushroom_sprites)
     {
-       window.draw(mushroom_sprite->get_sprite());
+       window.draw(*mushroom_sprite);
     }
 }
 

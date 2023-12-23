@@ -22,13 +22,13 @@ public:
     sf::Vector2f getGeneratedPosition() const;
     sf::Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<sf::Sprite>>&,
-        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroo_sprites,vector<shared_ptr<Spider>>&,
+        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroo_sprites,vector<shared_ptr<Spider>>&,
         vector<shared_ptr<sf::Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<sf::Sprite>>&,
         vector<shared_ptr<Scorpion>>&,vector<shared_ptr<sf::Sprite>>&,Player&,sf::Sprite&, 
         vector<shared_ptr<Flea>>&, vector<shared_ptr<sf::Sprite>>&, int&);
 
 //made public for test puropses
-    void explosion_and_mush(shared_ptr<sf::Sprite>&,vector<shared_ptr<MushroomField>>&, vector<shared_ptr<MushroomResources>>& mushroom_sprites, int&);
+    void explosion_and_mush(shared_ptr<sf::Sprite>&,vector<shared_ptr<MushroomField>>&, vector<shared_ptr<sf::Sprite>>& mushroom_sprites, int&);
     void explosion_and_spider(shared_ptr<sf::Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<sf::Sprite>>&, int&);
     void explosion_and_centipede(shared_ptr<sf::Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<sf::Sprite>>&, int &);
     void explosion_and_scorpion(shared_ptr<sf::Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<sf::Sprite>>&, int&);

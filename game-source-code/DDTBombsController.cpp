@@ -46,7 +46,7 @@ sf::Vector2f DDTBombsController::getGeneratedPosition() const
 }
 
 void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector<shared_ptr<sf::Sprite>>& bombSprite,
-                                   vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites,
+                                   vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites,
                                    vector<shared_ptr<Spider>>& spiderObj, vector<shared_ptr<sf::Sprite>>& spiderSprite,
                                    vector<shared_ptr<Centipede>>& centipedeobj, vector<shared_ptr<sf::Sprite>>& centipedeSpite,
                                    vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite,
@@ -120,7 +120,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
 }
 
 void DDTBombsController::explosion_and_mush(shared_ptr<sf::Sprite>& bomb_sprite,
-    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites,int& _score)
+    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites,int& _score)
 {
     auto mushroom_ptr = mushField.begin();
     auto mushroom_sprite = mushroom_sprites.begin();

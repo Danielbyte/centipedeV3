@@ -1,11 +1,12 @@
 #include "FleaController.h"
 
 FleaController::FleaController():
-    min_mushrooms{5} //if there is less than 5 mushes in player area, call abuti flea
+    min_mushrooms{5}, //if there is less than 5 mushes in player area, call abuti flea
+    previousYpos{0}
 {}
 
 void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<shared_ptr<sf::Sprite>>& flea_sprite,
-                                 vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites)
+                                 vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
     //only going to have one flea per instance
     auto flea_sprite_iter = flea_sprite.begin();
@@ -31,7 +32,7 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
 }
 
 void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<MushroomField>>& mushField, 
-    vector<shared_ptr<MushroomResources>>& mushroom_sprites)
+    vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
     //see if there is no mushroom at that position so that the flea can decide to spawn mushroom
     bool isMushroom = false;
@@ -56,17 +57,23 @@ void FleaController::spawn_mushroom(sf::Vector2f position, vector<shared_ptr<Mus
     //The position of the flea
     int x = (int)(position.x / offset);
     int y = (int)(position.y / offset);
-    if (random <= flea_spawn_chance)
+
+    auto deltaYdistance = abs(y - previousYpos); //This variable monitors the flea to not spawn multiple mushrooms in the same position
+    if (random <= flea_spawn_chance && deltaYdistance != 0)
     {
+       
         shared_ptr<MushroomField>newMushroom = std::make_shared<MushroomField>(MushroomField(x, y));
 
         auto xPos = newMushroom->get_Xpos();
         auto yPos = newMushroom->get_Ypos();
-        shared_ptr<MushroomResources>mushroom_sprite = std::make_shared<MushroomResources>(MushroomResources(xPos, yPos));
-        mushroom_sprite->update_sprite(newMushroom->getIsPoisoned(), newMushroom->getMush_health());
-
+        shared_ptr<sf::Sprite>mushroom_sprite = std::make_shared<sf::Sprite>();
+        mushroom_sprite->setOrigin(0.0f, 0.0f);
+        mushroom_sprite->setPosition(xPos, yPos);
+        mushroom_resource->update_sprite(newMushroom->getIsPoisoned(), newMushroom->getMush_health(), mushroom_sprite);
+        
         mushField.push_back(newMushroom);
         mushroom_sprites.push_back(mushroom_sprite);
+        previousYpos = y;
     }
 }
 

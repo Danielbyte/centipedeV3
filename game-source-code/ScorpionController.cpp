@@ -1,7 +1,7 @@
 #include "ScorpionController.h"
 
 void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>&scorpion_sprite,
-        vector<shared_ptr<MushroomField>>& mushField)
+        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
     animate_scorpion(scorpionObj, scorpion_sprite);
     //only updating when scorpion has been created
@@ -9,7 +9,7 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
     {
         auto scorpionObj_iter = scorpionObj.begin();
         sf::Vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
-        poison_mushroom(pos_, mushField);
+        poison_mushroom(pos_, mushField, mushroom_sprites);
     }
 
 }
@@ -59,8 +59,10 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     (*scorpionObj_iter)-> increment_counter();
 }
 
-void ScorpionController::poison_mushroom(sf::Vector2f pos_, vector<shared_ptr<MushroomField>>& mushField)
+void ScorpionController::poison_mushroom(sf::Vector2f pos_, vector<shared_ptr<MushroomField>>& mushField,
+    vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    auto mushroom_sprite = mushroom_sprites.begin();
     for (auto& mushroom : mushField)
     {
         sf::Vector2f mushPosition;
@@ -72,7 +74,9 @@ void ScorpionController::poison_mushroom(sf::Vector2f pos_, vector<shared_ptr<Mu
         if (isCollided)
         {
             mushroom->changeToPoison();
+            mushroom_resource->update_sprite(mushroom->getIsPoisoned(), mushroom->getMush_health(), *mushroom_sprite);
         }
+        ++mushroom_sprite;
     }
 
 }

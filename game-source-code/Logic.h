@@ -41,7 +41,7 @@ public:
     sf::Texture centipedeBody_texture;
 
     void collisionBetweenBulletsAndObjects(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
-        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites);
+        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 
     void create_bullet(vector<shared_ptr<sf::Sprite>>&);
 
@@ -55,7 +55,7 @@ public:
 
     //set and get if scorpion can be spawned
     bool canSpawn_scorpion();
-    void update_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>& mushField);
+    void update_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 
     //spider watches
     StopWatch spider_watch;
@@ -70,7 +70,7 @@ public:
     //collision between spider and mushroom
     //isTest to denote if is game play or test coverage
     void collision_between_mush_and_spider(bool isTest,vector<shared_ptr<MushroomField>>& mushField,
-        vector<shared_ptr<MushroomResources>>& mushroom_sprites); 
+        vector<shared_ptr<sf::Sprite>>& mushroom_sprites); 
 
     //collision between player and Spider
     void collision_between_player_and_spider(sf::Sprite&);
@@ -82,7 +82,7 @@ public:
     void collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
                                            vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&, sf::Sprite&,
                                            vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>&,
-                                           vector<shared_ptr<MushroomResources>>& mushroom_sprites);
+                                           vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 
     //collisions between bullet and flea
     void collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
@@ -93,9 +93,9 @@ public:
     void collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
     void collision_between_centipede_and_player(sf::Sprite&);
     void collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
-                                                vector<shared_ptr<MushroomField>>&, vector<shared_ptr<MushroomResources>>& mushroom_sprites);
+                                                vector<shared_ptr<MushroomField>>&, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
     void delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>&, 
-        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites);
+        vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 
     //DDT object vector
     vector <shared_ptr<DDTBombs>>vector_of_bomb_objects;
@@ -107,7 +107,7 @@ public:
 
     bool getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField);
     sf::Vector2f create_flea();
-    void update_flea(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<MushroomResources>>& mushroom_sprites);
+    void update_flea(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
     vector<shared_ptr<Flea>>flea_object;
 
     int get_score() const;
@@ -118,7 +118,7 @@ public:
     void setSpiderToHungry(bool);
 
     void create_mushrooms(vector<shared_ptr<MushroomField>>& mushroom_obejects,
-        vector<std::shared_ptr<MushroomResources>>& mushroom_sprites);
+        vector<std::shared_ptr<sf::Sprite>>& mushroom_sprites);
 
 private:
     //dummy variables for tests(to alter spider's lunch time);
@@ -197,6 +197,8 @@ private:
     int score;
     Direction dir;
     Direction dir1;
+    
+    shared_ptr<MushroomResources> mushroom_resource = std::make_shared<MushroomResources>();
 
 };
 

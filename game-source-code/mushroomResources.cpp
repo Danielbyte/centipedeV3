@@ -1,12 +1,7 @@
 #include "mushroomResources.h"
 
-MushroomResources::MushroomResources(){}
-
-MushroomResources::MushroomResources(float xPos, float yPos)
+MushroomResources::MushroomResources()
 {
-	mushroom_s.setOrigin(sf::Vector2f(0.f, 0.f));
-	mushroom_s.setPosition(xPos, yPos);
-	mushroom_s.setScale(1, 1);
 	load_resources();
 }
 
@@ -24,7 +19,7 @@ void MushroomResources::load_resources()
 	pmush4_t.loadFromFile("resources/pmush1.png");
 }
 
-void MushroomResources::update_sprite(bool isPoisoned, int mushroomHealth)
+void MushroomResources::update_sprite(bool isPoisoned, int mushroomHealth, std::shared_ptr<sf::Sprite>& mushroom_sprite)
 {
 
 	if (isPoisoned)
@@ -32,16 +27,18 @@ void MushroomResources::update_sprite(bool isPoisoned, int mushroomHealth)
 		switch (mushroomHealth)
 		{
 		case 1:
-			mushroom_s.setTexture(pmush1_t);
+			mushroom_sprite->setTexture(pmush1_t);
 			break;
 		case 2:
-			mushroom_s.setTexture(pmush2_t);
+			mushroom_sprite->setTexture(pmush2_t);
 			break;
 		case 3:
-			mushroom_s.setTexture(pmush3_t);
+			mushroom_sprite->setTexture(pmush3_t);
+			break;
+		case 4:
+			mushroom_sprite->setTexture(pmush4_t);
 			break;
 		default:
-			mushroom_s.setTexture(pmush4_t);
 			break;
 		}
 		return;
@@ -50,21 +47,18 @@ void MushroomResources::update_sprite(bool isPoisoned, int mushroomHealth)
 	switch (mushroomHealth)
 	{
 	case 1:
-		mushroom_s.setTexture(mush1_t);
+		mushroom_sprite->setTexture(mush1_t);
 		break;
 	case 2:
-		mushroom_s.setTexture(mush2_t);
+		mushroom_sprite->setTexture(mush2_t);
 		break;
 	case 3:
-		mushroom_s.setTexture(mush3_t);
+		mushroom_sprite->setTexture(mush3_t);
+		break;
+	case 4:
+		mushroom_sprite->setTexture(mush4_t);
 		break;
 	default:
-		mushroom_s.setTexture(mush4_t);
 		break;
 	}
-}
-
-sf::Sprite MushroomResources::get_sprite()
-{
-	return mushroom_s;
 }
