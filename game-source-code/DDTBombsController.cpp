@@ -2,7 +2,9 @@
 
 DDTBombsController::DDTBombsController():
     canCreateBomb{false}
-{}
+{
+    load_resources();
+}
 
 void DDTBombsController::setIfCanCreateBomb()
 {
@@ -62,37 +64,31 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
             auto counter = (*bomb_iter) -> get_counter();
             if (counter == 0)
             {
-                bomb_texture.loadFromFile("resources/bomb2.png");
-                bomb_texture.setSmooth(true);
-                (*bombSprite_iter) -> setTexture(bomb_texture);
+                (*bombSprite_iter) -> setTexture(bomb2_t);
                 (*bombSprite_iter) -> setScale(2,2);
             }
 
             if (counter == 5)
             {
-                bomb_texture.loadFromFile("resources/bomb3.png");
-                (*bombSprite_iter) -> setTexture(bomb_texture);
+                (*bombSprite_iter) -> setTexture(bomb3_t);
                 (*bombSprite_iter) -> setScale(3,3);
             }
 
             if (counter == 15)
             {
-                bomb_texture.loadFromFile("resources/bomb2.png");
-                (*bombSprite_iter) -> setTexture(bomb_texture);
+                (*bombSprite_iter) -> setTexture(bomb2_t);
                 (*bombSprite_iter) -> setScale(2,2);
             }
 
             if (counter == 20)
             {
-                bomb_texture.loadFromFile("resources/bomb3.png");
-                (*bombSprite_iter) -> setTexture(bomb_texture);
+                (*bombSprite_iter) -> setTexture(bomb3_t);
                 (*bombSprite_iter) -> setScale(3,3);
             }
 
             if (counter == 25)
             {
-                bomb_texture.loadFromFile("resources/bomb4.png");
-                (*bombSprite_iter) -> setTexture(bomb_texture);
+                (*bombSprite_iter) -> setTexture(bomb4_t);
                 (*bombSprite_iter) -> setScale(4,4);
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField, mushroom_sprites, _score);
@@ -634,5 +630,15 @@ bool DDTBombsController::first_quadrant_collisions(sf::Vector2f obj1Pos,float ob
     }
 
     return isCollided;
+}
+
+void DDTBombsController::load_resources()
+{
+    bomb2_t.loadFromFile("resources/bomb2.png");
+    bomb2_t.setSmooth(true);
+    bomb3_t.loadFromFile("resources/bomb3.png");
+    bomb3_t.setSmooth(true);
+    bomb4_t.loadFromFile("resources/bomb4.png");
+    bomb4_t.setSmooth(true);
 }
 

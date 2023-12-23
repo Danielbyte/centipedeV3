@@ -20,7 +20,6 @@ public:
     void setIfCanCreateBomb();
     void generate_position();
     sf::Vector2f getGeneratedPosition() const;
-    sf::Texture bomb_texture;
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<sf::Sprite>>&,
         vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroo_sprites,vector<shared_ptr<Spider>>&,
         vector<shared_ptr<sf::Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<sf::Sprite>>&,
@@ -51,5 +50,8 @@ private:
     bool third_quadrant_collisions(sf::Vector2f, float, float, sf::Vector2f, float, float,int&);
     bool second_quadrant_collisions(sf::Vector2f, float, float, sf::Vector2f, float, float,int&);
     bool first_quadrant_collisions(sf::Vector2f, float, float, sf::Vector2f, float, float,int&);
+
+    void load_resources();
+    sf::Texture bomb2_t, bomb3_t, bomb4_t;
 };
 #endif // DDTBOMBSCONTROLLER_H
