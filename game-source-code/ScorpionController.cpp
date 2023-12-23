@@ -1,5 +1,10 @@
 #include "ScorpionController.h"
 
+ScorpionController::ScorpionController()
+{
+    load_resources();
+}
+
 void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>&scorpion_sprite,
         vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
@@ -21,26 +26,22 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     auto counter = (*scorpionObj_iter) -> get_counter();
     if (counter == 0)
     {
-        if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
-        (*scorpion_sprite_iter) -> setTexture(scorpion_texture);
+        (*scorpion_sprite_iter) -> setTexture(scorpion1_t);
     }
 
     if (counter == 5)
     {
-        if(!scorpion_texture.loadFromFile("resources/scorpion2.png")) throw CouldNotLoadPicture{};
-        (*scorpion_sprite_iter) -> setTexture(scorpion_texture);
+        (*scorpion_sprite_iter) -> setTexture(scorpion2_t);
     }
 
     if(counter == 10)
     {
-        if(!scorpion_texture.loadFromFile("resources/scorpion3.png")) throw CouldNotLoadPicture{};
-        (*scorpion_sprite_iter) -> setTexture(scorpion_texture);
+        (*scorpion_sprite_iter) -> setTexture(scorpion3_t);
     }
 
     if(counter == 15)
     {
-        if(!scorpion_texture.loadFromFile("resources/scorpion4.png")) throw CouldNotLoadPicture{};
-        (*scorpion_sprite_iter) -> setTexture(scorpion_texture);
+        (*scorpion_sprite_iter) -> setTexture(scorpion4_t);
         (*scorpionObj_iter)-> reset_counter();
     }
 
@@ -92,4 +93,12 @@ sf::Vector2f ScorpionController::position_to_spawn_scorpion()
 
     spawn_pos.y = (float)(((rand() % max) + min)*offset);
     return spawn_pos;
+}
+
+void ScorpionController::load_resources()
+{
+    scorpion1_t.loadFromFile("resources/scorpion1.png");
+    scorpion2_t.loadFromFile("resources/scorpion2.png");
+    scorpion3_t.loadFromFile("resources/scorpion3.png");
+    scorpion4_t.loadFromFile("resources/scorpion4.png");
 }
