@@ -10,7 +10,9 @@ SpiderController::SpiderController():
     min_instruction{9},
     max_instruction{32}
 
-{}
+{
+    load_resources();
+}
 
 void SpiderController::update_spider(vector<shared_ptr<sf::Sprite>>& spider_sprite, vector<shared_ptr<Spider>>& spider_obj)
 {
@@ -225,55 +227,58 @@ void SpiderController::Animate_spider(shared_ptr<sf::Sprite>& spider_sprite, sha
     auto counter = spider_object -> get_counter();
     if (counter == 0)
     {
-        spider_texture.loadFromFile("resources/spider1.png");
-        spider_sprite -> setTexture(spider_texture);
-
+        spider_sprite -> setTexture(spider1_t);
     }
 
     if (counter == 8)
     {
-        spider_texture.loadFromFile("resources/spider2.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider2_t);
     }
 
     if (counter == 16)
     {
-        spider_texture.loadFromFile("resources/spider3.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider3_t);
     }
 
     if (counter == 24)
     {
-        spider_texture.loadFromFile("resources/spider4.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider4_t);
     }
 
     if (counter == 32)
     {
-        spider_texture.loadFromFile("resources/spider5.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider5_t);
     }
 
     if (counter == 40)
     {
-        spider_texture.loadFromFile("resources/spider6.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider6_t);
     }
 
     if (counter == 48)
     {
-        spider_texture.loadFromFile("resources/spider7.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider7_t);
     }
 
     if (counter == 56)
     {
-        spider_texture.loadFromFile("resources/spider8.png");
-        spider_sprite -> setTexture(spider_texture);
+        spider_sprite -> setTexture(spider8_t);
         spider_object -> reset_counter();
     }
 
     spider_object -> increment_counter();
+}
+
+void SpiderController::load_resources()
+{
+    spider1_t.loadFromFile("resources/spider1.png");
+    spider2_t.loadFromFile("resources/spider2.png");
+    spider3_t.loadFromFile("resources/spider3.png");
+    spider4_t.loadFromFile("resources/spider4.png");
+    spider5_t.loadFromFile("resources/spider5.png");
+    spider6_t.loadFromFile("resources/spider6.png");
+    spider7_t.loadFromFile("resources/spider7.png");
+    spider8_t.loadFromFile("resources/spider8.png");
 }
 
 SpiderController::~SpiderController()

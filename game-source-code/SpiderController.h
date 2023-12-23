@@ -11,7 +11,6 @@ public:
     SpiderController();
     ~SpiderController();
     void update_spider(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<Spider>>&);
-    sf::Texture spider_texture;
 private:
 
     void move_up();
@@ -51,6 +50,8 @@ private:
 
     void delete_queue();
     void Animate_spider(shared_ptr<sf::Sprite>&, shared_ptr<Spider>&);
+    void load_resources();
+    sf::Texture spider1_t, spider2_t, spider3_t, spider4_t, spider5_t, spider6_t, spider7_t, spider8_t;
 
 };
 #endif // SPIDERCONTROLLER_H
