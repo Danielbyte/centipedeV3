@@ -24,25 +24,23 @@ void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpion
     auto scorpion_sprite_iter = scorpion_sprite.begin();
     auto scorpionObj_iter = scorpionObj.begin();
     auto counter = (*scorpionObj_iter) -> get_counter();
-    if (counter == 0)
+    switch (counter)
     {
-        (*scorpion_sprite_iter) -> setTexture(scorpion1_t);
-    }
-
-    if (counter == 5)
-    {
-        (*scorpion_sprite_iter) -> setTexture(scorpion2_t);
-    }
-
-    if(counter == 10)
-    {
-        (*scorpion_sprite_iter) -> setTexture(scorpion3_t);
-    }
-
-    if(counter == 15)
-    {
-        (*scorpion_sprite_iter) -> setTexture(scorpion4_t);
-        (*scorpionObj_iter)-> reset_counter();
+    case 0:
+        (*scorpion_sprite_iter)->setTexture(scorpion1_t);
+        break;
+    case 5:
+        (*scorpion_sprite_iter)->setTexture(scorpion2_t);
+        break;
+    case 10:
+        (*scorpion_sprite_iter)->setTexture(scorpion3_t);
+        break;
+    case 15:
+        (*scorpion_sprite_iter)->setTexture(scorpion4_t);
+        (*scorpionObj_iter)->reset_counter();
+        break;
+    default:
+        break;
     }
 
     pos = (*scorpionObj_iter) -> getScorpion_position();
