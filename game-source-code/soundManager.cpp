@@ -7,6 +7,7 @@ SoundManager::SoundManager()
 	spiderSoundBuffer.loadFromFile("resources/spider-sound.wav");
 	fleaSoundBuffer.loadFromFile("resources/flea-drop.wav");
 	scorpionSoundBuffer.loadFromFile("resources/scorpion-sound.wav");
+	backGroundSoundBuffer.loadFromFile("resources/background.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -20,6 +21,9 @@ SoundManager::SoundManager()
 
 	scorpionSound.setBuffer(scorpionSoundBuffer);
 	scorpionSound.setRelativeToListener(true);
+
+	backGroundSound.setBuffer(backGroundSoundBuffer);
+	backGroundSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -42,4 +46,10 @@ void SoundManager::playScorpionSound()
 {
 	if (scorpionSound.getStatus() == sf::Sound::Stopped)
 		scorpionSound.play();
+}
+
+void SoundManager::playBackGroundSound()
+{
+	if (backGroundSound.getStatus() == sf::Sound::Stopped)
+		backGroundSound.play();
 }

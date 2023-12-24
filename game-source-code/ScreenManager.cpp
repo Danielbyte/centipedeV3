@@ -78,6 +78,8 @@ void ScreenManager::run()
         process_events();
         if(isPlaying)
         {
+            //play background sound
+            sound_manager->playBackGroundSound();
             //needs to update screen accordingly
             update();
             //draw game entities
