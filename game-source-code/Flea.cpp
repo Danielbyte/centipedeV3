@@ -1,11 +1,13 @@
 #include "Flea.h"
 
 Flea::Flea():
-    flea_speed{2},
+    flea_speed{5},
     health{2}, //eliminated by two player shots
     spawn_rate{0},//starts at 0 and will be controlled by Flea controller
     counter{0}
-{}
+{
+    sound_manager->playFleaSound();
+}
 
 int Flea::get_flea_speed() const
 {

@@ -3,6 +3,7 @@
 
 #include "GameDataType.h"
 #include "gameResources.h"
+#include "soundManager.h"
 
 class Flea
 {
@@ -33,6 +34,8 @@ private:
     int spawn_rate;
     //variable for animation
     int counter;
+
+    shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
 
 };
 #endif // FLEA_H
