@@ -34,24 +34,22 @@ void SpiderController::update_spider(vector<shared_ptr<sf::Sprite>>& spider_spri
         if (movement_logic.empty())
         {
             selection = (int)(rand() % 4);
-            if (selection == 0)
+            switch (selection)
             {
+            case 0:
                 move_up();
-            }
-
-            else if (selection == 1)
-            {
+                break;
+            case 1:
                 move_down();
-            }
-
-            else if (selection ==2)
-            {
+                break;
+            case 2:
                 move_diagonal_up();
-            }
-
-            else if (selection == 3)
-            {
+                break;
+            case 3:
                 move_diagonal_down();
+                break;
+            default:
+                break;
             }
         }
 
@@ -183,29 +181,29 @@ void SpiderController::move_diagonal_down()
 void SpiderController::initialize_movement(shared_ptr<Spider>& spider_object)
 {
     int dir = (int)(rand() % 2);
-    if (dir == 0)
+    sf::Vector2f pos_;
+    switch (dir)
     {
+    case 0:
         //moving left
         direction = Direction::Left;
         direction_marker = -1;
-        sf::Vector2f pos_;
         //place spider on the right (will move from right to left)
         pos_.x = right_pos;
         pos_.y = spawn_height;
-        spider_object -> set_position(pos_);
-    }
-
-    if (dir == 1)
-    {
+        spider_object->set_position(pos_);
+        break;
+    case 1:
         //moving right
         direction = Direction::Right;
         direction_marker = 1;
-        sf::Vector2f pos_;
         //place spider on the left (will move from left to right)
         pos_.x = left_pos;
         pos_.y = spawn_height;
-        spider_object -> set_position(pos_);
-
+        spider_object->set_position(pos_);
+        break;
+    default:
+        break;
     }
 
     //Spider is no longer new but old
@@ -225,47 +223,37 @@ void SpiderController::delete_queue()
 void SpiderController::Animate_spider(shared_ptr<sf::Sprite>& spider_sprite, shared_ptr<Spider>& spider_object)
 {
     auto counter = spider_object -> get_counter();
-    if (counter == 0)
-    {
-        spider_sprite -> setTexture(spider1_t);
-    }
 
-    if (counter == 8)
+    switch (counter)
     {
-        spider_sprite -> setTexture(spider2_t);
+    case 0:
+        spider_sprite->setTexture(spider1_t);
+        break;
+    case 8:
+        spider_sprite->setTexture(spider2_t);
+        break;
+    case 16:
+        spider_sprite->setTexture(spider3_t);
+        break;
+    case 24:
+        spider_sprite->setTexture(spider4_t);
+        break;
+    case 32:
+        spider_sprite->setTexture(spider5_t);
+        break;
+    case 40:
+        spider_sprite->setTexture(spider6_t);
+        break;
+    case 48:
+        spider_sprite->setTexture(spider7_t);
+        break;
+    case 56:
+        spider_sprite->setTexture(spider8_t);
+        spider_object->reset_counter();
+        break;
+    default:
+        break;
     }
-
-    if (counter == 16)
-    {
-        spider_sprite -> setTexture(spider3_t);
-    }
-
-    if (counter == 24)
-    {
-        spider_sprite -> setTexture(spider4_t);
-    }
-
-    if (counter == 32)
-    {
-        spider_sprite -> setTexture(spider5_t);
-    }
-
-    if (counter == 40)
-    {
-        spider_sprite -> setTexture(spider6_t);
-    }
-
-    if (counter == 48)
-    {
-        spider_sprite -> setTexture(spider7_t);
-    }
-
-    if (counter == 56)
-    {
-        spider_sprite -> setTexture(spider8_t);
-        spider_object -> reset_counter();
-    }
-
     spider_object -> increment_counter();
 }
 

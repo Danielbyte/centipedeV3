@@ -9,11 +9,6 @@ LaserShots::LaserShots(float dir_x, float dir_y, float laser_speed)
     //this ->shape.setPosition(pos_x, pos_y);
 }
 
-void LaserShots::update()
-{
-    //this ->shape.move(this ->laserSpeed*this ->direction);
-}
-
 sf::Vector2f LaserShots::getBullet_direction() const
 {
     return direction;
