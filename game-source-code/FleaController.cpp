@@ -119,27 +119,24 @@ sf::Vector2f FleaController::generate_spawn_position()
 void FleaController::animate_flea(shared_ptr<Flea>& flea_obj_ptr, shared_ptr<sf::Sprite>& flea_sprite_ptr)
 {
     auto counter = flea_obj_ptr -> get_counter();
-    if(counter == 0)
+    switch (counter)
     {
-        flea_sprite_ptr -> setTexture(flea1_t);
+    case 0:
+        flea_sprite_ptr->setTexture(flea1_t);
+        break;
+    case 5:
+        flea_sprite_ptr->setTexture(flea2_t);
+        break;
+    case 10:
+        flea_sprite_ptr->setTexture(flea3_t);
+        break;
+    case 15:
+        flea_sprite_ptr->setTexture(flea4_t);
+        flea_obj_ptr->reset_counter();
+        break;
+    default:
+        break;
     }
-
-        if(counter == 5)
-    {
-        flea_sprite_ptr -> setTexture(flea2_t);
-    }
-
-        if(counter == 10)
-    {
-        flea_sprite_ptr -> setTexture(flea3_t);
-    }
-
-        if(counter == 15)
-    {
-        flea_sprite_ptr -> setTexture(flea4_t);
-        flea_obj_ptr -> reset_counter();
-    }
-
     flea_obj_ptr -> increment_counter();
 }
 
