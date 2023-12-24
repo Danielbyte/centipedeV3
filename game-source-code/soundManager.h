@@ -6,9 +6,11 @@ class SoundManager
 {
 public:
     SoundManager();
+    void playLaserSound();
 
 private:
-    //vector <shared_ptr<Sprite>>
+    sf::SoundBuffer laserSoundBuffer;
+    sf::Sound laserSound;
 
 };
-#endif // SPRITEANIMATION_H
+#endif // SOUNDMANAGER_H
