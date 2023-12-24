@@ -10,8 +10,8 @@ Spider::Spider():
     isNew{true},
     lunch_time{5} //lunch time is 5 sec
     {
-        pos.x = -32;
-        pos.y = 0;
+        pos.x = -32.0f;
+        pos.y = 0.0f;
     }
 
 void Spider::set_starting_direction(Direction dir)
@@ -122,5 +122,6 @@ float Spider::getSpider_lunch_time() const
 
 void Spider::play_sound()
 {
-    sound_manager->playSpiderSound();
+    if (pos.x >= -15.0f && pos.x <= 495.0f)
+        sound_manager->playSpiderSound();
 }
