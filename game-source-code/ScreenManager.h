@@ -6,6 +6,7 @@
 #include "Spider.h"
 #include "ScoreManager.h"
 #include "mushroomResources.h"
+#include "soundManager.h"
 
 class ScreenManager
 {
@@ -117,5 +118,7 @@ class ScreenManager
         //Update game entities
         void update_game_entities();
         void draw_game_entities();
+
+        shared_ptr<SoundManager>sound_manager = make_shared<SoundManager>();
 };
 #endif // SCREENMANAGER_H

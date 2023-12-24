@@ -220,6 +220,7 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
         else if (key == sf::Keyboard::Space && shoot_timer >= 2)
         {
             window.setKeyRepeatEnabled(false);
+            sound_manager->playLaserSound();
             create_laserShots();
             shoot_timer = 0;
         }
