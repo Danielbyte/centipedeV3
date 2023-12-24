@@ -15,6 +15,7 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
         auto scorpionObj_iter = scorpionObj.begin();
         sf::Vector2f pos_ = (*scorpionObj_iter) -> getScorpion_position();
         poison_mushroom(pos_, mushField, mushroom_sprites);
+        (*scorpionObj_iter)->play_sound();
     }
 
 }

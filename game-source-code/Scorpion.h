@@ -4,6 +4,7 @@
 #include "StopWatch.h"
 #include "GameDataType.h"
 #include "Centipede.h"
+#include "soundManager.h"
 #include "ctime"
 
 class Scorpion
@@ -21,6 +22,7 @@ public:
     int get_counter() const;
     float get_scorpion_speed() const;
     void set_position(sf::Vector2f);
+    void play_sound();
 
 
 private:
@@ -36,7 +38,7 @@ private:
     bool isOffScreen;
     int counter;
     int control;
-
+    shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
 };
 
 #endif // SCORPION_H

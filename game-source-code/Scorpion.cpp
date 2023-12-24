@@ -59,3 +59,8 @@ void Scorpion::set_position(sf::Vector2f pos)
 {
     this -> pos = pos;
 }
+
+void Scorpion::play_sound()
+{
+    sound_manager->playScorpionSound();
+}
