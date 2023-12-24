@@ -2,6 +2,7 @@
 #define SPIDERCONTROLLER_H
 #include "Spider.h"
 #include "GameDataType.h"
+#include "StopWatch.h"
 #include <ctime>
 #include <queue>
 
@@ -52,6 +53,5 @@ private:
     void Animate_spider(shared_ptr<sf::Sprite>&, shared_ptr<Spider>&);
     void load_resources();
     sf::Texture spider1_t, spider2_t, spider3_t, spider4_t, spider5_t, spider6_t, spider7_t, spider8_t;
-
 };
 #endif // SPIDERCONTROLLER_H

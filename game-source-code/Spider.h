@@ -3,6 +3,8 @@
 
 #include "GameDataType.h"
 #include "gameResources.h"
+#include "StopWatch.h"
+#include "soundManager.h"
 #include <ctime>
 
 class Spider
@@ -36,6 +38,7 @@ public:
     void setToOld();
     bool getIsHungry();
     float getSpider_lunch_time() const;
+    void play_sound();
 
     //For tests purposes
     //void setToHungry();
@@ -58,6 +61,8 @@ private:
 
     //lunch time
     float lunch_time;
+
+    shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
 
 };
 #endif // SPIDER_H

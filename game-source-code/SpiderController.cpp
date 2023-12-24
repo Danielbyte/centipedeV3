@@ -130,6 +130,9 @@ void SpiderController::update_spider(vector<shared_ptr<sf::Sprite>>& spider_spri
         ++spiderObj_iter;
         ++spiderSprite_iter;
     }
+
+    if (spider_obj.begin() != spider_obj.end())
+        (*spider_obj.begin())->play_sound();
 }
 
 void SpiderController::move_up()
