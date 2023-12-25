@@ -14,7 +14,6 @@ public:
         vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
     bool set_if_can_spawn_flea(vector<shared_ptr<MushroomField>>&);
     sf::Vector2f generate_spawn_position();
-    sf::Texture flea_texture;
 
 private:
     void spawn_mushroom(sf::Vector2f, vector<shared_ptr<MushroomField>>&,
@@ -29,5 +28,7 @@ private:
 
     void load_resources();
     sf::Texture flea1_t, flea2_t, flea3_t, flea4_t;
+    sf::Texture death1_t, death2_t, death3_t, death4_t, death5_t, death6_t;
+    float deathFramePeriod;
 };
 #endif // FLEACONTROLLER_H

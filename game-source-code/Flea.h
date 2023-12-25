@@ -4,6 +4,7 @@
 #include "GameDataType.h"
 #include "gameResources.h"
 #include "soundManager.h"
+#include "StopWatch.h"
 
 class Flea
 {
@@ -13,7 +14,6 @@ public:
     int get_flea_speed() const;
     void double_flea_speed();
     void set_position(sf::Vector2f);
-    int get_flea_spawn_chance() const;
     void decrement_health();
     int get_flea_health() const;
 
@@ -24,6 +24,12 @@ public:
     void increment_counter();
     int get_counter() const;
     void reset_counter();
+
+    void startDeathAnimation();
+    bool isInDeathAnimation() const;
+    void destroy_object();
+    bool CanDestroy() const;
+    float getAnimationTime() const;
 
 private:
     int flea_speed;
@@ -37,5 +43,8 @@ private:
 
     shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
 
+    bool inDeathAnimation;
+    bool canDestroy;
+    shared_ptr<StopWatch>death_animation_watch = std::make_shared<StopWatch>();
 };
 #endif // FLEA_H

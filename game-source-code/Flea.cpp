@@ -4,7 +4,9 @@ Flea::Flea():
     flea_speed{5},
     health{2}, //eliminated by two player shots
     spawn_rate{0},//starts at 0 and will be controlled by Flea controller
-    counter{0}
+    counter{0},
+    inDeathAnimation{false},
+    canDestroy{false}
 {
     sound_manager->playFleaSound();
 }
@@ -72,3 +74,28 @@ void Flea::double_flea_speed()
     flea_speed = 2*flea_speed;
 }
 
+void Flea::startDeathAnimation()
+{
+    inDeathAnimation = true;
+    death_animation_watch->restart();
+}
+
+void Flea::destroy_object()
+{
+    canDestroy = true;
+}
+
+bool Flea::CanDestroy() const
+{
+    return canDestroy;
+}
+
+float Flea::getAnimationTime() const
+{
+    return (death_animation_watch->getTimeElapsed());
+}
+
+bool Flea::isInDeathAnimation() const
+{
+    return inDeathAnimation;
+}

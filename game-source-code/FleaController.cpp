@@ -1,8 +1,9 @@
 #include "FleaController.h"
 
 FleaController::FleaController():
-    min_mushrooms{5}, //if there is less than 5 mushes in player area, call abuti flea
-    previousYpos{0}
+    min_mushrooms{10}, //if there is less than 5 mushes in player area, call abuti flea
+    previousYpos{0},
+    deathFramePeriod{0.1f}
 {
     load_resources();
 }
@@ -13,6 +14,13 @@ void FleaController::update_flea(vector<shared_ptr<Flea>>& flea_object, vector<s
     //only going to have one flea per instance
     auto flea_sprite_iter = flea_sprite.begin();
     auto flea_object_iter = flea_object.begin();
+
+    if ((*flea_object_iter)->isInDeathAnimation())
+    {
+        animate_flea(*flea_object_iter, *flea_sprite_iter);
+        return;
+    }
+
     auto pos_ = (*flea_sprite_iter) -> getPosition();
     auto flea_speed = (*flea_object_iter) ->get_flea_speed();
     pos_.y += flea_speed;
@@ -118,6 +126,41 @@ sf::Vector2f FleaController::generate_spawn_position()
 
 void FleaController::animate_flea(shared_ptr<Flea>& flea_obj_ptr, shared_ptr<sf::Sprite>& flea_sprite_ptr)
 {
+    if (flea_obj_ptr->isInDeathAnimation())
+    {
+        auto time = flea_obj_ptr->getAnimationTime();
+        if (time <= deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death1_t);
+            return;
+        }
+        if (time > deathFramePeriod && time <= 2 * deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death2_t);
+            return;
+        }
+        if (time > 2 * deathFramePeriod && time <= 3 * deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death3_t);
+            return;
+        }
+        if (time > 3 * deathFramePeriod && time <= 4 * deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death4_t);
+            return;
+        }
+        if (time > 4 * deathFramePeriod && time <= 5 * deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death5_t);
+            return;
+        }
+        if (time > 5 * deathFramePeriod)
+        {
+            flea_sprite_ptr->setTexture(death6_t);
+            flea_obj_ptr->destroy_object();
+            return;
+        }
+    }
     auto counter = flea_obj_ptr -> get_counter();
     switch (counter)
     {
@@ -146,4 +189,11 @@ void FleaController::load_resources()
     flea2_t.loadFromFile("resources/flea2.png");
     flea3_t.loadFromFile("resources/flea3.png");
     flea4_t.loadFromFile("resources/flea4.png");
+
+    death1_t.loadFromFile("resources/scorpion_flea-death1.png");
+    death2_t.loadFromFile("resources/scorpion_flea-death2.png");
+    death3_t.loadFromFile("resources/scorpion_flea-death3.png");
+    death4_t.loadFromFile("resources/scorpion_flea-death4.png");
+    death5_t.loadFromFile("resources/scorpion_flea-death5.png");
+    death6_t.loadFromFile("resources/scorpion_flea-death6.png");
 }

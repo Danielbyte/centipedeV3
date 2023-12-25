@@ -149,10 +149,10 @@ void ScorpionController::load_resources()
     scorpion3_t.loadFromFile("resources/scorpion3.png");
     scorpion4_t.loadFromFile("resources/scorpion4.png");
 
-    death1_t.loadFromFile("resources/scorpion-death1.png");
-    death2_t.loadFromFile("resources/scorpion-death2.png");
-    death3_t.loadFromFile("resources/scorpion-death3.png");
-    death4_t.loadFromFile("resources/scorpion-death4.png");
-    death5_t.loadFromFile("resources/scorpion-death5.png");
-    death6_t.loadFromFile("resources/scorpion-death6.png");
+    death1_t.loadFromFile("resources/scorpion_flea-death1.png");
+    death2_t.loadFromFile("resources/scorpion_flea-death2.png");
+    death3_t.loadFromFile("resources/scorpion_flea-death3.png");
+    death4_t.loadFromFile("resources/scorpion_flea-death4.png");
+    death5_t.loadFromFile("resources/scorpion_flea-death5.png");
+    death6_t.loadFromFile("resources/scorpion_flea-death6.png");
 }

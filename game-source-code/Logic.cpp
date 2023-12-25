@@ -549,11 +549,11 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bul
 
 void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bullet_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite)
 {
-
-    if(!flea_object.empty())
+    auto flea_obj_iter = flea_object.begin();
+    auto flea_sprite_iter = flea_sprite.begin();
+    auto inDeathAnimation = (*flea_obj_iter)->isInDeathAnimation();
+    if(!flea_object.empty() && !inDeathAnimation)
     {
-        auto flea_obj_iter = flea_object.begin();
-        auto flea_sprite_iter = flea_sprite.begin();
         auto bullet_iter = bullet_sprite.begin();
         while(bullet_iter != bullet_sprite.end())
         {
@@ -569,28 +569,42 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bu
             {
                 (*flea_obj_iter) -> decrement_health();
                 auto flea_health = (*flea_obj_iter) -> get_flea_health();
+                bullet_sprite.erase(bullet_iter);
                 if(flea_health == 0)
                 {
+                    sound_manager->playEnemyDeathSound();
                     score += fleaPoints;
-                    flea_sprite.clear();
-                    flea_object.clear();
-                    bullet_sprite.erase(bullet_iter);
-                    return;
+                    (*flea_obj_iter)->startDeathAnimation();
                 }
 
                 else
                 {
                     //flea must increase in speed
                     (*flea_obj_iter) -> double_flea_speed();
-                    bullet_sprite.erase(bullet_iter);
-                    return;
-
                 }
             }
-            ++bullet_iter;
+            else
+            {
+                ++bullet_iter;
+            }  
         }
     }
 
+    flea_obj_iter = flea_object.begin();
+    flea_sprite_iter = flea_sprite.begin();
+    while (flea_obj_iter != flea_object.end())
+    {
+        if ((*flea_obj_iter)->CanDestroy())
+        {
+            flea_object.clear();
+            flea_sprite.clear();
+        }
+        else
+        {
+            ++flea_obj_iter;
+            ++flea_sprite_iter;
+        }
+    }
 }
 
 void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
