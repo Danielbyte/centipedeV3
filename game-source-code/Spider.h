@@ -39,9 +39,11 @@ public:
     bool getIsHungry();
     float getSpider_lunch_time() const;
     void play_sound();
-
-    //For tests purposes
-    //void setToHungry();
+    void startDeathAnimation();
+    bool isInDeathAnimation() const;
+    void destroy_object();
+    bool CanDestroy() const;
+    float getAnimationTime() const;
 
 private:
     int xFastMovementSpeed;
@@ -64,5 +66,8 @@ private:
 
     shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
 
+    bool inDeathAnimation;
+    bool canDestroy;
+    shared_ptr<StopWatch>death_animation_timer = std::make_shared<StopWatch>();
 };
 #endif // SPIDER_H

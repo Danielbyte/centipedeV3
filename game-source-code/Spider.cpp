@@ -6,9 +6,13 @@ Spider::Spider():
     yMovementSpeed{2},
     counter{0},
     spiderSpawnRate{15}, // spawn after every 15 secs
+    start_direction{Direction::unknown},
     canSpawnSpider{false},
     isNew{true},
-    lunch_time{5} //lunch time is 5 sec
+    isHungry{false},
+    lunch_time{5}, //lunch time is 5 sec
+    inDeathAnimation{false},
+    canDestroy{false}
     {
         pos.x = -32.0f;
         pos.y = 0.0f;
@@ -124,4 +128,30 @@ void Spider::play_sound()
 {
     if (pos.x >= -15.0f && pos.x <= 495.0f)
         sound_manager->playSpiderSound();
+}
+
+void Spider::startDeathAnimation()
+{
+    inDeathAnimation = true;
+    death_animation_timer->restart();
+}
+
+void Spider::destroy_object()
+{
+    canDestroy = true;
+}
+
+bool Spider::CanDestroy() const
+{
+    return canDestroy;
+}
+
+float Spider::getAnimationTime() const
+{
+    return (death_animation_timer->getTimeElapsed());
+}
+
+bool Spider::isInDeathAnimation() const
+{
+    return inDeathAnimation;
 }

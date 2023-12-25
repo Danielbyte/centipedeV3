@@ -495,11 +495,12 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>& ce
     }
 }
 
-void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bullet, vector<shared_ptr<sf::Sprite>>& spider)
+void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bullet, vector<shared_ptr<sf::Sprite>>& spider_sprites)
 {
     auto spider_iter = spider_object_vector.begin();
-    auto spiderSprite_iter = spider.begin();
-    if(!spider_object_vector.empty())
+    auto spiderSprite_iter = spider_sprites.begin();
+    auto inDeathAnimation = (*spider_iter)->isInDeathAnimation();
+    if(!spider_object_vector.empty() && !inDeathAnimation)
     {
         auto bullet_iter = bullet.begin();
         while (bullet_iter != bullet.end())
@@ -517,12 +518,27 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bul
                 //update score
                 score += spiderPoints;
                 bullet.erase(bullet_iter);
-                spider_object_vector.erase(spider_iter);
-                spider.erase(spiderSprite_iter);
-                return;
+                (*spider_iter)->startDeathAnimation();
             }
+            else
+            {
+                ++bullet_iter;
+            }
+        }
+    }
 
-            ++bullet_iter;
+    auto spider_sprite = spider_sprites.begin();
+    auto spider_ = spider_object_vector.begin();
+    while (spider_ != spider_object_vector.end())
+    {
+        if ((*spider_)->CanDestroy())
+        {
+            spider_sprites.erase(spider_sprite);
+            spider_object_vector.erase(spider_);
+        }
+        else
+        {
+            ++spider_;
         }
     }
 }

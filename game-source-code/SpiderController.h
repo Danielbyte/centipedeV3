@@ -53,5 +53,8 @@ private:
     void Animate_spider(shared_ptr<sf::Sprite>&, shared_ptr<Spider>&);
     void load_resources();
     sf::Texture spider1_t, spider2_t, spider3_t, spider4_t, spider5_t, spider6_t, spider7_t, spider8_t;
+    sf::Texture death1_t, death2_t, death3_t, death4_t, death5_t, death6_t;
+
+    float deathFramePeriod;
 };
 #endif // SPIDERCONTROLLER_H

@@ -8,7 +8,8 @@ SpiderController::SpiderController():
     max_pos{376},
     min_pos{496},
     min_instruction{9},
-    max_instruction{32}
+    max_instruction{32},
+    deathFramePeriod{0.1f}
 
 {
     load_resources();
@@ -20,6 +21,13 @@ void SpiderController::update_spider(vector<shared_ptr<sf::Sprite>>& spider_spri
     auto spiderObj_iter = spider_obj.begin();
     auto spiderSprite_iter = spider_sprite.begin();
     auto isNew = (*spiderObj_iter) -> getIsNew();
+
+    if ((*spiderObj_iter)->isInDeathAnimation())
+    {
+        Animate_spider(*spiderSprite_iter, *spiderObj_iter);
+        return;
+    }
+       
 
     if(isNew)
     {
@@ -226,6 +234,48 @@ void SpiderController::delete_queue()
 void SpiderController::Animate_spider(shared_ptr<sf::Sprite>& spider_sprite, shared_ptr<Spider>& spider_object)
 {
     auto counter = spider_object -> get_counter();
+    auto inDeathAnimation = spider_object->isInDeathAnimation();
+
+    if (inDeathAnimation)
+    {
+        auto time = spider_object->getAnimationTime();
+        if (time <= deathFramePeriod)
+        {
+            spider_sprite->setTexture(death1_t);
+            return;
+        }
+
+        if (time > deathFramePeriod && time <= 2 * deathFramePeriod)
+        {
+            spider_sprite->setTexture(death2_t);
+            return;
+        }
+
+        if (time > 2 * deathFramePeriod && time <= 3 * deathFramePeriod)
+        {
+            spider_sprite->setTexture(death3_t);
+            return;
+        }
+
+        if (time > 3 * deathFramePeriod && time <= 4 * deathFramePeriod)
+        {
+            spider_sprite->setTexture(death4_t);
+            return;
+        }
+
+        if (time > 4 * deathFramePeriod && time <= 5 * deathFramePeriod)
+        {
+            spider_sprite->setTexture(death5_t);
+            return;
+        }
+
+        if (time > 5 * deathFramePeriod)
+        {
+            spider_sprite->setTexture(death6_t);
+            spider_object->destroy_object();
+            return;
+        }
+    }
 
     switch (counter)
     {
@@ -270,6 +320,14 @@ void SpiderController::load_resources()
     spider6_t.loadFromFile("resources/spider6.png");
     spider7_t.loadFromFile("resources/spider7.png");
     spider8_t.loadFromFile("resources/spider8.png");
+
+    //Death textures
+    death1_t.loadFromFile("resources/spider_death1.png");
+    death2_t.loadFromFile("resources/spider_death2.png");
+    death3_t.loadFromFile("resources/spider_death3.png");
+    death4_t.loadFromFile("resources/spider_death4.png");
+    death5_t.loadFromFile("resources/spider_death5.png");
+    death6_t.loadFromFile("resources/spider_death6.png");
 }
 
 SpiderController::~SpiderController()
