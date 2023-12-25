@@ -23,6 +23,11 @@ public:
     float get_scorpion_speed() const;
     void set_position(sf::Vector2f);
     void play_sound();
+    void startDeathAnimation();
+    bool isInDeathAnimation() const;
+    void destroy_object();
+    bool CanDestroy() const;
+    float getAnimationTime() const;
 
 
 private:
@@ -39,6 +44,10 @@ private:
     int counter;
     int control;
     shared_ptr<SoundManager>sound_manager = std::make_shared<SoundManager>();
+
+    bool inDeathAnimation;
+    bool canDestroy;
+    shared_ptr<StopWatch>death_animation_watch = std::make_shared<StopWatch>();
 };
 
 #endif // SCORPION_H

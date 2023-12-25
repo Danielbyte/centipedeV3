@@ -1,6 +1,7 @@
 #include "ScorpionController.h"
 
-ScorpionController::ScorpionController()
+ScorpionController::ScorpionController():
+    deathFramePeriod{0.1f}
 {
     load_resources();
 }
@@ -8,7 +9,12 @@ ScorpionController::ScorpionController()
 void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>&scorpion_sprite,
         vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
-    animate_scorpion(scorpionObj, scorpion_sprite);
+    if ((*scorpionObj.begin())->isInDeathAnimation())
+    {
+        animate_scorpion(scorpionObj, scorpion_sprite);
+        return;
+    }
+
     //only updating when scorpion has been created
     if(!scorpionObj.empty())
     {
@@ -18,12 +24,54 @@ void ScorpionController::update_scorpion(vector<shared_ptr<Scorpion>>& scorpionO
         (*scorpionObj_iter)->play_sound();
     }
 
+    animate_scorpion(scorpionObj, scorpion_sprite);
 }
 
 void ScorpionController::animate_scorpion(vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite)
 {
     auto scorpion_sprite_iter = scorpion_sprite.begin();
     auto scorpionObj_iter = scorpionObj.begin();
+    if ((*scorpionObj_iter)->isInDeathAnimation())
+    {
+        auto time = (*scorpionObj_iter)->getAnimationTime();
+        if (time <= deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death1_t);
+            return;
+        }
+
+        if (time > deathFramePeriod && time <= 2 * deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death2_t);
+            return;
+        }
+
+        if (time > 2 * deathFramePeriod && time <= 3 * deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death3_t);
+            return;
+        }
+
+        if (time > 3 * deathFramePeriod && time <= 4 * deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death4_t);
+            return;
+        }
+
+        if (time > 4 * deathFramePeriod && time <= 5 * deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death5_t);
+            return;
+        }
+
+        if (time > 5 * deathFramePeriod)
+        {
+            (*scorpion_sprite_iter)->setTexture(death6_t);
+            (*scorpionObj_iter)->destroy_object();
+            return;
+        }
+    }
+
     auto counter = (*scorpionObj_iter) -> get_counter();
     switch (counter)
     {
@@ -100,4 +148,11 @@ void ScorpionController::load_resources()
     scorpion2_t.loadFromFile("resources/scorpion2.png");
     scorpion3_t.loadFromFile("resources/scorpion3.png");
     scorpion4_t.loadFromFile("resources/scorpion4.png");
+
+    death1_t.loadFromFile("resources/scorpion-death1.png");
+    death2_t.loadFromFile("resources/scorpion-death2.png");
+    death3_t.loadFromFile("resources/scorpion-death3.png");
+    death4_t.loadFromFile("resources/scorpion-death4.png");
+    death5_t.loadFromFile("resources/scorpion-death5.png");
+    death6_t.loadFromFile("resources/scorpion-death6.png");
 }

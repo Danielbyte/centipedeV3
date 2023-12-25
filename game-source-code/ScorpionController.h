@@ -26,5 +26,7 @@ private:
     void load_resources();
 
     sf::Texture scorpion1_t, scorpion2_t, scorpion3_t, scorpion4_t;
+    sf::Texture death1_t, death2_t, death3_t, death4_t, death5_t, death6_t;
+    float deathFramePeriod;
 };
 #endif // SCORPIONCONTROLLER_H

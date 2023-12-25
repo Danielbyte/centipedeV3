@@ -6,7 +6,9 @@ Scorpion::Scorpion():
     spawnScorpion_rate{8}, //spawn scorpion after 5 seconds
     canCreate_scorpion{false},
     counter{0},
-    control{0}
+    control{0},
+    inDeathAnimation{false},
+    canDestroy{false}
 {
 }
 
@@ -63,4 +65,30 @@ void Scorpion::set_position(sf::Vector2f pos)
 void Scorpion::play_sound()
 {
     sound_manager->playScorpionSound();
+}
+
+void Scorpion::startDeathAnimation()
+{
+    inDeathAnimation = true;
+    death_animation_watch->restart();
+}
+
+void Scorpion::destroy_object()
+{
+    canDestroy = true;
+}
+
+bool Scorpion::CanDestroy() const
+{
+    return canDestroy;
+}
+
+float Scorpion::getAnimationTime() const
+{
+    return (death_animation_watch->getTimeElapsed());
+}
+
+bool Scorpion::isInDeathAnimation() const
+{
+    return inDeathAnimation;
 }

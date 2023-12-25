@@ -542,6 +542,7 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bul
         else
         {
             ++spider_;
+            ++spider_sprite;
         }
     }
 }
@@ -672,7 +673,8 @@ void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>
 {
     auto scorpion_iter = scorpion_object_vector.begin();
     auto scorpion_sprite_iter = scorpion_sprite.begin();
-    if(!scorpion_object_vector.empty())
+    auto inDeathAnimation = (*scorpion_iter)->isInDeathAnimation();
+    if(!scorpion_object_vector.empty() && !inDeathAnimation)
     {
         auto bullet_iter = bulletSpriteVector.begin();
         while (bullet_iter != bulletSpriteVector.end())
@@ -687,15 +689,32 @@ void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>
             auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,scorpionPos,scorpion_width,scorpion_height);
             if(isCollided)
             {
+                sound_manager->playEnemyDeathSound();
                 //update score
                 score += scorpionPoints;
                 bulletSpriteVector.erase(bullet_iter);
-                scorpion_object_vector.erase(scorpion_iter);
-                scorpion_sprite.erase(scorpion_sprite_iter);
-                return;
+                (*scorpion_iter)->startDeathAnimation();
             }
+            else
+            {
+                ++bullet_iter;
+            }
+        }
+    }
 
-            ++bullet_iter;
+    scorpion_iter = scorpion_object_vector.begin();
+    scorpion_sprite_iter = scorpion_sprite.begin();
+    while (scorpion_iter != scorpion_object_vector.end())
+    {
+        if ((*scorpion_iter)->CanDestroy())
+        {
+            scorpion_object_vector.erase(scorpion_iter);
+            scorpion_sprite.erase(scorpion_sprite_iter);
+        }
+        else
+        {
+            ++scorpion_iter;
+            ++scorpion_sprite_iter;
         }
     }
 }
