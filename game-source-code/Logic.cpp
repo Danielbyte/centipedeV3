@@ -513,8 +513,11 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bul
             spiderPos = (*spider_iter) -> get_position();
 
             auto isCollided = collision.collision_detect(bulletPos,bulletWidth,bulletHeight,spiderPos,spiderWidth,spiderHeight);
+    
             if(isCollided)
             {
+                //play death sound
+                sound_manager->playEnemyDeathSound();
                 //update score
                 score += spiderPoints;
                 bullet.erase(bullet_iter);

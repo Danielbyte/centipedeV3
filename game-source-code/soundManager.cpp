@@ -8,6 +8,7 @@ SoundManager::SoundManager()
 	fleaSoundBuffer.loadFromFile("resources/flea-drop.wav");
 	scorpionSoundBuffer.loadFromFile("resources/scorpion-sound.wav");
 	backGroundSoundBuffer.loadFromFile("resources/background.wav");
+	enemyDeathSoundBuffer.loadFromFile("resources/enemy-death.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -24,6 +25,9 @@ SoundManager::SoundManager()
 
 	backGroundSound.setBuffer(backGroundSoundBuffer);
 	backGroundSound.setRelativeToListener(true);
+
+	enemyDeathSound.setBuffer(enemyDeathSoundBuffer);
+	enemyDeathSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -52,4 +56,9 @@ void SoundManager::playBackGroundSound()
 {
 	if (backGroundSound.getStatus() == sf::Sound::Stopped)
 		backGroundSound.play();
+}
+
+void SoundManager::playEnemyDeathSound()
+{
+	enemyDeathSound.play();
 }

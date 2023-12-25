@@ -139,12 +139,6 @@ private:
 
     DDTBombsController bomb_controller;
 
-    //Function to detect mushroom field collisions
-    void checkFor_mushroom(shared_ptr<Centipede>&);
-
-    //set centipede sprite movements and rotations
-    void Movement(shared_ptr<Centipede>&, shared_ptr<sf::Sprite>&);
-
     int playerArea_upBound;
     int centipedeAnimationCounter;
 
@@ -165,8 +159,6 @@ private:
     int body_counter;
     int Test_counter;
 
-    void movement_update(vector<shared_ptr<Centipede>>&, vector<shared_ptr<sf::Sprite>>&, int);
-
     // spawn a body segment behind
     void spawn_behind(vector<shared_ptr<sf::Sprite>>&);
 
@@ -181,7 +173,6 @@ private:
     int shotCent_segments;
     bool created_scorpion;
 
-    void ChangeToPoison(sf::Vector2f);
     //a flag for spawning a spider
     bool canSpawnSpider;
 
@@ -199,7 +190,7 @@ private:
     Direction dir1;
     
     shared_ptr<MushroomResources> mushroom_resource = std::make_shared<MushroomResources>();
-
+    shared_ptr<SoundManager> sound_manager = std::make_shared<SoundManager>();
 };
 
 #endif // LOGIC_H
