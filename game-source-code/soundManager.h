@@ -12,6 +12,8 @@ public:
     void playScorpionSound();
     void playBackGroundSound();
     void playEnemyDeathSound();
+    void playBombDetonationSound();
+    void playSpiderMunchSound();
 
 private:
     sf::SoundBuffer laserSoundBuffer;
@@ -20,6 +22,8 @@ private:
     sf::SoundBuffer scorpionSoundBuffer;
     sf::SoundBuffer backGroundSoundBuffer;
     sf::SoundBuffer enemyDeathSoundBuffer;
+    sf::SoundBuffer bombDetonationSoundBuffer;
+    sf::SoundBuffer spiderMunchSoundBuffer;
 
     sf::Sound laserSound;
     sf::Sound spiderSound;
@@ -27,6 +31,7 @@ private:
     sf::Sound scorpionSound;
     sf::Sound backGroundSound;
     sf::Sound enemyDeathSound;
-
+    sf::Sound bombDetonationSound;
+    sf::Sound spiderMunchSound;
 };
 #endif // SOUNDMANAGER_H

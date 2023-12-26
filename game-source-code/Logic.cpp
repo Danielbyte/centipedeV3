@@ -189,6 +189,7 @@ void Logic::collision_between_mush_and_spider(bool isTest,vector<shared_ptr<Mush
                 if (spiderIsHungry && (luncheon >= lunch_time_))
                 {
                     lunch_time.restart();
+                    sound_manager->playSpiderMunchSound();
                     mushField.erase(mushroom_iter);
                     mushroom_sprites.erase(mushroom_sprite);
                     return;
@@ -699,7 +700,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
 
             if(isCollided)
             {
-                //std::cout << "Collided!" << std::endl;
+                sound_manager->playBombDetonationSound();
                 //Mark the bomb to be updated in the update function
                 bomb -> setExplosion(true);
                 bullet_sprite.erase(bullet_sprite_iter);

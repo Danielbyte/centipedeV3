@@ -9,6 +9,8 @@ SoundManager::SoundManager()
 	scorpionSoundBuffer.loadFromFile("resources/scorpion-sound.wav");
 	backGroundSoundBuffer.loadFromFile("resources/background.wav");
 	enemyDeathSoundBuffer.loadFromFile("resources/enemy-death.wav");
+	bombDetonationSoundBuffer.loadFromFile("resources/bomb-detonation.wav");
+	spiderMunchSoundBuffer.loadFromFile("resources/spider-munch.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -28,6 +30,12 @@ SoundManager::SoundManager()
 
 	enemyDeathSound.setBuffer(enemyDeathSoundBuffer);
 	enemyDeathSound.setRelativeToListener(true);
+
+	bombDetonationSound.setBuffer(bombDetonationSoundBuffer);
+	bombDetonationSound.setRelativeToListener(true);
+
+	spiderMunchSound.setBuffer(spiderMunchSoundBuffer);
+	spiderMunchSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -61,4 +69,14 @@ void SoundManager::playBackGroundSound()
 void SoundManager::playEnemyDeathSound()
 {
 	enemyDeathSound.play();
+}
+
+void SoundManager::playBombDetonationSound()
+{
+	bombDetonationSound.play();
+}
+
+void SoundManager::playSpiderMunchSound()
+{
+	spiderMunchSound.play();
 }
