@@ -3,8 +3,9 @@
 
 #include "GameDataType.h"
 #include "gameResources.h"
+#include "StopWatch.h"
 
-class Centipede : public GameResources
+class Centipede
 {
 public:
     Centipede();
@@ -79,6 +80,12 @@ public:
     void setRotation(float _rotation);
     float getRotation() const;
 
+    void startDeathAnimation();
+    bool isInDeathAnimation() const;
+    void destroy_object();
+    bool CanDestroy() const;
+    float getAnimationTime() const;
+
 private:
     sf::Vector2f pos;
     int centipede_speed;
@@ -116,5 +123,9 @@ private:
     bool isHit;
 
     float rotation;
+
+    bool inDeathAnimation;
+    bool canDestroy;
+    shared_ptr<StopWatch>death_animation_watch = std::make_shared<StopWatch>();
 };
 #endif // CENTIPEDE_H

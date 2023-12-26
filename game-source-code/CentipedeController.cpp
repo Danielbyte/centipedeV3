@@ -1,14 +1,18 @@
 #include "CentipedeController.h"
 
 CentipedeController::CentipedeController():
-    playerArea_upBound{376}
-{}
+    playerArea_upBound{376},
+    deathFramePeriod{0.04f}
+{
+    load_resources();
+}
 
 void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centipede_objectVector,
         vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,vector<shared_ptr<MushroomField>>& mushField)
 {
     auto centipedeObject_iter = centipede_objectVector.begin();
     auto centipedeSprite_iter = centipedeSprite_vector.begin();
+
     while (centipedeObject_iter != centipede_objectVector.end())
     {
         if((centipedeObject_iter + 1) != centipede_objectVector.end())
@@ -40,10 +44,17 @@ void CentipedeController::update_centipede(vector<shared_ptr<Centipede>>& centip
             (*centipedeObject_iter) -> resetCounter2();
         }
 
-        Movement((*centipedeObject_iter),(*centipedeSprite_iter));
-        auto pos_ = (*centipedeObject_iter) -> get_position();
-        (*centipedeSprite_iter) -> setPosition(pos_);
-        animation.Animate((*centipedeObject_iter));
+        if ((*centipedeObject_iter)->isInDeathAnimation())
+        {
+            updateSegmentTexture(*centipedeSprite_iter, *centipedeObject_iter);
+        }
+        else
+        {
+            Movement((*centipedeObject_iter), (*centipedeSprite_iter));
+            auto pos_ = (*centipedeObject_iter)->get_position();
+            (*centipedeSprite_iter)->setPosition(pos_);
+            animation.Animate((*centipedeObject_iter));
+        }
 
         ++centipedeObject_iter;
         ++centipedeSprite_iter;
@@ -259,9 +270,6 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     centipede_ptr->setRotation(0.0f);
 
     sf::Vector2f segmentPos = centipede_ptr->get_position();
-    auto isHead = centipede_ptr->getHead();
-    auto _counter = centipede_ptr->get_anime_loop();
-    centipede_ptr->getSegmentTexture(_counter, isHead, centSprite_ptr);
     centSprite_ptr->setPosition(segmentPos);
 
     if(down_)
@@ -301,5 +309,174 @@ void CentipedeController::Movement(shared_ptr<Centipede>& centipede_ptr, shared_
     else if(right_)
     {
         centipede_ptr -> move_right();
+    }
+    updateSegmentTexture(centSprite_ptr, centipede_ptr);
+}
+
+void CentipedeController::load_resources()
+{
+    //centipede resources
+    head1_t.loadFromFile("resources/head1.png");
+    head2_t.loadFromFile("resources/head2.png");
+    head3_t.loadFromFile("resources/head3.png");
+    head4_t.loadFromFile("resources/head4.png");
+    head5_t.loadFromFile("resources/head5.png");
+    head6_t.loadFromFile("resources/head6.png");
+    head7_t.loadFromFile("resources/head7.png");
+    head8_t.loadFromFile("resources/head8.png");
+
+    body1_t.loadFromFile("resources/body1.png");
+    body2_t.loadFromFile("resources/body2.png");
+    body3_t.loadFromFile("resources/body3.png");
+    body4_t.loadFromFile("resources/body4.png");
+    body5_t.loadFromFile("resources/body5.png");
+    body6_t.loadFromFile("resources/body6.png");
+    body7_t.loadFromFile("resources/body7.png");
+    body8_t.loadFromFile("resources/body8.png");
+
+    death1_t.loadFromFile("resources/death1.png");
+    death2_t.loadFromFile("resources/death2.png");
+    death3_t.loadFromFile("resources/death3.png");
+    death4_t.loadFromFile("resources/death4.png");
+    death5_t.loadFromFile("resources/death5.png");
+    death6_t.loadFromFile("resources/death6.png");
+}
+
+void CentipedeController::updateSegmentTexture(shared_ptr<sf::Sprite>& segment_sprite,
+    shared_ptr<Centipede>& centipede_segment)
+{
+    if (centipede_segment->isInDeathAnimation())
+    {
+        auto time = centipede_segment->getAnimationTime();
+
+        if (time <= deathFramePeriod)
+        {
+            segment_sprite->setTexture(death1_t);
+            return;
+        }
+        if (time > deathFramePeriod && time <= 2 * deathFramePeriod)
+        {
+            segment_sprite->setTexture(death2_t);
+            return;
+        }
+        if (time > 2 * deathFramePeriod && time <= 3 * deathFramePeriod)
+        {
+            segment_sprite->setTexture(death3_t);
+            return;
+        }
+        if (time > 3 * deathFramePeriod && time <= 4 * deathFramePeriod)
+        {
+            segment_sprite->setTexture(death4_t);
+            return;
+        }
+        if (time > 4 * deathFramePeriod && time <= 5 * deathFramePeriod)
+        {
+            segment_sprite->setTexture(death5_t);
+            return;
+        }
+        if (time > 5 * deathFramePeriod && time <= 6 * deathFramePeriod)
+        {
+            segment_sprite->setTexture(death6_t);
+            return;
+        }
+        if (time > 6 * deathFramePeriod)
+        {
+            centipede_segment->destroy_object();
+            return;
+        }
+    }
+    auto isHead = centipede_segment->getHead();
+    auto counter = centipede_segment->get_anime_loop();
+    if (isHead)
+    {
+        switch (counter)
+        {
+        case 0:
+        case 1:
+        case 2:
+            segment_sprite->setTexture(head1_t);
+            break;
+        case 3:
+        case 4:
+        case 5:
+            segment_sprite->setTexture(head2_t);
+            break;
+        case 6:
+        case 7:
+        case 8:
+            segment_sprite->setTexture(head3_t);
+            break;
+        case 9:
+        case 10:
+        case 11:
+            segment_sprite->setTexture(head4_t);
+            break;
+        case 12:
+        case 13:
+        case 14:
+            segment_sprite->setTexture(head5_t);
+            break;
+        case 15:
+        case 16:
+        case 17:
+            segment_sprite->setTexture(head6_t);
+            break;
+        case 18:
+        case 19:
+        case 20:
+            segment_sprite->setTexture(head7_t);
+            break;
+        case 21:
+            segment_sprite->setTexture(head8_t);
+            break;
+        default:
+            break;
+        }
+
+        return;
+    }
+
+    switch (counter)
+    {
+    case 0:
+    case 1:
+    case 2:
+        segment_sprite->setTexture(body1_t);
+        break;
+    case 3:
+    case 4:
+    case 5:
+        segment_sprite->setTexture(body2_t);
+        break;
+    case 6:
+    case 7:
+    case 8:
+        segment_sprite->setTexture(body3_t);
+        break;
+    case 9:
+    case 10:
+    case 11:
+        segment_sprite->setTexture(body4_t);
+        break;
+    case 12:
+    case 13:
+    case 14:
+        segment_sprite->setTexture(body5_t);
+        break;
+    case 15:
+    case 16:
+    case 17:
+        segment_sprite->setTexture(body6_t);
+        break;
+    case 18:
+    case 19:
+    case 20:
+        segment_sprite->setTexture(body7_t);
+        break;
+    case 21:
+        segment_sprite->setTexture(body8_t);
+        break;
+    default:
+        break;
     }
 }

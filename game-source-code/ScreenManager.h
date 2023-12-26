@@ -120,5 +120,7 @@ class ScreenManager
         void draw_game_entities();
 
         shared_ptr<SoundManager>sound_manager = make_shared<SoundManager>();
+
+        vector<shared_ptr<sf::Sprite>>shot_centipede_segment_sprites;
 };
 #endif // SCREENMANAGER_H

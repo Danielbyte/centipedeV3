@@ -110,6 +110,14 @@ void ScreenManager::draw_game_entities()
         window.draw(*centipede_segment);
     }
 
+    if (!shot_centipede_segment_sprites.empty())
+    {
+        for (auto& shot_segment : shot_centipede_segment_sprites)
+        {
+            window.draw(*shot_segment);
+        }
+    }
+
     for (auto& bullet : bulletSprites_vector) // draw bullets on screen
     {
         //(bullet) ->Draw(_window);
@@ -271,10 +279,8 @@ void ScreenManager::update()
         logic.update_flea(FleaSprite_vector,mushField, mushroom_sprites);
     }
 
-
     updateScreen_manager();
     update_game();
-
 }
 
 void ScreenManager::update_game_entities()
@@ -297,7 +303,8 @@ void ScreenManager::update_game_entities()
     logic.collision_between_player_and_flea(player_sprite);
     logic.collision_between_centipede_and_player(player_sprite);
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
-    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites);
+    logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites,
+        shot_centipede_segment_sprites);
     logic.update_spider(spider_sprite_vector);
     logic.update_scorpion(scorpion_sprite_vector,mushField, mushroom_sprites);
 }
@@ -430,5 +437,6 @@ ScreenManager::~ScreenManager()
     scorpion_sprite_vector.clear();
     spider_sprite_vector.clear();
     mushField.clear();
+    shot_centipede_segment_sprites.clear();
 }
 

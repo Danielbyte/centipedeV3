@@ -19,7 +19,9 @@ Centipede::Centipede():
     isCentipedePoisoned{false},
     animation_loop{0},
     isHit{false}, //centipede initially not hit by bomb
-    rotation{0.0f}
+    rotation{0.0f},
+    inDeathAnimation{false},
+    canDestroy{false}
     {
         //set the initial position of centipede
         pos = sf::Vector2f((float)((x_initial*offset) + offset/2), (float)((y_initial*offset)+offset/2));
@@ -254,4 +256,30 @@ void Centipede::setRotation(float _rotation)
 float Centipede::getRotation() const
 {
     return rotation;
+}
+
+void Centipede::startDeathAnimation()
+{
+    inDeathAnimation = true;
+    death_animation_watch->restart();
+}
+
+void Centipede::destroy_object()
+{
+    canDestroy = true;
+}
+
+bool Centipede::CanDestroy() const
+{
+    return canDestroy;
+}
+
+float Centipede::getAnimationTime() const
+{
+    return (death_animation_watch->getTimeElapsed());
+}
+
+bool Centipede::isInDeathAnimation() const
+{
+    return inDeathAnimation;
 }

@@ -31,9 +31,8 @@ public:
     void updateLaserShots(vector<shared_ptr<sf::Sprite>>&);
     void create_centipede(bool, int, vector<shared_ptr<sf::Sprite>>&);
     vector<shared_ptr<Centipede>>centipede_objectVector;
+    vector<shared_ptr<Centipede>>shot_centipede_segments;
     void update_centipede(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>& mushField);
-    //creates objects to be placed in the mushroom field.
-    void CheckMovementAhead();
     sf::Texture bomb_texture;
 
     void collisionBetween_mushAndPlayer(sf::Sprite&, vector<shared_ptr<MushroomField>>& mushField);
@@ -92,8 +91,12 @@ public:
 
     void collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
     void collision_between_centipede_and_player(sf::Sprite&);
+
     void collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
-                                                vector<shared_ptr<MushroomField>>&, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
+                                                vector<shared_ptr<MushroomField>>&,
+                                                vector<shared_ptr<sf::Sprite>>& mushroom_sprites,
+                                                vector<shared_ptr<sf::Sprite>>& shot_segments);
+
     void delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>&, 
         vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 
@@ -102,8 +105,6 @@ public:
     bool getIfCanSpawnBomb();
 
     sf::Vector2f create_bomb();
-
-    void update_explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<sf::Sprite>>&);
 
     bool getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField);
     sf::Vector2f create_flea();
@@ -119,6 +120,9 @@ public:
 
     void create_mushrooms(vector<shared_ptr<MushroomField>>& mushroom_obejects,
         vector<std::shared_ptr<sf::Sprite>>& mushroom_sprites);
+
+    void update_shot_centipede_segments(vector<shared_ptr<sf::Sprite>>& centipede_sprites,
+        vector<shared_ptr<MushroomField>>& mushroom_field);
 
 private:
     //dummy variables for tests(to alter spider's lunch time);

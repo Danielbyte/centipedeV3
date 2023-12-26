@@ -97,6 +97,30 @@ void Logic::update_centipede(vector<shared_ptr<sf::Sprite>>& centipedeSprite_vec
     centipede_controller.update_centipede(centipede_objectVector,centipedeSprite_vector,mushField);
 }
 
+void Logic::update_shot_centipede_segments(vector<shared_ptr<sf::Sprite>>& centipede_sprites,
+    vector<shared_ptr<MushroomField>>& mushroom_field)
+{
+    centipede_controller.update_centipede(shot_centipede_segments, centipede_sprites,
+        mushroom_field);
+    
+    auto segment_sprite = centipede_sprites.begin();
+    auto segment = shot_centipede_segments.begin();
+
+    while (segment != shot_centipede_segments.end())
+    {
+        if ((*segment)->CanDestroy())
+        {
+            shot_centipede_segments.erase(segment);
+            centipede_sprites.erase(segment_sprite);
+        }
+        else
+        {
+            ++segment_sprite;
+            ++segment;
+        }
+    }
+}
+
 void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushroom_objects, 
     vector<std::shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
@@ -392,12 +416,14 @@ void Logic::collisionBetweenBulletsAndObjects(vector<shared_ptr<sf::Sprite>>& la
 }
 
 void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>>& laser, vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,
-    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
+    vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites,
+    vector<shared_ptr<sf::Sprite>>& shot_segments)
 {
     //collision between bullet and centipede
     auto iter2 = laser.begin();
     while (iter2 != laser.end())
     {
+        auto segment_sprite = centipedeSprite_vector.begin();
         for (auto& centipedeObject : centipede_objectVector)
         {
             sf::Vector2f bulletSprite_pos;
@@ -418,6 +444,12 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
             {
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
+                centipedeObject->startDeathAnimation();
+
+                sound_manager->playEnemyDeathSound();
+
+                shot_centipede_segments.push_back(centipedeObject);
+                shot_segments.push_back(*segment_sprite);
                 if(centipedeObject -> getHead())
                 {
                     score += headPoints;
@@ -434,12 +466,12 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
             //{
              //   isHit = false;
             //}
-
+            ++segment_sprite;
         }
         ++iter2;
     }
     delete_segment_and_spawn_mushroom(centipedeSprite_vector, mushField, mushroom_sprites);
-
+    update_shot_centipede_segments(shot_segments, mushField);
 }
 
 void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector,
@@ -463,28 +495,28 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>& ce
                 auto body_segment_behind = (centObject_iter + 1);
                 (*body_segment_behind) -> setHead(true);
             }
-            //capture position to spawn mushroom
-            sf::Vector2f posToSpawnMushroom;
-            posToSpawnMushroom = (*centObject_iter) ->get_position();
-            int newXpos = (int)(posToSpawnMushroom.x/offset);
-            int newYpos = (int)(posToSpawnMushroom.y/offset);
 
-            //spawn mushroom.
-            shared_ptr<MushroomField>mushroom=std::make_shared<MushroomField>(MushroomField
-            (newXpos, newYpos));
+                //capture position to spawn mushroom
+                sf::Vector2f posToSpawnMushroom;
+                posToSpawnMushroom = (*centObject_iter) ->get_position();
+                int newXpos = (int)(posToSpawnMushroom.x/offset);
+                int newYpos = (int)(posToSpawnMushroom.y/offset);
 
-            auto xPos = mushroom->get_Xpos();
-            auto yPos = mushroom->get_Ypos();
-            shared_ptr<sf::Sprite>mushroom_sprite = std::make_shared<sf::Sprite>();
-            mushroom_sprite->setOrigin(0.0f, 0.0f);
-            mushroom_sprite->setPosition(xPos, yPos);
-            mushroom_resource->update_sprite(mushroom->getIsPoisoned(), mushroom->getMush_health(), mushroom_sprite);
+                //spawn mushroom.
+                shared_ptr<MushroomField>mushroom=std::make_shared<MushroomField>(MushroomField
+                (newXpos, newYpos));
 
-            mushField.push_back(mushroom);
-            mushroom_sprites.push_back(mushroom_sprite);
-       
-            centipede_objectVector.erase(centObject_iter);
-            centipedeSprite_vector.erase(centSprite_iter);
+                auto xPos = mushroom->get_Xpos();
+                auto yPos = mushroom->get_Ypos();
+                shared_ptr<sf::Sprite>mushroom_sprite = std::make_shared<sf::Sprite>();
+                mushroom_sprite->setOrigin(0.0f, 0.0f);
+                mushroom_sprite->setPosition(xPos, yPos);
+                mushroom_resource->update_sprite(mushroom->getIsPoisoned(), mushroom->getMush_health(), mushroom_sprite);
+                mushField.push_back(mushroom);
+                mushroom_sprites.push_back(mushroom_sprite);
+
+                centipede_objectVector.erase(centObject_iter);
+                centipedeSprite_vector.erase(centSprite_iter);
         }
         else
         {
@@ -927,4 +959,5 @@ Logic::~Logic()
     flea_object.clear();
     LaserShots_object.reset();
     vector_of_bomb_objects.clear();
+    shot_centipede_segments.clear();
 }
