@@ -122,5 +122,7 @@ class ScreenManager
         shared_ptr<SoundManager>sound_manager = make_shared<SoundManager>();
 
         vector<shared_ptr<sf::Sprite>>shot_centipede_segment_sprites;
+
+        bool playerBombed;
 };
 #endif // SCREENMANAGER_H

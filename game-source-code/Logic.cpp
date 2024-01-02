@@ -316,6 +316,7 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
         {
             //decrement player lives
             player_object.decrement_lives();
+            sound_manager->playPlayerDeathSound();
             //reset player position
             sf::Vector2f playerPos;
             playerPos.x = 240;
@@ -353,6 +354,7 @@ void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
         if (isCollided)
         {
             player_object.decrement_lives();
+            sound_manager->playPlayerDeathSound();
             //reset player position
             sf::Vector2f playerPos;
             playerPos.x = 16;
@@ -656,6 +658,7 @@ void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
         if (isCollided)
         {
             player_object.decrement_lives();
+            sound_manager->playPlayerDeathSound();
             //reset player position
             sf::Vector2f playerPos;
             playerPos.x = 16;
@@ -680,7 +683,7 @@ void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
 
 void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bullet_sprite, vector<shared_ptr<sf::Sprite>>& bomb_sprite,
         vector<shared_ptr<sf::Sprite>>& spider_sprite, vector<shared_ptr<sf::Sprite>>& centipede_sprite,
-        vector<shared_ptr<sf::Sprite>>& scorpion_sprite, sf::Sprite& player_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite,
+        vector<shared_ptr<sf::Sprite>>& scorpion_sprite, sf::Sprite& player_sprite, bool& playerBombed, vector<shared_ptr<sf::Sprite>>& flea_sprite,
     vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
     //First we need to have bombs on the field
@@ -711,8 +714,11 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
     }
 
     bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField, mushroom_sprites, spider_object_vector,spider_sprite,centipede_objectVector,
-                              centipede_sprite,scorpion_object_vector,scorpion_sprite,player_object,player_sprite, flea_object,
+                              centipede_sprite,scorpion_object_vector,scorpion_sprite,player_object, playerBombed, player_sprite, flea_object,
                               flea_sprite,score);
+
+    if (playerBombed)
+        sound_manager->playPlayerDeathSound();
     return;
 }
 

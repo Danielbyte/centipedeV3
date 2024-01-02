@@ -11,6 +11,7 @@ SoundManager::SoundManager()
 	enemyDeathSoundBuffer.loadFromFile("resources/enemy-death.wav");
 	bombDetonationSoundBuffer.loadFromFile("resources/bomb-detonation.wav");
 	spiderMunchSoundBuffer.loadFromFile("resources/spider-munch.wav");
+	playerDeathSoundBuffer.loadFromFile("resources/player-death.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -36,6 +37,9 @@ SoundManager::SoundManager()
 
 	spiderMunchSound.setBuffer(spiderMunchSoundBuffer);
 	spiderMunchSound.setRelativeToListener(true);
+
+	playerDeathSound.setBuffer(playerDeathSoundBuffer);
+	playerDeathSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -79,4 +83,9 @@ void SoundManager::playBombDetonationSound()
 void SoundManager::playSpiderMunchSound()
 {
 	spiderMunchSound.play();
+}
+
+void SoundManager::playPlayerDeathSound()
+{
+	playerDeathSound.play();
 }

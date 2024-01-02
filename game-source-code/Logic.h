@@ -79,7 +79,7 @@ public:
 
     //collision between bomb and bullet
     void collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
-                                           vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&, sf::Sprite&,
+                                           vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&, sf::Sprite&, bool& playerBombed,
                                            vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<MushroomField>>&,
                                            vector<shared_ptr<sf::Sprite>>& mushroom_sprites);
 

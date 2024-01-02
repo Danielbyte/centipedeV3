@@ -23,7 +23,7 @@ public:
     void Explosion(vector<shared_ptr<DDTBombs>>&,vector<shared_ptr<sf::Sprite>>&,
         vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroo_sprites,vector<shared_ptr<Spider>>&,
         vector<shared_ptr<sf::Sprite>>&,vector<shared_ptr<Centipede>>&,vector<shared_ptr<sf::Sprite>>&,
-        vector<shared_ptr<Scorpion>>&,vector<shared_ptr<sf::Sprite>>&,Player&,sf::Sprite&, 
+        vector<shared_ptr<Scorpion>>&,vector<shared_ptr<sf::Sprite>>&,Player&,bool& playerBombed,sf::Sprite&, 
         vector<shared_ptr<Flea>>&, vector<shared_ptr<sf::Sprite>>&, int&);
 
 //made public for test puropses
@@ -31,7 +31,7 @@ public:
     void explosion_and_spider(shared_ptr<sf::Sprite>&,vector<shared_ptr<Spider>>&, vector<shared_ptr<sf::Sprite>>&, int&);
     void explosion_and_centipede(shared_ptr<sf::Sprite>&, vector<shared_ptr<Centipede>>&, vector<shared_ptr<sf::Sprite>>&, int &);
     void explosion_and_scorpion(shared_ptr<sf::Sprite>&,vector<shared_ptr<Scorpion>>& ,vector<shared_ptr<sf::Sprite>>&, int&);
-    void explosion_and_player(shared_ptr<sf::Sprite>&, Player&, sf::Sprite&);
+    void explosion_and_player(shared_ptr<sf::Sprite>&, Player&, sf::Sprite&, bool& playerBombed);
     void explosion_and_flea(shared_ptr<sf::Sprite>&, vector<shared_ptr<Flea>>&, vector<shared_ptr<sf::Sprite>>&, int&);
 
 private:

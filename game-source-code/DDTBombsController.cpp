@@ -52,7 +52,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                                    vector<shared_ptr<Spider>>& spiderObj, vector<shared_ptr<sf::Sprite>>& spiderSprite,
                                    vector<shared_ptr<Centipede>>& centipedeobj, vector<shared_ptr<sf::Sprite>>& centipedeSpite,
                                    vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite,
-                                   Player& player_obj, sf::Sprite& player_sprite, vector<shared_ptr<Flea>>& fleaObj,
+                                   Player& player_obj, bool& playerBombed, sf::Sprite& player_sprite, vector<shared_ptr<Flea>>& fleaObj,
                                    vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score)
 {
     auto bombSprite_iter = bombSprite.begin();
@@ -95,7 +95,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
                 explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
-                explosion_and_player((*bombSprite_iter),player_obj,player_sprite);
+                explosion_and_player((*bombSprite_iter),player_obj,player_sprite, playerBombed);
                 explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite,_score);
             }
 
@@ -372,7 +372,7 @@ void DDTBombsController::explosion_and_scorpion(shared_ptr<sf::Sprite>& bomb_spr
     return;
 }
 
-void DDTBombsController::explosion_and_player(shared_ptr<sf::Sprite>& bomb_sprite, Player& player_object, sf::Sprite& player_sprite)
+void DDTBombsController::explosion_and_player(shared_ptr<sf::Sprite>& bomb_sprite, Player& player_object, sf::Sprite& player_sprite, bool& playerBombed)
 {
     bool isCollided;
     sf::Vector2f player_pos;

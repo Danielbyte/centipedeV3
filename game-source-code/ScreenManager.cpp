@@ -8,7 +8,8 @@ ScreenManager::ScreenManager():
     isPlaying{false},
     window(sf::VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
-    isGameOver{false}
+    isGameOver{false},
+    playerBombed{false}
 
 {
     initialize_screen();
@@ -296,7 +297,7 @@ void ScreenManager::update_game_entities()
     logic.collision_between_player_and_spider(player_sprite);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
-                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite,
+                                            CentipedeSprite_vector, scorpion_sprite_vector, player_sprite, playerBombed,
                                             FleaSprite_vector,mushField, mushroom_sprites);
 
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
