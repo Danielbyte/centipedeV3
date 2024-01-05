@@ -325,20 +325,13 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
 
         auto isCollided = collision.collision_detect(player_pos_,playerWidth,playerHeight,centipede_pos,centWidth,centHeight);
 
-        if (isCollided)
+        if (isCollided && !inPlayerDeathAnimation)
         {
             //decrement player lives
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
-            //reset player position
-            sf::Vector2f playerPos;
-            playerPos.x = 240;
-            playerPos.y = 376 ;
-            //update the player object position
-            player_object.set_Xposition(playerPos.x);
-            player_object.set_Yposition(playerPos.y);
-            //Update the player sprite
-            player_sprite.setPosition(sf::Vector2f(playerPos));
+            player_object.restartAnimationWatch();
+            inPlayerDeathAnimation = true;
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -374,15 +367,6 @@ void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
 
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
-            //reset player position
-            sf::Vector2f playerPos;
-            playerPos.x = 16;
-            playerPos.y = 504 ;
-            //update the player object position
-            player_object.set_Xposition(playerPos.x);
-            player_object.set_Yposition(playerPos.y);
-            //Update the player sprite
-            player_sprite.setPosition(sf::Vector2f(playerPos));
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -696,15 +680,6 @@ void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
 
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
-            //reset player position
-            sf::Vector2f playerPos;
-            playerPos.x = 16;
-            playerPos.y = 504 ;
-            //update the player object position
-            player_object.set_Xposition(playerPos.x);
-            player_object.set_Yposition(playerPos.y);
-            //Update the player sprite
-            player_sprite.setPosition(sf::Vector2f(playerPos));
 
             //update player status. dead or alive.
             auto remainingLives = player_object.getPlayer_lives();
@@ -758,8 +733,12 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
                               flea_sprite,score);
 
     if (playerBombed)
+    {
         sound_manager->playPlayerDeathSound();
-    return;
+        player_object.restartAnimationWatch();
+        inPlayerDeathAnimation = true;
+    }
+        
 }
 
 void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>& bulletSpriteVector,vector<shared_ptr<sf::Sprite>>& scorpion_sprite)
