@@ -6,7 +6,8 @@ Logic::Logic():
     shotCent_segments{0}, //Number of shot segment pieces initially zero
     created_scorpion{false},
     canSpawnSpider{false},
-    score{0}
+    score{0},
+    inPlayerDeathAnimation{false}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
@@ -94,12 +95,18 @@ void Logic::create_centipede(bool _isHead, int numbOfBody_segments, vector<share
 void Logic::update_centipede(vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector, 
     vector<shared_ptr<MushroomField>>& mushField)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     centipede_controller.update_centipede(centipede_objectVector,centipedeSprite_vector,mushField);
 }
 
 void Logic::update_shot_centipede_segments(vector<shared_ptr<sf::Sprite>>& centipede_sprites,
     vector<shared_ptr<MushroomField>>& mushroom_field)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     centipede_controller.update_centipede(shot_centipede_segments, centipede_sprites,
         mushroom_field);
     
@@ -153,6 +160,9 @@ void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushroom_objects
 void Logic::collision_between_mush_and_spider(bool isTest,vector<shared_ptr<MushroomField>>& mushField, 
     vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     auto mushroom_iter = mushField.begin();
     auto mushroom_sprite = mushroom_sprites.begin();
     while (mushroom_iter != mushField.end())
@@ -298,6 +308,9 @@ void Logic::collisionBetween_mushAndPlayer(sf::Sprite& player_sprite,
 
 void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     //collision between player and centipede
     for (auto& centipede_segment : centipede_objectVector)
     {
@@ -340,6 +353,9 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
 
 void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     sf::Vector2f playePos;
     sf::Vector2f spiderPos;
 
@@ -351,8 +367,11 @@ void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
     {
         spiderPos = (*spider_iter) -> get_position();
         auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,spiderPos,spiderWidth,spiderHeight);
-        if (isCollided)
+        if (isCollided && !inPlayerDeathAnimation)
         {
+            player_object.restartAnimationWatch();
+            inPlayerDeathAnimation = true;
+
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
             //reset player position
@@ -380,6 +399,9 @@ void Logic::collisionBetweenBulletsAndObjects(vector<shared_ptr<sf::Sprite>>& la
     vector<shared_ptr<sf::Sprite>>& centipedeSprite_vector, vector<shared_ptr<MushroomField>>& mushField,
     vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     sf::Vector2f bulletPos;
     sf::Vector2f objectPos;
     auto laserIter = laser.begin();
@@ -422,6 +444,9 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
     vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites,
     vector<shared_ptr<sf::Sprite>>& shot_segments)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     //collision between bullet and centipede
     auto iter2 = laser.begin();
     while (iter2 != laser.end())
@@ -532,6 +557,9 @@ void Logic::delete_segment_and_spawn_mushroom(vector<shared_ptr<sf::Sprite>>& ce
 
 void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bullet, vector<shared_ptr<sf::Sprite>>& spider_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     auto spider_iter = spider_object_vector.begin();
     auto spiderSprite_iter = spider_sprites.begin();
     auto inDeathAnimation = (*spider_iter)->isInDeathAnimation();
@@ -584,6 +612,9 @@ void Logic::collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>& bul
 
 void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bullet_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     auto flea_obj_iter = flea_object.begin();
     auto flea_sprite_iter = flea_sprite.begin();
     auto inDeathAnimation = (*flea_obj_iter)->isInDeathAnimation();
@@ -644,6 +675,9 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bu
 
 void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     sf::Vector2f playePos;
     sf::Vector2f fleaPos;
 
@@ -655,8 +689,11 @@ void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
     {
         fleaPos = (*flea_iter) -> get_position();
         auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,fleaPos,fleaWidth,fleaHeight);
-        if (isCollided)
+        if (isCollided && !inPlayerDeathAnimation)
         {
+            player_object.restartAnimationWatch();
+            inPlayerDeathAnimation = true;
+
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
             //reset player position
@@ -686,6 +723,9 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
         vector<shared_ptr<sf::Sprite>>& scorpion_sprite, sf::Sprite& player_sprite, bool& playerBombed, vector<shared_ptr<sf::Sprite>>& flea_sprite,
     vector<shared_ptr<MushroomField>>& mushField, vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     //First we need to have bombs on the field
     auto bullet_sprite_iter = bullet_sprite.begin();
     while (bullet_sprite_iter != bullet_sprite.end())
@@ -724,6 +764,9 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
 
 void Logic::collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>& bulletSpriteVector,vector<shared_ptr<sf::Sprite>>& scorpion_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     auto scorpion_iter = scorpion_object_vector.begin();
     auto scorpion_sprite_iter = scorpion_sprite.begin();
     auto inDeathAnimation = (*scorpion_iter)->isInDeathAnimation();
@@ -790,6 +833,9 @@ void Logic::spawn_behind(vector<shared_ptr<sf::Sprite>>& CentipdeSprite_vector)
 
 void Logic::create_bullet(vector<shared_ptr<sf::Sprite>>& bullet)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     //bullet object
     sf::Vector2f bullet_pos;
     bullet_pos.x = player_object.get_Xposition();
@@ -820,6 +866,9 @@ sf::Vector2f Logic::create_scorpion()
 
 bool Logic::canSpawn_scorpion()
 {
+    if (inPlayerDeathAnimation)
+        return false;
+
     if((scorpion_watch.getTimeElapsed() > scorpion.getScorpion_spawnRate()) && (scorpion_object_vector.empty()))
     {
         //if 10 seconds has elapsed, spawn scorpion
@@ -839,6 +888,9 @@ bool Logic::canSpawn_scorpion()
 void Logic::update_scorpion(vector<shared_ptr<sf::Sprite>>& scorpion, vector<shared_ptr<MushroomField>>& mushField,
     vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     //only update if we have a scorpion
     if (!scorpion.empty())
     {
@@ -848,6 +900,9 @@ void Logic::update_scorpion(vector<shared_ptr<sf::Sprite>>& scorpion, vector<sha
 
 bool Logic::getIfCanSpawnSpider()
 {
+    if (inPlayerDeathAnimation)
+        return false;
+
     if(spider_watch.getTimeElapsed() > spider.getSpideSpawnRate())
     {
         //after 10 seconds , restart timer
@@ -872,6 +927,9 @@ sf::Vector2f Logic::create_spider()
 
 void Logic::update_spider(vector<shared_ptr<sf::Sprite>>& spider_sprite)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     if (!spider_sprite.empty())
     {
         spider_control.update_spider(spider_sprite, spider_object_vector);
@@ -880,6 +938,9 @@ void Logic::update_spider(vector<shared_ptr<sf::Sprite>>& spider_sprite)
 
 bool Logic::getIfCanSpawnBomb()
 {
+    if (inPlayerDeathAnimation)
+        return false;
+
     //variable to set when logic should query the
     //bomb controller to create bomb;
     float check_time = 5; //check after every 5 seconds
@@ -916,6 +977,9 @@ sf::Vector2f Logic::create_bomb()
 
 bool Logic::getIfCanSpawnFlea(vector<shared_ptr<MushroomField>>& mushField)
 {
+    if (inPlayerDeathAnimation)
+        return false;
+
     auto canSpawnFlea = flea_control.set_if_can_spawn_flea(mushField);
     return canSpawnFlea;
 }
@@ -933,6 +997,9 @@ sf::Vector2f Logic::create_flea()
 void Logic::update_flea(vector<shared_ptr<sf::Sprite>>& flea_sprite, vector<shared_ptr<MushroomField>>& mushField,
     vector<shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
+    if (inPlayerDeathAnimation)
+        return;
+
     flea_control.update_flea(flea_object,flea_sprite,mushField, mushroom_sprites);
 }
 
@@ -955,6 +1022,16 @@ void Logic::set_lunch(float dummy)
 void Logic::setSpiderToHungry(bool var)
 {
     spiderIsHungry = var;
+}
+
+bool Logic::isInPlayerDeathAnimation() const
+{
+    return inPlayerDeathAnimation;
+}
+
+void Logic::updatePlayerTexture(sf::Sprite& player_sprite)
+{
+    player_object.updatePlayerTexture(inPlayerDeathAnimation, player_sprite);
 }
 
 //free up resources

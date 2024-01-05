@@ -104,6 +104,7 @@ void ScreenManager::run()
 void ScreenManager::draw_game_entities()
 {
     draw_mushrooms();
+    logic.updatePlayerTexture(player_sprite);
     window.draw(player_sprite);
    
     for (auto& centipede_segment : CentipedeSprite_vector) // draw centipede (only the head for now)
@@ -209,31 +210,36 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
     if(isPlaying)
     {
         window.setKeyRepeatEnabled(true);
+        auto inDeathAnimation = logic.isInPlayerDeathAnimation();
+
         if(key == sf::Keyboard::Up)
         {
-            logic.player_object.setPlayer_movement(Direction::Up, isPressed, player_sprite);
+            logic.player_object.setPlayer_movement(Direction::Up, isPressed, inDeathAnimation, player_sprite);
         }
         else if(key == sf::Keyboard::Down)
         {
             //player should move down
-            logic.player_object.setPlayer_movement(Direction::Down, isPressed, player_sprite);
+            logic.player_object.setPlayer_movement(Direction::Down, isPressed, inDeathAnimation, player_sprite);
         }
         else if(key == sf::Keyboard::Right)
         {
             //player should move right
-            logic.player_object.setPlayer_movement(Direction::Right, isPressed, player_sprite);
+            logic.player_object.setPlayer_movement(Direction::Right, isPressed, inDeathAnimation, player_sprite);
         }
         else if(key == sf::Keyboard::Left)
         {
             //player should move down
-            logic.player_object.setPlayer_movement(Direction::Left, isPressed,player_sprite);
+            logic.player_object.setPlayer_movement(Direction::Left, isPressed, inDeathAnimation, player_sprite);
         }
         else if (key == sf::Keyboard::Space && shoot_timer >= 2)
         {
-            window.setKeyRepeatEnabled(false);
-            sound_manager->playLaserSound();
-            create_laserShots();
-            shoot_timer = 0;
+            if (!inDeathAnimation)
+            {
+                window.setKeyRepeatEnabled(false);
+                sound_manager->playLaserSound();
+                create_laserShots();
+                shoot_timer = 0;
+            }
         }
     }
 }

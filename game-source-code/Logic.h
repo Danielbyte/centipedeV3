@@ -124,6 +124,9 @@ public:
     void update_shot_centipede_segments(vector<shared_ptr<sf::Sprite>>& centipede_sprites,
         vector<shared_ptr<MushroomField>>& mushroom_field);
 
+    void updatePlayerTexture(sf::Sprite& player_sprite);
+    bool isInPlayerDeathAnimation() const;
+
 private:
     //dummy variables for tests(to alter spider's lunch time);
     float dummy;
@@ -195,6 +198,8 @@ private:
     
     shared_ptr<MushroomResources> mushroom_resource = std::make_shared<MushroomResources>();
     shared_ptr<SoundManager> sound_manager = std::make_shared<SoundManager>();
+
+    bool inPlayerDeathAnimation;
 };
 
 #endif // LOGIC_H
