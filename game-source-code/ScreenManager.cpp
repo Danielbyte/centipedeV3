@@ -300,14 +300,14 @@ void ScreenManager::update_game_entities()
     logic.collisionBetweenBulletsAndObjects(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites);
     logic.collision_between_mush_and_spider(false,mushField, mushroom_sprites);
 
-    logic.collision_between_player_and_spider(player_sprite);
+    logic.collision_between_player_and_spider(player_sprite, spider_sprite_vector);
     logic.collision_btwn_bullet_and_spider(bulletSprites_vector, spider_sprite_vector);
     logic.collision_between_bullet_and_bomb(bulletSprites_vector, DDTBombs_spiteVector, spider_sprite_vector,
                                             CentipedeSprite_vector, scorpion_sprite_vector, player_sprite, playerBombed,
                                             FleaSprite_vector,mushField, mushroom_sprites);
 
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
-    logic.collision_between_player_and_flea(player_sprite);
+    logic.collision_between_player_and_flea(player_sprite, FleaSprite_vector);
     logic.collision_between_centipede_and_player(player_sprite);
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
     logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites,

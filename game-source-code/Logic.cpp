@@ -344,7 +344,7 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
     }
 }
 
-void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
+void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite, vector<shared_ptr<sf::Sprite>>& spider_sprites)
 {
     if (inPlayerDeathAnimation)
         return;
@@ -362,6 +362,9 @@ void Logic::collision_between_player_and_spider(sf::Sprite& player_sprite)
         auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,spiderPos,spiderWidth,spiderHeight);
         if (isCollided && !inPlayerDeathAnimation)
         {
+            spider_object_vector.clear();
+            spider_sprites.clear();
+
             player_object.restartAnimationWatch();
             inPlayerDeathAnimation = true;
 
@@ -657,7 +660,7 @@ void Logic::collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>& bu
     }
 }
 
-void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
+void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite)
 {
     if (inPlayerDeathAnimation)
         return;
@@ -675,6 +678,9 @@ void Logic::collision_between_player_and_flea(sf::Sprite& player_sprite)
         auto isCollided = collision.collision_detect(playePos,playerWidth,playerHeight,fleaPos,fleaWidth,fleaHeight);
         if (isCollided && !inPlayerDeathAnimation)
         {
+            flea_object.clear();
+            flea_sprite.clear();
+
             player_object.restartAnimationWatch();
             inPlayerDeathAnimation = true;
 

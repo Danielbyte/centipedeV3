@@ -72,7 +72,7 @@ public:
         vector<shared_ptr<sf::Sprite>>& mushroom_sprites); 
 
     //collision between player and Spider
-    void collision_between_player_and_spider(sf::Sprite&);
+    void collision_between_player_and_spider(sf::Sprite&, vector<shared_ptr<sf::Sprite>>& spider_sprites);
 
     //collision between bullet and spider
     void collision_btwn_bullet_and_spider(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
@@ -87,7 +87,7 @@ public:
     void collision_between_bullet_and_flea(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
 
     //collision between player and flea
-    void collision_between_player_and_flea(sf::Sprite&);
+    void collision_between_player_and_flea(sf::Sprite&, vector<shared_ptr<sf::Sprite>>& flea_sprite);
 
     void collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
     void collision_between_centipede_and_player(sf::Sprite&);
