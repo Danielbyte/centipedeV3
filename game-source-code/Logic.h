@@ -126,6 +126,7 @@ public:
 
     void updatePlayerTexture(sf::Sprite& player_sprite);
     bool isInPlayerDeathAnimation() const;
+    void refresh_game_world();
 
 private:
     //dummy variables for tests(to alter spider's lunch time);
@@ -200,6 +201,7 @@ private:
     shared_ptr<SoundManager> sound_manager = std::make_shared<SoundManager>();
 
     bool inPlayerDeathAnimation;
+    bool refreshGame;
 };
 
 #endif // LOGIC_H

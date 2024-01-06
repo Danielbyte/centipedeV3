@@ -1016,6 +1016,11 @@ void Logic::updatePlayerTexture(sf::Sprite& player_sprite)
     player_object.updatePlayerTexture(inPlayerDeathAnimation, player_sprite);
 }
 
+void Logic::refresh_game_world()
+{
+
+}
+
 //free up resources
 Logic::~Logic()
 {
