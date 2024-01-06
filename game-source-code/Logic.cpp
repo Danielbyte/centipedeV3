@@ -10,9 +10,7 @@ Logic::Logic():
     inPlayerDeathAnimation{false}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
-    //auto centipede_ptr = std::make_shared<Centipede>(Centipede());
-    //centipedeSpeed = centipede_ptr ->getCentipede_speed();
-   // isHit = false;
+    if (!bullet_texture.loadFromFile("resources/bullet.png")) throw CouldNotLoadPicture{};
 }
 
 void Logic::update_player(sf::Sprite& player_sprite)
@@ -828,7 +826,6 @@ void Logic::create_bullet(vector<shared_ptr<sf::Sprite>>& bullet)
 
     //bullet sprite setup
     auto bullet_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
-    if(!bullet_texture.loadFromFile("resources/bullet.png")) throw CouldNotLoadPicture{};
     bullet_sprite ->setTexture(bullet_texture);
     bullet_sprite ->setPosition(bullet_pos);
     bullet_sprite ->setOrigin(bulletWidth/2, bulletHeight/2);
