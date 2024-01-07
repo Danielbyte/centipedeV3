@@ -130,7 +130,7 @@ void Logic::update_shot_centipede_segments(vector<shared_ptr<sf::Sprite>>& centi
 void Logic::create_mushrooms(vector<shared_ptr<MushroomField>>& mushroom_objects, 
     vector<std::shared_ptr<sf::Sprite>>& mushroom_sprites)
 {
-   int percentage_chance = 7;
+   int percentage_chance = 13;
    srand((unsigned int)time(NULL));
    for (auto row = 2; row < 32-2; row++)
    {
@@ -1034,6 +1034,15 @@ void Logic::refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vec
     {
         if (mushroom->getMush_health() < 4)
         {
+            spider_object_vector.clear();
+            spider_sprites.clear();
+
+            scorpion_object_vector.clear();
+            scorpion_sprite.clear();
+
+            flea_object.clear();
+            flea_sprite.clear();
+
             sound_manager->playMendMushroomSound();
             mushroom->resetMushroomHealth();
             mushroom_resource->update_sprite(mushroom->getIsPoisoned(),mushroom->getMush_health(), *mushroom_sprite);

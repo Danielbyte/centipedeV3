@@ -69,6 +69,8 @@ class ScreenManager
         sf::Font splash_screenFont;
         sf::Text splash_screenDisplay;
         sf::Text game_instructions;
+        sf::Texture main_menu_t;
+        sf::Sprite main_menu_s;
 
         //Text to show remaining lives
         sf::Text playerLives_display;

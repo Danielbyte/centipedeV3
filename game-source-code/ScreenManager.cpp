@@ -37,6 +37,11 @@ void ScreenManager::initialize_screen()
     splash_screenDisplay.setPosition(10,180);
     splash_screenDisplay.setString("Welcome to Centipede++");
 
+    main_menu_t.loadFromFile("resources/main-menu.png");
+    main_menu_s.setOrigin(windowWidth / 2.0f, windowHeight / 2.0f);
+    main_menu_s.setPosition(windowWidth / 2.0f, windowHeight / 2.0f);
+    main_menu_s.setTexture(main_menu_t);
+
     //game instructions set up
     game_instructions.setFont(splash_screenFont);
     game_instructions.setCharacterSize(20);
@@ -92,6 +97,7 @@ void ScreenManager::run()
             window.draw(splash_screenDisplay);
             if (!isGameOver)
             {
+                window.draw(main_menu_s);
                 window.draw(game_instructions);
             }
         }
