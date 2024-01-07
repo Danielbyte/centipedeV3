@@ -90,7 +90,7 @@ public:
     void collision_between_player_and_flea(sf::Sprite&, vector<shared_ptr<sf::Sprite>>& flea_sprite);
 
     void collision_between_bullet_and_scorpion(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&);
-    void collision_between_centipede_and_player(sf::Sprite&);
+    void collision_between_centipede_and_player(sf::Sprite&, vector<shared_ptr<sf::Sprite>>& segment_sprites);
 
     void collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>>&, vector<shared_ptr<sf::Sprite>>&,
                                                 vector<shared_ptr<MushroomField>>&,

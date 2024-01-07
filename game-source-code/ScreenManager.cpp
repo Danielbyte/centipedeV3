@@ -32,10 +32,10 @@ void ScreenManager::initialize_player()
 
 void ScreenManager::initialize_screen()
 {
-    Displays.loadFromFile("resources/sansation.ttf");
-    splash_screenFont.loadFromFile("resources/sansation.ttf");
+    Displays.loadFromFile("resources/ARCADE_N.ttf");
+    splash_screenFont.loadFromFile("resources/ARCADE_N.ttf");
     splash_screenDisplay.setFont(splash_screenFont);
-    splash_screenDisplay.setCharacterSize(20);
+    splash_screenDisplay.setCharacterSize(12);
     splash_screenDisplay.setStyle(sf::Text::Regular);
     splash_screenDisplay.setFillColor(sf::Color::Red);
     splash_screenDisplay.setPosition(10,180);
@@ -48,7 +48,7 @@ void ScreenManager::initialize_screen()
 
     //game instructions set up
     game_instructions.setFont(splash_screenFont);
-    game_instructions.setCharacterSize(20);
+    game_instructions.setCharacterSize(12);
     game_instructions.setStyle(sf::Text::Regular);
     game_instructions.setFillColor(sf::Color::Red);
     game_instructions.setPosition(10, 220);
@@ -58,20 +58,20 @@ void ScreenManager::initialize_screen()
                                 "\nPress space to shoot");
 
     playerLives_display.setFont(Displays);
-    playerLives_display.setCharacterSize(12);
-    playerLives_display.setStyle(sf::Text::Bold);
+    playerLives_display.setCharacterSize(8);
+    playerLives_display.setStyle(sf::Text::Regular);
     playerLives_display.setFillColor(sf::Color::Red);
     playerLives_display.setPosition(0,0);
 
     currentScore_display.setFont(Displays);
-    currentScore_display.setCharacterSize(12);
-    currentScore_display.setStyle(sf::Text::Bold);
+    currentScore_display.setCharacterSize(8);
+    currentScore_display.setStyle(sf::Text::Regular);
     currentScore_display.setFillColor(sf::Color::Red);
     currentScore_display.setPosition(70, 0);
 
     highScore_display.setFont(Displays);
-    highScore_display.setCharacterSize(12);
-    highScore_display.setStyle(sf::Text::Bold);
+    highScore_display.setCharacterSize(8);
+    highScore_display.setStyle(sf::Text::Regular);
     highScore_display.setFillColor(sf::Color::Green);
     highScore_display.setPosition(300, 0);
 
@@ -320,7 +320,7 @@ void ScreenManager::update_game_entities()
 
     logic.collision_between_bullet_and_flea(bulletSprites_vector, FleaSprite_vector);
     logic.collision_between_player_and_flea(player_sprite, FleaSprite_vector);
-    logic.collision_between_centipede_and_player(player_sprite);
+    logic.collision_between_centipede_and_player(player_sprite, CentipedeSprite_vector);
     logic.collision_between_bullet_and_scorpion(bulletSprites_vector,scorpion_sprite_vector);
     logic.collision_between_centipede_and_bullet(bulletSprites_vector, CentipedeSprite_vector,mushField, mushroom_sprites,
         shot_centipede_segment_sprites);
@@ -382,19 +382,19 @@ void ScreenManager::updateScreen_manager()
 {
     auto remainingPlayer_lives = logic.player_object.getPlayer_lives();
     std::string remainingPlayer_lives_ = std::to_string(remainingPlayer_lives);
-    playerLives_display.setString("LIVES: " + remainingPlayer_lives_);
+    playerLives_display.setString("LIVES:" + remainingPlayer_lives_);
     window.draw(playerLives_display);
 
     //Display current score
     auto current_score = logic.get_score();
     std::string _currentScore = std::to_string(current_score);
-    currentScore_display.setString("SCORE: " + _currentScore);
+    currentScore_display.setString("SCORE:" + _currentScore);
     window.draw(currentScore_display);
 
     //Display and save high score
     auto high_score = score_manager.highScoreDisplay(current_score);
     std::string highScore = std::to_string(high_score);
-    highScore_display.setString("HIGH SCORE: " + highScore);
+    highScore_display.setString("HIGH SCORE:" + highScore);
     window.draw(highScore_display);
 
 }
@@ -402,7 +402,7 @@ void ScreenManager::updateScreen_manager()
 void ScreenManager::update_game()
 {
     splash_screenDisplay.setPosition(125, 208);
-    splash_screenDisplay.setCharacterSize(20);
+    splash_screenDisplay.setCharacterSize(12);
 
     // Game should terminate if player lives = zero
     // see if player is still alive

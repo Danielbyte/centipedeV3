@@ -306,7 +306,7 @@ void Logic::collisionBetween_mushAndPlayer(sf::Sprite& player_sprite,
 }
 
 
-void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
+void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite, vector<shared_ptr<sf::Sprite>>& segment_sprites)
 {
     if (inPlayerDeathAnimation || canMendMushrooms)
         return;
@@ -327,6 +327,9 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite)
 
         if (isCollided && !inPlayerDeathAnimation)
         {
+            segment_sprites.clear();
+            centipede_objectVector.clear();
+
             //decrement player lives
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
