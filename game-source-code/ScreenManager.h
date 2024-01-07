@@ -136,5 +136,8 @@ class ScreenManager
         sf::Sprite player_livesHUD_s;
         sf::Texture life1_t, lives2_t, lives3_t;
         void updatePlayerLivesHUD(const int lives);
+        bool inMainMenu;
+
+        void MoveCursorDown();
 };
 #endif // SCREENMANAGER_H

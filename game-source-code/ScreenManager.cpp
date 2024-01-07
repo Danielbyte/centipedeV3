@@ -9,7 +9,8 @@ ScreenManager::ScreenManager():
     window(sf::VideoMode(windowWidth, windowHeight), "CENTIPEDE++"),
     shoot_timer{2},
     isGameOver{false},
-    playerBombed{false}
+    playerBombed{false},
+    inMainMenu{true}
 
 {
     if (!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
@@ -236,6 +237,22 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
     if (shoot_timer < 2)
     {
         shoot_timer++;
+    }
+    if (inMainMenu)
+    {
+        switch (key)
+        {
+        case sf::Keyboard::Up:
+            break;
+        case sf::Keyboard::Down:
+            if (isPressed)
+                MoveCursorDown();
+            break;
+        case sf::Keyboard::Enter:
+            break;
+        default:
+            break;
+        }
     }
 
     if(key == sf::Keyboard::Enter) //player wants to play
@@ -478,6 +495,27 @@ void ScreenManager::updatePlayerLivesHUD(const int lives)
     default:
         player_livesHUD_s.setTexture(lives3_t);
         break;
+    }
+}
+
+void ScreenManager::MoveCursorDown()
+{
+    auto y_pos = menu_cursor_s.getPosition().y;
+    auto x_pos = menu_cursor_s.getPosition().x;
+    if (y_pos == game_instructions_txt.getPosition().y - 0.2f)
+    {
+        menu_cursor_s.setPosition(x_pos + 100.0f, y_pos + 30.0f);
+    }
+    else
+    {
+        menu_cursor_s.setPosition(x_pos + 50.0f, y_pos + 30.0f);
+    }
+    
+    if (y_pos == (quit_Game_txt.getPosition().y - 0.2f))
+    {
+        auto newY = start_Game_txt.getPosition().y - 0.2f;
+        auto x = start_Game_txt.getPosition().x - 15.0f;
+        menu_cursor_s.setPosition(x, newY);
     }
 }
 
