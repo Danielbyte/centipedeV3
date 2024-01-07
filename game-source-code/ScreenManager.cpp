@@ -292,7 +292,9 @@ void ScreenManager::update()
 
 void ScreenManager::update_game_entities()
 {
-    
+    logic.refresh_game_world(mushField,mushroom_sprites,CentipedeSprite_vector,spider_sprite_vector,scorpion_sprite_vector,
+        FleaSprite_vector); //Function executes just after player dies
+
     logic.update_player(player_sprite);
     logic.updateLaserShots(bulletSprites_vector);
     logic.update_centipede(CentipedeSprite_vector,mushField);

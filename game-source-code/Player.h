@@ -28,7 +28,7 @@ public:
     // update state of player
     void setPlayer_state(bool var);
     bool getPlayer_state() const;
-    void updatePlayerTexture(bool& isInDeathAnimaion, sf::Sprite& player_sprite);
+    void updatePlayerTexture(bool& isInDeathAnimaion, bool& canMendMushrooms, sf::Sprite& player_sprite, shared_ptr<StopWatch>& mend_mushroom_watch);
     void restartAnimationWatch();
 
 private:

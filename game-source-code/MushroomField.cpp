@@ -45,3 +45,8 @@ bool MushroomField::getIsPoisoned() const
     return isPoisoned;
 }
 
+void MushroomField::resetMushroomHealth()
+{
+    mushroom_health = 4;
+}
+

@@ -15,6 +15,7 @@ public:
     void playBombDetonationSound();
     void playSpiderMunchSound();
     void playPlayerDeathSound();
+    void playMendMushroomSound();
 
 private:
     sf::SoundBuffer laserSoundBuffer;
@@ -26,6 +27,7 @@ private:
     sf::SoundBuffer bombDetonationSoundBuffer;
     sf::SoundBuffer spiderMunchSoundBuffer;
     sf::SoundBuffer playerDeathSoundBuffer;
+    sf::SoundBuffer mendMushroomSoundBuffer;
 
     sf::Sound laserSound;
     sf::Sound spiderSound;
@@ -36,5 +38,6 @@ private:
     sf::Sound bombDetonationSound;
     sf::Sound spiderMunchSound;
     sf::Sound playerDeathSound;
+    sf::Sound mendMushroomSound;
 };
 #endif // SOUNDMANAGER_H

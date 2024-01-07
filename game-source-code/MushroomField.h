@@ -20,6 +20,7 @@ public:
 
     bool getIsPoisoned() const;
     void changeToPoison();
+    void resetMushroomHealth();
 
 private:
     float x_position;

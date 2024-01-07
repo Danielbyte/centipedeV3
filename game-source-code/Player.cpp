@@ -138,7 +138,8 @@ bool Player::getPlayer_state() const
     return isPlayerAlive;
 }
 
-void Player::updatePlayerTexture(bool& isInDeathAnimation, sf::Sprite& player_sprite)
+void Player::updatePlayerTexture(bool& isInDeathAnimation, bool& canMendMushrooms, sf::Sprite& player_sprite,
+    shared_ptr<StopWatch>& mend_mushroom_watch)
 {
     if (isInDeathAnimation)
     {
@@ -214,6 +215,8 @@ void Player::updatePlayerTexture(bool& isInDeathAnimation, sf::Sprite& player_sp
             return;
         }
         isInDeathAnimation = false;
+        canMendMushrooms = true;
+        mend_mushroom_watch->restart();
         return;
     }
 

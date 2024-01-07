@@ -126,7 +126,9 @@ public:
 
     void updatePlayerTexture(sf::Sprite& player_sprite);
     bool isInPlayerDeathAnimation() const;
-    void refresh_game_world();
+    void refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vector<shared_ptr<sf::Sprite>>& mushroom_sprites,
+        vector<shared_ptr<sf::Sprite>>& centipede_sprites, vector<shared_ptr<sf::Sprite>>& spider_sprites,
+        vector<shared_ptr<sf::Sprite>>& scorpion_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite);
 
 private:
     //dummy variables for tests(to alter spider's lunch time);
@@ -202,6 +204,8 @@ private:
 
     bool inPlayerDeathAnimation;
     bool refreshGame;
+    bool canMendMushrooms;
+    shared_ptr<StopWatch>mushroom_mend_watch = std::make_shared<StopWatch>();
 };
 
 #endif // LOGIC_H
