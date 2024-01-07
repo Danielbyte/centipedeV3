@@ -16,6 +16,10 @@ ScreenManager::ScreenManager():
     initialize_player();
     create_enemy();
     logic.create_mushrooms(mushField, mushroom_sprites);
+    if (!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
+    if (!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
+    if (!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
+    if (!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
 }
 
 void ScreenManager::initialize_player()
@@ -339,7 +343,6 @@ void ScreenManager::create_scorpion()
 {
     sf::Vector2f pos_ = logic.create_scorpion();
     auto scorpion_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
-    if(!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
     scorpion_sprite -> setOrigin(sf::Vector2f(0.f, 0.f));
     scorpion_sprite -> setTexture(scorpion_texture);
     scorpion_sprite -> setPosition(pos_);
@@ -350,7 +353,6 @@ void ScreenManager::create_spider()
 {
     sf::Vector2f pos_ = logic.create_spider();
     auto spider_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
-    if(!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
     spider_sprite -> setOrigin(sf::Vector2f(0.f,0.f));
     spider_sprite -> setTexture(spider_texture);
     spider_sprite -> setPosition(pos_);
@@ -361,7 +363,6 @@ void ScreenManager::create_bomb()
 {
     sf::Vector2f pos = logic.create_bomb();
     auto bomb_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
-    if(!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
     bomb_sprite ->setTexture(bomb_texture);
     bomb_sprite -> setOrigin(sf::Vector2f(8.f, 8.f));
     bomb_sprite -> setPosition(pos);
@@ -418,7 +419,8 @@ void ScreenManager::update_game()
     }
 
     //if all centipede segments are killed, player wins
-    if(CentipedeSprite_vector.empty())
+    auto killed_segments = logic.getKilled_segments();
+    if(killed_segments == bodiesToSpawn)
     {
         isPlaying = false;
         isGameOver = true;
@@ -435,7 +437,6 @@ void ScreenManager::create_flea()
 {
     auto flea_sprite = std::make_shared<sf::Sprite>(sf::Sprite());
     auto pos = logic.create_flea();
-    if(!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
     flea_sprite ->setTexture(flea_texture);
     flea_sprite -> setOrigin(sf::Vector2f(0.f,0.f));
     flea_sprite -> setPosition(pos);

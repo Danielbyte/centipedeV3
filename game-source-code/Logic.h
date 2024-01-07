@@ -130,6 +130,8 @@ public:
         vector<shared_ptr<sf::Sprite>>& centipede_sprites, vector<shared_ptr<sf::Sprite>>& spider_sprites,
         vector<shared_ptr<sf::Sprite>>& scorpion_sprite, vector<shared_ptr<sf::Sprite>>& flea_sprite);
 
+    int getNumberOfShotSegments() const;
+
 private:
     //dummy variables for tests(to alter spider's lunch time);
     float dummy;
@@ -206,6 +208,7 @@ private:
     bool refreshGame;
     bool canMendMushrooms;
     shared_ptr<StopWatch>mushroom_mend_watch = std::make_shared<StopWatch>();
+    int segmentsShot;
 };
 
 #endif // LOGIC_H

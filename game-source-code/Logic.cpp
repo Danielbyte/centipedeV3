@@ -8,7 +8,8 @@ Logic::Logic():
     canSpawnSpider{false},
     score{0},
     inPlayerDeathAnimation{false},
-    canMendMushrooms{false}
+    canMendMushrooms{false},
+    segmentsShot{0}
 {
     LaserShots_object = std::make_shared<LaserShots>(LaserShots(0, -1.f, 8.f));
     if (!bullet_texture.loadFromFile("resources/bullet.png")) throw CouldNotLoadPicture{};
@@ -473,13 +474,9 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
                     score += bodyPoints;
                 }
                 laser.erase(iter2);
-                //isHit = true;
+                ++segmentsShot;
                 return;
             }
-           // else
-            //{
-             //   isHit = false;
-            //}
             ++segment_sprite;
         }
         ++iter2;
@@ -1034,6 +1031,10 @@ void Logic::refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vec
     {
         if (mushroom->getMush_health() < 4)
         {
+            centipede_objectVector.clear();
+            centipede_sprites.clear();
+            segmentsShot = 0;
+
             spider_object_vector.clear();
             spider_sprites.clear();
 
@@ -1055,6 +1056,7 @@ void Logic::refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vec
     if (mushrooms_mended == 0)
     {
         canMendMushrooms = false;
+        segmentsShot = 0;
 
         //restart game
         centipede_objectVector.clear();
@@ -1072,6 +1074,11 @@ void Logic::refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vec
         flea_sprite.clear();
     }
         
+}
+
+int Logic::getNumberOfShotSegments() const
+{
+    return segmentsShot;
 }
 
 //free up resources
