@@ -12,14 +12,19 @@ ScreenManager::ScreenManager():
     playerBombed{false}
 
 {
-    initialize_screen();
-    initialize_player();
-    create_enemy();
-    logic.create_mushrooms(mushField, mushroom_sprites);
     if (!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
     if (!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
     if (!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
     if (!spider_texture.loadFromFile("resources/spider1.png")) throw CouldNotLoadPicture{};
+    if (!life1_t.loadFromFile("resources/1-life.png")) throw CouldNotLoadPicture{};
+    if (!lives2_t.loadFromFile("resources/2-lives.png")) throw CouldNotLoadPicture{};
+    if (!lives3_t.loadFromFile("resources/3-lives.png")) throw CouldNotLoadPicture{};
+    if (!menu_cursor_t.loadFromFile("resources/game-cursor.png")) throw CouldNotLoadPicture{};
+
+    initialize_screen();
+    initialize_player();
+    create_enemy();
+    logic.create_mushrooms(mushField, mushroom_sprites);
 }
 
 void ScreenManager::initialize_player()
@@ -46,22 +51,37 @@ void ScreenManager::initialize_screen()
     main_menu_s.setPosition(windowWidth / 2.0f, windowHeight / 2.0f);
     main_menu_s.setTexture(main_menu_t);
 
-    //game instructions set up
-    game_instructions.setFont(splash_screenFont);
-    game_instructions.setCharacterSize(12);
-    game_instructions.setStyle(sf::Text::Regular);
-    game_instructions.setFillColor(sf::Color::Red);
-    game_instructions.setPosition(10, 220);
-    game_instructions.setString("INSTRUCTIONS: \nPress Enter to start game!"
-                                "\nPress Escape(Esc) to quit!"
-                                "\nUse keyboard arrows to move player"
-                                "\nPress space to shoot");
+    //Start game text setup
+    start_Game_txt.setFont(splash_screenFont);
+    start_Game_txt.setCharacterSize(12);
+    start_Game_txt.setStyle(sf::Text::Regular);
+    start_Game_txt.setFillColor(sf::Color::Red);
+    start_Game_txt.setPosition(120, 215);
+    start_Game_txt.setString("START GAME");
 
-    playerLives_display.setFont(Displays);
-    playerLives_display.setCharacterSize(8);
-    playerLives_display.setStyle(sf::Text::Regular);
-    playerLives_display.setFillColor(sf::Color::Red);
-    playerLives_display.setPosition(0,0);
+    //game instructions text set up
+    game_instructions_txt.setFont(splash_screenFont);
+    game_instructions_txt.setCharacterSize(12);
+    game_instructions_txt.setStyle(sf::Text::Regular);
+    game_instructions_txt.setFillColor(sf::Color::Red);
+    game_instructions_txt.setPosition(170, 245);
+    game_instructions_txt.setString("INSTRUCTIONS");
+
+    //quit game text set up
+    quit_Game_txt.setFont(splash_screenFont);
+    quit_Game_txt.setCharacterSize(12);
+    quit_Game_txt.setStyle(sf::Text::Regular);
+    quit_Game_txt.setFillColor(sf::Color::Red);
+    quit_Game_txt.setPosition(270, 275);
+    quit_Game_txt.setString("QUIT GAME");
+
+    menu_cursor_s.setOrigin(0.0f, 0.0f);
+    menu_cursor_s.setPosition(105.0f, 214.8f);
+    menu_cursor_s.setTexture(menu_cursor_t);
+
+    //Player lives heads up display
+    player_livesHUD_s.setPosition(0.0f, 0.0f);
+    player_livesHUD_s.setTexture(lives3_t);
 
     currentScore_display.setFont(Displays);
     currentScore_display.setCharacterSize(8);
@@ -102,7 +122,10 @@ void ScreenManager::run()
             if (!isGameOver)
             {
                 window.draw(main_menu_s);
-                window.draw(game_instructions);
+                window.draw(menu_cursor_s);
+                window.draw(start_Game_txt);
+                window.draw(game_instructions_txt);
+                window.draw(quit_Game_txt);
             }
         }
 
@@ -381,9 +404,8 @@ void ScreenManager::draw_mushrooms()
 void ScreenManager::updateScreen_manager()
 {
     auto remainingPlayer_lives = logic.player_object.getPlayer_lives();
-    std::string remainingPlayer_lives_ = std::to_string(remainingPlayer_lives);
-    playerLives_display.setString("LIVES:" + remainingPlayer_lives_);
-    window.draw(playerLives_display);
+    updatePlayerLivesHUD(remainingPlayer_lives);
+    window.draw(player_livesHUD_s);
 
     //Display current score
     auto current_score = logic.get_score();
@@ -419,7 +441,7 @@ void ScreenManager::update_game()
     }
 
     //if all centipede segments are killed, player wins
-    auto killed_segments = logic.getKilled_segments();
+    auto killed_segments = logic.getNumberOfShotSegments();
     if(killed_segments == bodiesToSpawn)
     {
         isPlaying = false;
@@ -441,6 +463,22 @@ void ScreenManager::create_flea()
     flea_sprite -> setOrigin(sf::Vector2f(0.f,0.f));
     flea_sprite -> setPosition(pos);
     FleaSprite_vector.push_back(flea_sprite);
+}
+
+void ScreenManager::updatePlayerLivesHUD(const int lives)
+{
+    switch (lives)
+    {
+    case 1:
+        player_livesHUD_s.setTexture(life1_t);
+        break;
+    case 2:
+        player_livesHUD_s.setTexture(lives2_t);
+        break;
+    default:
+        player_livesHUD_s.setTexture(lives3_t);
+        break;
+    }
 }
 
 //Free up resources

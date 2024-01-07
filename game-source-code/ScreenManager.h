@@ -68,12 +68,18 @@ class ScreenManager
         //set up of display text and fonts
         sf::Font splash_screenFont;
         sf::Text splash_screenDisplay;
-        sf::Text game_instructions;
+
+        sf::Text game_instructions_txt;
+        sf::Text start_Game_txt;
+        sf::Text quit_Game_txt;
+
         sf::Texture main_menu_t;
         sf::Sprite main_menu_s;
 
+        sf::Texture menu_cursor_t;
+        sf::Sprite menu_cursor_s;
+
         //Text to show remaining lives
-        sf::Text playerLives_display;
         sf::Font Displays;
 
         //Show current score
@@ -126,5 +132,9 @@ class ScreenManager
         vector<shared_ptr<sf::Sprite>>shot_centipede_segment_sprites;
 
         bool playerBombed;
+
+        sf::Sprite player_livesHUD_s;
+        sf::Texture life1_t, lives2_t, lives3_t;
+        void updatePlayerLivesHUD(const int lives);
 };
 #endif // SCREENMANAGER_H

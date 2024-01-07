@@ -329,7 +329,6 @@ void Logic::collision_between_centipede_and_player(sf::Sprite& player_sprite, ve
         {
             segment_sprites.clear();
             centipede_objectVector.clear();
-
             //decrement player lives
             player_object.decrement_lives();
             sound_manager->playPlayerDeathSound();
@@ -460,6 +459,7 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
             auto iscollided = collision.collision_detect(bulletSprite_pos,bulletWidth,bulletHeight,centipedeObject_pos,centWidth,centHeight);
             if (iscollided)
             {
+                ++segmentsShot;
                 //set body segment to inactive
                 (centipedeObject) -> setSegment_status(false);
                 centipedeObject->startDeathAnimation();
@@ -477,7 +477,6 @@ void Logic::collision_between_centipede_and_bullet(vector<shared_ptr<sf::Sprite>
                     score += bodyPoints;
                 }
                 laser.erase(iter2);
-                ++segmentsShot;
                 return;
             }
             ++segment_sprite;
