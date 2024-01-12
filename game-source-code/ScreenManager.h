@@ -143,5 +143,6 @@ class ScreenManager
         sf::Vector2f cursorStartGamePos;
         sf::Vector2f cursorInstructionsPos;
         sf::Vector2f cursorQuitGamePos;
+        void processCursorEvents();
 };
 #endif // SCREENMANAGER_H

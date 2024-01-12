@@ -258,14 +258,13 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
                 moveCursorDown();
             break;
         case sf::Keyboard::Enter:
+            processCursorEvents();
             break;
         default:
             break;
         }
     }
 
-    if(key == sf::Keyboard::Enter) //player wants to play
-        isPlaying = true;
     if(isPlaying)
     {
         window.setKeyRepeatEnabled(true);
@@ -556,6 +555,17 @@ void ScreenManager::moveCursorUp()
         quit_Game_txt.setFillColor(sf::Color::Red);
         start_Game_txt.setFillColor(sf::Color::Red);
         game_instructions_txt.setFillColor(sf::Color::Green);
+    }
+}
+
+void ScreenManager::processCursorEvents()
+{
+    sf::Vector2f cursorPosition = menu_cursor_s.getPosition();
+
+    if (inMainMenu && cursorPosition == cursorStartGamePos)
+    {
+        isPlaying = true;
+        inMainMenu = false;
     }
 }
 
