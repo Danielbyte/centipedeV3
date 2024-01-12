@@ -13,6 +13,15 @@ ScreenManager::ScreenManager():
     inMainMenu{true}
 
 {
+    cursorStartGamePos.y = 214.8f;
+    cursorStartGamePos.x = 105.0f;
+
+    cursorInstructionsPos.x = 155.0f;
+    cursorInstructionsPos.y = 244.8f;
+
+    cursorQuitGamePos.x = 255.0f;
+    cursorQuitGamePos.y = 274.8f;
+
     if (!scorpion_texture.loadFromFile("resources/scorpion1.png")) throw CouldNotLoadPicture{};
     if (!bomb_texture.loadFromFile("resources/bomb1.png")) throw CouldNotLoadPicture{};
     if (!flea_texture.loadFromFile("resources/flea1.png")) throw CouldNotLoadPicture{};
@@ -56,7 +65,7 @@ void ScreenManager::initialize_screen()
     start_Game_txt.setFont(splash_screenFont);
     start_Game_txt.setCharacterSize(12);
     start_Game_txt.setStyle(sf::Text::Regular);
-    start_Game_txt.setFillColor(sf::Color::Red);
+    start_Game_txt.setFillColor(sf::Color::Green);
     start_Game_txt.setPosition(120, 215);
     start_Game_txt.setString("START GAME");
 
@@ -238,15 +247,15 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
     {
         shoot_timer++;
     }
-    if (inMainMenu)
+    if (inMainMenu && isPressed)
     {
         switch (key)
         {
         case sf::Keyboard::Up:
+                moveCursorUp();
             break;
         case sf::Keyboard::Down:
-            if (isPressed)
-                MoveCursorDown();
+                moveCursorDown();
             break;
         case sf::Keyboard::Enter:
             break;
@@ -498,24 +507,55 @@ void ScreenManager::updatePlayerLivesHUD(const int lives)
     }
 }
 
-void ScreenManager::MoveCursorDown()
+void ScreenManager::moveCursorDown()
 {
-    auto y_pos = menu_cursor_s.getPosition().y;
-    auto x_pos = menu_cursor_s.getPosition().x;
-    if (y_pos == game_instructions_txt.getPosition().y - 0.2f)
+    sf::Vector2f cursorPosition = menu_cursor_s.getPosition();
+    if (cursorPosition == cursorStartGamePos)
     {
-        menu_cursor_s.setPosition(x_pos + 100.0f, y_pos + 30.0f);
+        menu_cursor_s.setPosition(cursorInstructionsPos);
+        quit_Game_txt.setFillColor(sf::Color::Red);
+        start_Game_txt.setFillColor(sf::Color::Red);
+        game_instructions_txt.setFillColor(sf::Color::Green);
     }
-    else
+    if (cursorPosition == cursorInstructionsPos)
     {
-        menu_cursor_s.setPosition(x_pos + 50.0f, y_pos + 30.0f);
+        menu_cursor_s.setPosition(cursorQuitGamePos);
+        quit_Game_txt.setFillColor(sf::Color::Green);
+        start_Game_txt.setFillColor(sf::Color::Red);
+        game_instructions_txt.setFillColor(sf::Color::Red);
     }
-    
-    if (y_pos == (quit_Game_txt.getPosition().y - 0.2f))
+    if (cursorPosition == cursorQuitGamePos)
     {
-        auto newY = start_Game_txt.getPosition().y - 0.2f;
-        auto x = start_Game_txt.getPosition().x - 15.0f;
-        menu_cursor_s.setPosition(x, newY);
+        menu_cursor_s.setPosition(cursorStartGamePos);
+        quit_Game_txt.setFillColor(sf::Color::Red);
+        start_Game_txt.setFillColor(sf::Color::Green);
+        game_instructions_txt.setFillColor(sf::Color::Red);
+    }
+}
+
+void ScreenManager::moveCursorUp()
+{
+    sf::Vector2f cursorPosition = menu_cursor_s.getPosition();
+    if (cursorPosition == cursorStartGamePos)
+    {
+        menu_cursor_s.setPosition(cursorQuitGamePos);
+        quit_Game_txt.setFillColor(sf::Color::Green);
+        start_Game_txt.setFillColor(sf::Color::Red);
+        game_instructions_txt.setFillColor(sf::Color::Red);
+    }
+    if (cursorPosition == cursorInstructionsPos)
+    {
+        menu_cursor_s.setPosition(cursorStartGamePos);
+        quit_Game_txt.setFillColor(sf::Color::Red);
+        start_Game_txt.setFillColor(sf::Color::Green);
+        game_instructions_txt.setFillColor(sf::Color::Red);
+    }
+    if (cursorPosition == cursorQuitGamePos)
+    {
+        menu_cursor_s.setPosition(cursorInstructionsPos);
+        quit_Game_txt.setFillColor(sf::Color::Red);
+        start_Game_txt.setFillColor(sf::Color::Red);
+        game_instructions_txt.setFillColor(sf::Color::Green);
     }
 }
 

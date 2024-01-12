@@ -138,6 +138,10 @@ class ScreenManager
         void updatePlayerLivesHUD(const int lives);
         bool inMainMenu;
 
-        void MoveCursorDown();
+        void moveCursorDown();
+        void moveCursorUp();
+        sf::Vector2f cursorStartGamePos;
+        sf::Vector2f cursorInstructionsPos;
+        sf::Vector2f cursorQuitGamePos;
 };
 #endif // SCREENMANAGER_H
