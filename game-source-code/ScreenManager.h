@@ -150,22 +150,41 @@ class ScreenManager
         bool viewingInstructions;
 
         void displayGameInstructions();
+        void displayEnemyList();
+        void displayScorpionEnemy();
         void bulletPointAnimation(sf::Sprite& bulletPoint_sprite, shared_ptr<StopWatch>& bulletPoint_watch);
+
         shared_ptr<StopWatch> bulletPoint1_watch = std::make_shared<StopWatch>();
         shared_ptr<StopWatch> bulletPoint2_watch = std::make_shared<StopWatch>();
         shared_ptr<StopWatch> bulletPoint3_watch = std::make_shared<StopWatch>();
         shared_ptr<StopWatch> bulletPoint4_watch = std::make_shared<StopWatch>();
+        shared_ptr<StopWatch> bulletPoint5_watch = std::make_shared<StopWatch>();
+
+        //For animations that demonstrate a list of enemies
+        shared_ptr<StopWatch> scorpion_enemy_watch = std::make_shared<StopWatch>();
 
         sf::Text game_instruction1_txt;
         sf::Text game_instruction2_txt;
         sf::Text game_instruction3_txt;
         sf::Text game_instruction4_txt;
+        sf::Text game_instruction5_txt;
+
+        sf::Text scorpion_instructions_txt;
+
 
         sf::Sprite instruction1_bulletPoint_s;
         sf::Sprite instruction2_bulletPoint_s;
         sf::Sprite instruction3_bulletPoint_s;
         sf::Sprite instruction4_bulletPoint_s;
+        sf::Sprite instruction5_bulletPoint_s;
 
         sf::Texture bulletPoint1_t, bulletPoint2_t;
+
+        sf::Texture scorpion1_enemy_t, scorpion2_enemy_t, scorpion3_enemy_t, scorpion4_enemy_t;
+        sf::Sprite scorpion_enemy_s;
+        
+        void load_resources();
+        float animation_period;
+
 };
 #endif // SCREENMANAGER_H

@@ -11,7 +11,8 @@ ScreenManager::ScreenManager():
     isGameOver{false},
     playerBombed{false},
     inMainMenu{true},
-    viewingInstructions{false}
+    viewingInstructions{false},
+    animation_period{0.1f}
 
 {
     cursorStartGamePos.y = 214.8f;
@@ -34,6 +35,7 @@ ScreenManager::ScreenManager():
     if (!instructions_background_t.loadFromFile("resources/instructions-background.png")) throw CouldNotLoadPicture{};
     if (!bulletPoint1_t.loadFromFile("resources/bulletPoint1.png")) throw CouldNotLoadPicture{};
     if (!bulletPoint2_t.loadFromFile("resources/bulletPoint2.png")) throw CouldNotLoadPicture{};
+    load_resources();
 
     initialize_screen();
     initialize_player();
@@ -153,6 +155,26 @@ void ScreenManager::initialize_screen()
 
     instruction4_bulletPoint_s.setTexture(bulletPoint1_t);
     instruction4_bulletPoint_s.setPosition(0.0f, 155.0f);
+
+    game_instruction5_txt.setFont(splash_screenFont);
+    game_instruction5_txt.setCharacterSize(10);
+    game_instruction5_txt.setStyle(sf::Text::Regular);
+    game_instruction5_txt.setFillColor(sf::Color::Green);
+    game_instruction5_txt.setPosition(15.0f, 190.0f);
+    game_instruction5_txt.setString("ENEMIES:");
+
+    instruction5_bulletPoint_s.setTexture(bulletPoint1_t);
+    instruction5_bulletPoint_s.setPosition(0.0f, 190.0f);
+
+    scorpion_enemy_s.setTexture(scorpion1_enemy_t);
+    scorpion_enemy_s.setPosition(0.0f, 210.0f);
+
+    scorpion_instructions_txt.setFont(splash_screenFont);
+    scorpion_instructions_txt.setCharacterSize(10.0f);
+    scorpion_instructions_txt.setStyle(sf::Text::Regular);
+    scorpion_instructions_txt.setFillColor(sf::Color::Green);
+    scorpion_instructions_txt.setPosition(25.0f, 210.0f);
+    scorpion_instructions_txt.setString("Poisons every mushroom it touches.");
 }
 
 void ScreenManager::run()
@@ -631,6 +653,8 @@ void ScreenManager::processCursorEvents()
             bulletPoint2_watch->restart();
             bulletPoint3_watch->restart();
             bulletPoint4_watch->restart();
+            bulletPoint5_watch->restart();
+            scorpion_enemy_watch->restart();
 
             menu_cursor_s.setPosition(0.0f, 0.0f);
         }
@@ -658,17 +682,57 @@ void ScreenManager::displayGameInstructions()
     bulletPointAnimation(instruction2_bulletPoint_s, bulletPoint2_watch);
     bulletPointAnimation(instruction3_bulletPoint_s, bulletPoint3_watch);
     bulletPointAnimation(instruction4_bulletPoint_s, bulletPoint4_watch);
+    bulletPointAnimation(instruction5_bulletPoint_s, bulletPoint5_watch);
 
     window.draw(instructions_background_s);
     window.draw(game_instruction1_txt);
     window.draw(game_instruction2_txt);
     window.draw(game_instruction3_txt);
     window.draw(game_instruction4_txt);
+    window.draw(game_instruction5_txt);
 
     window.draw(instruction1_bulletPoint_s);
     window.draw(instruction2_bulletPoint_s);
     window.draw(instruction3_bulletPoint_s);
     window.draw(instruction4_bulletPoint_s);
+    window.draw(instruction5_bulletPoint_s);
+
+    displayEnemyList();
+}
+
+void ScreenManager::displayEnemyList()
+{
+    displayScorpionEnemy();
+}
+
+void ScreenManager::displayScorpionEnemy()
+{
+    if (scorpion_enemy_watch->getTimeElapsed() > 4 * animation_period)
+        scorpion_enemy_watch->restart();
+
+    auto time = scorpion_enemy_watch->getTimeElapsed();
+    if (time >= 0.0f && time <= animation_period)
+        scorpion_enemy_s.setTexture(scorpion1_enemy_t);
+
+    if (time > animation_period && time <= 2 * animation_period)
+        scorpion_enemy_s.setTexture(scorpion2_enemy_t);
+
+    if (time > 2 * animation_period && time <= 3 * animation_period)
+        scorpion_enemy_s.setTexture(scorpion3_enemy_t);
+
+    if (time > 3 * animation_period && time <= 4 * animation_period)
+        scorpion_enemy_s.setTexture(scorpion4_enemy_t);
+
+    window.draw(scorpion_enemy_s);
+    window.draw(scorpion_instructions_txt);
+}
+
+void ScreenManager::load_resources()
+{
+    scorpion1_enemy_t.loadFromFile("resources/scorpion1-instruction.png");
+    scorpion2_enemy_t.loadFromFile("resources/scorpion2-instruction.png");
+    scorpion3_enemy_t.loadFromFile("resources/scorpion3-instruction.png");
+    scorpion4_enemy_t.loadFromFile("resources/scorpion4-instruction.png");
 }
 
 //Free up resources
