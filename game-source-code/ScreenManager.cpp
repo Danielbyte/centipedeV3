@@ -12,7 +12,8 @@ ScreenManager::ScreenManager():
     playerBombed{false},
     inMainMenu{true},
     viewingInstructions{false},
-    animation_period{0.1f}
+    animation_period{0.1f},
+    instructions_offset{60.0f}
 
 {
     cursorStartGamePos.y = 214.8f;
@@ -119,93 +120,100 @@ void ScreenManager::initialize_screen()
     game_instruction1_txt.setCharacterSize(10);
     game_instruction1_txt.setStyle(sf::Text::Regular);
     game_instruction1_txt.setFillColor(sf::Color::Green);
-    game_instruction1_txt.setPosition(15.0f, 80.0f);
+    game_instruction1_txt.setPosition(15.0f, 80.0f + instructions_offset);
     game_instruction1_txt.setString("Use arrow keys to move player.");
 
     instruction1_bulletPoint_s.setTexture(bulletPoint1_t);
-    instruction1_bulletPoint_s.setPosition(0.0f, 80.0f);
+    instruction1_bulletPoint_s.setPosition(0.0f, 80.0f + instructions_offset);
 
     game_instruction2_txt.setFont(splash_screenFont);
     game_instruction2_txt.setCharacterSize(10);
     game_instruction2_txt.setStyle(sf::Text::Regular);
     game_instruction2_txt.setFillColor(sf::Color::Green);
-    game_instruction2_txt.setPosition(15.0f, 100.0f);
+    game_instruction2_txt.setPosition(15.0f, 100.0f + instructions_offset);
     game_instruction2_txt.setString("Press Space to shoot.");
 
     instruction2_bulletPoint_s.setTexture(bulletPoint1_t);
-    instruction2_bulletPoint_s.setPosition(0.0f, 100.0f);
+    instruction2_bulletPoint_s.setPosition(0.0f, 100.0f + instructions_offset);
 
     game_instruction3_txt.setFont(splash_screenFont);
     game_instruction3_txt.setCharacterSize(10);
     game_instruction3_txt.setStyle(sf::Text::Regular);
     game_instruction3_txt.setFillColor(sf::Color::Green);
-    game_instruction3_txt.setPosition(15.0f, 120.0f);
+    game_instruction3_txt.setPosition(15.0f, 120.0f + instructions_offset);
     game_instruction3_txt.setString("Game ends when player depletes all 3 lives"
                                     "\nor when all centipede segments are shot.");
 
     instruction3_bulletPoint_s.setTexture(bulletPoint1_t);
-    instruction3_bulletPoint_s.setPosition(0.0f, 120.0f);
+    instruction3_bulletPoint_s.setPosition(0.0f, 120.0f + instructions_offset);
 
     game_instruction4_txt.setFont(splash_screenFont);
     game_instruction4_txt.setCharacterSize(10);
     game_instruction4_txt.setStyle(sf::Text::Regular);
     game_instruction4_txt.setFillColor(sf::Color::Green);
-    game_instruction4_txt.setPosition(15.0f, 155.0f);
+    game_instruction4_txt.setPosition(15.0f, 155.0f + instructions_offset);
     game_instruction4_txt.setString("Press ESC key to escape from game window.");
 
     instruction4_bulletPoint_s.setTexture(bulletPoint1_t);
-    instruction4_bulletPoint_s.setPosition(0.0f, 155.0f);
+    instruction4_bulletPoint_s.setPosition(0.0f, 155.0f + instructions_offset);
 
     game_instruction5_txt.setFont(splash_screenFont);
     game_instruction5_txt.setCharacterSize(10);
     game_instruction5_txt.setStyle(sf::Text::Regular);
     game_instruction5_txt.setFillColor(sf::Color::Green);
-    game_instruction5_txt.setPosition(15.0f, 190.0f);
+    game_instruction5_txt.setPosition(15.0f, 190.0f + instructions_offset);
     game_instruction5_txt.setString("ENEMIES:");
 
     instruction5_bulletPoint_s.setTexture(bulletPoint1_t);
-    instruction5_bulletPoint_s.setPosition(0.0f, 190.0f);
+    instruction5_bulletPoint_s.setPosition(0.0f, 190.0f + instructions_offset);
 
     scorpion_enemy_s.setTexture(scorpion1_enemy_t);
-    scorpion_enemy_s.setPosition(0.0f, 210.0f);
+    scorpion_enemy_s.setPosition(0.0f, 210.0f + instructions_offset);
 
     scorpion_instructions_txt.setFont(splash_screenFont);
-    scorpion_instructions_txt.setCharacterSize(10.0f);
+    scorpion_instructions_txt.setCharacterSize(10);
     scorpion_instructions_txt.setStyle(sf::Text::Regular);
     scorpion_instructions_txt.setFillColor(sf::Color::Green);
-    scorpion_instructions_txt.setPosition(25.0f, 210.0f);
+    scorpion_instructions_txt.setPosition(25.0f, 210.0f + instructions_offset);
     scorpion_instructions_txt.setString("Poisons every mushroom it touches.");
 
     spider_enemy_s.setTexture(scorpion1_enemy_t);
-    spider_enemy_s.setPosition(0.0f, 230.0f);
+    spider_enemy_s.setPosition(0.0f, 230.0f + instructions_offset);
 
     spider_instructions_txt.setFont(splash_screenFont);
-    spider_instructions_txt.setCharacterSize(10.0f);
+    spider_instructions_txt.setCharacterSize(10);
     spider_instructions_txt.setStyle(sf::Text::Regular);
     spider_instructions_txt.setFillColor(sf::Color::Green);
-    spider_instructions_txt.setPosition(23.0f, 230.0f);
+    spider_instructions_txt.setPosition(23.0f, 230.0f + instructions_offset);
     spider_instructions_txt.setString("Eats some mushrooms around player area.");
 
     segment_enemy_s.setTexture(segment1_enemy_t);
-    segment_enemy_s.setPosition(0.0f, 250.0f);
+    segment_enemy_s.setPosition(0.0f, 250.0f + instructions_offset);
 
     centipede_instructions_txt.setFont(splash_screenFont);
-    centipede_instructions_txt.setCharacterSize(10.0f);
+    centipede_instructions_txt.setCharacterSize(10);
     centipede_instructions_txt.setStyle(sf::Text::Regular);
     centipede_instructions_txt.setFillColor(sf::Color::Green);
-    centipede_instructions_txt.setPosition(15.0f, 250.0f);
+    centipede_instructions_txt.setPosition(15.0f, 250.0f + instructions_offset);
     centipede_instructions_txt.setString("Gets infected by poisoned mushroom and"
         "\nkills player on collision.");
 
     flea_enemy_s.setTexture(flea1_enemy_t);
-    flea_enemy_s.setPosition(-8.5f, 285.0f);
+    flea_enemy_s.setPosition(-8.5f, 285.0f + instructions_offset);
 
     flea_instructions_txt.setFont(splash_screenFont);
-    flea_instructions_txt.setCharacterSize(10.0f);
+    flea_instructions_txt.setCharacterSize(10);
     flea_instructions_txt.setStyle(sf::Text::Regular);
     flea_instructions_txt.setFillColor(sf::Color::Green);
-    flea_instructions_txt.setPosition(16.5f, 285.0f);
+    flea_instructions_txt.setPosition(16.5f, 285.0f + instructions_offset);
     flea_instructions_txt.setString("Leaves a trail of mushrooms behind");
+
+    backToMainMenu_txt.setFont(splash_screenFont);
+    backToMainMenu_txt.setCharacterSize(10);
+    backToMainMenu_txt.setStyle(sf::Text::Regular);
+    backToMainMenu_txt.setFillColor(sf::Color::Red);
+    backToMainMenu_txt.setPosition(245.0f, 400.0f);
+    backToMainMenu_txt.setString("Main menu (PRESS Enter)");
 }
 
 void ScreenManager::run()
@@ -665,9 +673,17 @@ void ScreenManager::moveCursorUp()
 void ScreenManager::processCursorEvents()
 {
     sf::Vector2f cursorPosition = menu_cursor_s.getPosition();
+    sf::Vector2f cursorInGameInstructions;
+    cursorInGameInstructions.x = 232.0f;
+    cursorInGameInstructions.y = 400.0f;
 
     if (inMainMenu)
     {
+        if (viewingInstructions && cursorPosition == cursorInGameInstructions)
+        {
+            viewingInstructions = false;
+            menu_cursor_s.setPosition(cursorInstructionsPos);
+        }
         if (cursorPosition == cursorStartGamePos)
         {
             isPlaying = true;
@@ -689,7 +705,7 @@ void ScreenManager::processCursorEvents()
             segment_enemy_watch->restart();
             flea_enemy_watch->restart();
 
-            menu_cursor_s.setPosition(0.0f, 0.0f);
+            menu_cursor_s.setPosition(cursorInGameInstructions);
         }
     }
 }
@@ -729,6 +745,9 @@ void ScreenManager::displayGameInstructions()
     window.draw(instruction3_bulletPoint_s);
     window.draw(instruction4_bulletPoint_s);
     window.draw(instruction5_bulletPoint_s);
+
+    window.draw(backToMainMenu_txt);
+    window.draw(menu_cursor_s);
 
     displayEnemyList();
 }

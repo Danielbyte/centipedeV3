@@ -208,5 +208,9 @@ class ScreenManager
         void load_resources();
         float animation_period;
 
+        float instructions_offset;
+
+        sf::Text backToMainMenu_txt;
+
 };
 #endif // SCREENMANAGER_H
