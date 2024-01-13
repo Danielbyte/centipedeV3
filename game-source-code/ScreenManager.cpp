@@ -122,6 +122,37 @@ void ScreenManager::initialize_screen()
 
     instruction1_bulletPoint_s.setTexture(bulletPoint1_t);
     instruction1_bulletPoint_s.setPosition(0.0f, 80.0f);
+
+    game_instruction2_txt.setFont(splash_screenFont);
+    game_instruction2_txt.setCharacterSize(10);
+    game_instruction2_txt.setStyle(sf::Text::Regular);
+    game_instruction2_txt.setFillColor(sf::Color::Green);
+    game_instruction2_txt.setPosition(15.0f, 100.0f);
+    game_instruction2_txt.setString("Press Space to shoot.");
+
+    instruction2_bulletPoint_s.setTexture(bulletPoint1_t);
+    instruction2_bulletPoint_s.setPosition(0.0f, 100.0f);
+
+    game_instruction3_txt.setFont(splash_screenFont);
+    game_instruction3_txt.setCharacterSize(10);
+    game_instruction3_txt.setStyle(sf::Text::Regular);
+    game_instruction3_txt.setFillColor(sf::Color::Green);
+    game_instruction3_txt.setPosition(15.0f, 120.0f);
+    game_instruction3_txt.setString("Game ends when player depletes all 3 lives"
+                                    "\nor when all centipede segments are shot.");
+
+    instruction3_bulletPoint_s.setTexture(bulletPoint1_t);
+    instruction3_bulletPoint_s.setPosition(0.0f, 120.0f);
+
+    game_instruction4_txt.setFont(splash_screenFont);
+    game_instruction4_txt.setCharacterSize(10);
+    game_instruction4_txt.setStyle(sf::Text::Regular);
+    game_instruction4_txt.setFillColor(sf::Color::Green);
+    game_instruction4_txt.setPosition(15.0f, 155.0f);
+    game_instruction4_txt.setString("Press ESC key to escape from game window.");
+
+    instruction4_bulletPoint_s.setTexture(bulletPoint1_t);
+    instruction4_bulletPoint_s.setPosition(0.0f, 155.0f);
 }
 
 void ScreenManager::run()
@@ -624,9 +655,20 @@ void ScreenManager::bulletPointAnimation(sf::Sprite& bulletPoint_sprite, shared_
 void ScreenManager::displayGameInstructions()
 {
     bulletPointAnimation(instruction1_bulletPoint_s, bulletPoint1_watch);
+    bulletPointAnimation(instruction2_bulletPoint_s, bulletPoint2_watch);
+    bulletPointAnimation(instruction3_bulletPoint_s, bulletPoint3_watch);
+    bulletPointAnimation(instruction4_bulletPoint_s, bulletPoint4_watch);
+
     window.draw(instructions_background_s);
     window.draw(game_instruction1_txt);
+    window.draw(game_instruction2_txt);
+    window.draw(game_instruction3_txt);
+    window.draw(game_instruction4_txt);
+
     window.draw(instruction1_bulletPoint_s);
+    window.draw(instruction2_bulletPoint_s);
+    window.draw(instruction3_bulletPoint_s);
+    window.draw(instruction4_bulletPoint_s);
 }
 
 //Free up resources
