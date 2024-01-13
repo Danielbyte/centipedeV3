@@ -185,6 +185,27 @@ void ScreenManager::initialize_screen()
     spider_instructions_txt.setFillColor(sf::Color::Green);
     spider_instructions_txt.setPosition(23.0f, 230.0f);
     spider_instructions_txt.setString("Eats some mushrooms around player area.");
+
+    segment_enemy_s.setTexture(segment1_enemy_t);
+    segment_enemy_s.setPosition(0.0f, 250.0f);
+
+    centipede_instructions_txt.setFont(splash_screenFont);
+    centipede_instructions_txt.setCharacterSize(10.0f);
+    centipede_instructions_txt.setStyle(sf::Text::Regular);
+    centipede_instructions_txt.setFillColor(sf::Color::Green);
+    centipede_instructions_txt.setPosition(15.0f, 250.0f);
+    centipede_instructions_txt.setString("Gets infected by poisoned mushroom and"
+        "\nkills player on collision.");
+
+    flea_enemy_s.setTexture(flea1_enemy_t);
+    flea_enemy_s.setPosition(-8.5f, 285.0f);
+
+    flea_instructions_txt.setFont(splash_screenFont);
+    flea_instructions_txt.setCharacterSize(10.0f);
+    flea_instructions_txt.setStyle(sf::Text::Regular);
+    flea_instructions_txt.setFillColor(sf::Color::Green);
+    flea_instructions_txt.setPosition(16.5f, 285.0f);
+    flea_instructions_txt.setString("Leaves a trail of mushrooms behind");
 }
 
 void ScreenManager::run()
@@ -665,6 +686,8 @@ void ScreenManager::processCursorEvents()
             bulletPoint4_watch->restart();
             bulletPoint5_watch->restart();
             scorpion_enemy_watch->restart();
+            segment_enemy_watch->restart();
+            flea_enemy_watch->restart();
 
             menu_cursor_s.setPosition(0.0f, 0.0f);
         }
@@ -714,6 +737,8 @@ void ScreenManager::displayEnemyList()
 {
     displayScorpionEnemy();
     displaySpiderEnemy();
+    displayCentipedeEnemy();
+    displayFleaEnemy();
 }
 
 void ScreenManager::displayScorpionEnemy()
@@ -772,6 +797,62 @@ void ScreenManager::displaySpiderEnemy()
     window.draw(spider_instructions_txt);
 }
 
+void ScreenManager::displayCentipedeEnemy()
+{
+    if (segment_enemy_watch->getTimeElapsed() > 8 * animation_period)
+        segment_enemy_watch->restart();
+
+    auto time = segment_enemy_watch->getTimeElapsed();
+    if (time >= 0.0f && time <= animation_period)
+        segment_enemy_s.setTexture(segment1_enemy_t);
+
+    if (time > animation_period && time <= 2 * animation_period)
+        segment_enemy_s.setTexture(segment2_enemy_t);
+
+    if (time > 2 * animation_period && time <= 3 * animation_period)
+        segment_enemy_s.setTexture(segment3_enemy_t);
+
+    if (time > 3 * animation_period && time <= 4 * animation_period)
+        segment_enemy_s.setTexture(segment4_enemy_t);
+
+    if (time > 4 * animation_period && time <= 5 * animation_period)
+        segment_enemy_s.setTexture(segment5_enemy_t);
+
+    if (time > 5 * animation_period && time <= 6 * animation_period)
+        segment_enemy_s.setTexture(segment6_enemy_t);
+
+    if (time > 6 * animation_period && time <= 7 * animation_period)
+        segment_enemy_s.setTexture(segment7_enemy_t);
+
+    if (time > 7 * animation_period && time <= 8 * animation_period)
+        segment_enemy_s.setTexture(segment8_enemy_t);
+
+    window.draw(segment_enemy_s);
+    window.draw(centipede_instructions_txt);
+}
+
+void ScreenManager::displayFleaEnemy()
+{
+    if (segment_enemy_watch->getTimeElapsed() > 4 * animation_period)
+        flea_enemy_watch->restart();
+
+    auto time = flea_enemy_watch->getTimeElapsed();
+    if (time >= 0.0f && time <= animation_period)
+        flea_enemy_s.setTexture(flea1_enemy_t);
+
+    if (time > animation_period && time <= 2 * animation_period)
+        flea_enemy_s.setTexture(flea2_enemy_t);
+
+    if (time > 2 * animation_period && time <= 3 * animation_period)
+        flea_enemy_s.setTexture(flea3_enemy_t);
+
+    if (time > 3 * animation_period && time <= 4 * animation_period)
+        flea_enemy_s.setTexture(flea4_enemy_t);
+
+    window.draw(flea_enemy_s);
+    window.draw(flea_instructions_txt);
+}
+
 void ScreenManager::load_resources()
 {
     scorpion1_enemy_t.loadFromFile("resources/scorpion1-instruction.png");
@@ -787,6 +868,21 @@ void ScreenManager::load_resources()
     spider6_enemy_t.loadFromFile("resources/spider6-instruction.png");
     spider7_enemy_t.loadFromFile("resources/spider7-instruction.png");
     spider8_enemy_t.loadFromFile("resources/spider8-instruction.png");
+
+    segment1_enemy_t.loadFromFile("resources/head1-instruction.png");
+    segment2_enemy_t.loadFromFile("resources/head2-instruction.png");
+    segment3_enemy_t.loadFromFile("resources/head3-instruction.png");
+    segment4_enemy_t.loadFromFile("resources/head4-instruction.png");
+    segment5_enemy_t.loadFromFile("resources/head5-instruction.png");
+    segment6_enemy_t.loadFromFile("resources/head6-instruction.png");
+    segment7_enemy_t.loadFromFile("resources/head7-instruction.png");
+    segment8_enemy_t.loadFromFile("resources/head8-instruction.png");
+
+    flea1_enemy_t.loadFromFile("resources/flea1-instruction.png");
+    flea2_enemy_t.loadFromFile("resources/flea2-instruction.png");
+    flea3_enemy_t.loadFromFile("resources/flea3-instruction.png");
+    flea4_enemy_t.loadFromFile("resources/flea4-instruction.png");
+
 }
 
 //Free up resources
