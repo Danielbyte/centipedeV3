@@ -175,6 +175,16 @@ void ScreenManager::initialize_screen()
     scorpion_instructions_txt.setFillColor(sf::Color::Green);
     scorpion_instructions_txt.setPosition(25.0f, 210.0f);
     scorpion_instructions_txt.setString("Poisons every mushroom it touches.");
+
+    spider_enemy_s.setTexture(scorpion1_enemy_t);
+    spider_enemy_s.setPosition(0.0f, 230.0f);
+
+    spider_instructions_txt.setFont(splash_screenFont);
+    spider_instructions_txt.setCharacterSize(10.0f);
+    spider_instructions_txt.setStyle(sf::Text::Regular);
+    spider_instructions_txt.setFillColor(sf::Color::Green);
+    spider_instructions_txt.setPosition(23.0f, 230.0f);
+    spider_instructions_txt.setString("Eats some mushrooms around player area.");
 }
 
 void ScreenManager::run()
@@ -703,6 +713,7 @@ void ScreenManager::displayGameInstructions()
 void ScreenManager::displayEnemyList()
 {
     displayScorpionEnemy();
+    displaySpiderEnemy();
 }
 
 void ScreenManager::displayScorpionEnemy()
@@ -727,12 +738,55 @@ void ScreenManager::displayScorpionEnemy()
     window.draw(scorpion_instructions_txt);
 }
 
+void ScreenManager::displaySpiderEnemy()
+{
+    if (spider_enemy_watch->getTimeElapsed() > 8 * animation_period)
+        spider_enemy_watch->restart();
+
+    auto time = spider_enemy_watch->getTimeElapsed();
+    if (time >= 0.0f && time <= animation_period)
+        spider_enemy_s.setTexture(spider1_enemy_t);
+
+    if (time > animation_period && time <= 2 * animation_period)
+        spider_enemy_s.setTexture(spider2_enemy_t);
+
+    if (time > 2 * animation_period && time <= 3 * animation_period)
+        spider_enemy_s.setTexture(spider3_enemy_t);
+
+    if (time > 3 * animation_period && time <= 4 * animation_period)
+        spider_enemy_s.setTexture(spider4_enemy_t);
+
+    if (time > 4 * animation_period && time <= 5 * animation_period)
+        spider_enemy_s.setTexture(spider5_enemy_t);
+
+    if (time > 5 * animation_period && time <= 6 * animation_period)
+        spider_enemy_s.setTexture(spider6_enemy_t);
+
+    if (time > 6 * animation_period && time <= 7 * animation_period)
+        spider_enemy_s.setTexture(spider7_enemy_t);
+
+    if (time > 7 * animation_period && time <= 8 * animation_period)
+        spider_enemy_s.setTexture(spider8_enemy_t);
+
+    window.draw(spider_enemy_s);
+    window.draw(spider_instructions_txt);
+}
+
 void ScreenManager::load_resources()
 {
     scorpion1_enemy_t.loadFromFile("resources/scorpion1-instruction.png");
     scorpion2_enemy_t.loadFromFile("resources/scorpion2-instruction.png");
     scorpion3_enemy_t.loadFromFile("resources/scorpion3-instruction.png");
     scorpion4_enemy_t.loadFromFile("resources/scorpion4-instruction.png");
+
+    spider1_enemy_t.loadFromFile("resources/spider1-instruction.png");
+    spider2_enemy_t.loadFromFile("resources/spider2-instruction.png");
+    spider3_enemy_t.loadFromFile("resources/spider3-instruction.png");
+    spider4_enemy_t.loadFromFile("resources/spider4-instruction.png");
+    spider5_enemy_t.loadFromFile("resources/spider5-instruction.png");
+    spider6_enemy_t.loadFromFile("resources/spider6-instruction.png");
+    spider7_enemy_t.loadFromFile("resources/spider7-instruction.png");
+    spider8_enemy_t.loadFromFile("resources/spider8-instruction.png");
 }
 
 //Free up resources

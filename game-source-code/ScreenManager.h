@@ -152,6 +152,7 @@ class ScreenManager
         void displayGameInstructions();
         void displayEnemyList();
         void displayScorpionEnemy();
+        void displaySpiderEnemy();
         void bulletPointAnimation(sf::Sprite& bulletPoint_sprite, shared_ptr<StopWatch>& bulletPoint_watch);
 
         shared_ptr<StopWatch> bulletPoint1_watch = std::make_shared<StopWatch>();
@@ -162,6 +163,7 @@ class ScreenManager
 
         //For animations that demonstrate a list of enemies
         shared_ptr<StopWatch> scorpion_enemy_watch = std::make_shared<StopWatch>();
+        shared_ptr<StopWatch> spider_enemy_watch = std::make_shared<StopWatch>();
 
         sf::Text game_instruction1_txt;
         sf::Text game_instruction2_txt;
@@ -170,7 +172,7 @@ class ScreenManager
         sf::Text game_instruction5_txt;
 
         sf::Text scorpion_instructions_txt;
-
+        sf::Text spider_instructions_txt;
 
         sf::Sprite instruction1_bulletPoint_s;
         sf::Sprite instruction2_bulletPoint_s;
@@ -182,6 +184,11 @@ class ScreenManager
 
         sf::Texture scorpion1_enemy_t, scorpion2_enemy_t, scorpion3_enemy_t, scorpion4_enemy_t;
         sf::Sprite scorpion_enemy_s;
+
+        sf::Texture spider1_enemy_t, spider2_enemy_t, spider3_enemy_t, spider4_enemy_t, spider5_enemy_t,
+                    spider6_enemy_t, spider7_enemy_t, spider8_enemy_t;
+
+        sf::Sprite spider_enemy_s;
         
         void load_resources();
         float animation_period;
