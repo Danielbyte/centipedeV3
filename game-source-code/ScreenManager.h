@@ -121,6 +121,9 @@ class ScreenManager
         //bombs
         sf::Texture bomb_texture;
 
+        sf::Texture instructions_background_t;
+        sf::Sprite instructions_background_s;
+
         void create_bomb();
 
         //Update game entities
@@ -144,5 +147,25 @@ class ScreenManager
         sf::Vector2f cursorInstructionsPos;
         sf::Vector2f cursorQuitGamePos;
         void processCursorEvents();
+        bool viewingInstructions;
+
+        void displayGameInstructions();
+        void bulletPointAnimation(sf::Sprite& bulletPoint_sprite, shared_ptr<StopWatch>& bulletPoint_watch);
+        shared_ptr<StopWatch> bulletPoint1_watch = std::make_shared<StopWatch>();
+        shared_ptr<StopWatch> bulletPoint2_watch = std::make_shared<StopWatch>();
+        shared_ptr<StopWatch> bulletPoint3_watch = std::make_shared<StopWatch>();
+        shared_ptr<StopWatch> bulletPoint4_watch = std::make_shared<StopWatch>();
+
+        sf::Text game_instruction1_txt;
+        sf::Text game_instruction2_txt;
+        sf::Text game_instruction3_txt;
+        sf::Text game_instruction4_txt;
+
+        sf::Sprite instruction1_bulletPoint_s;
+        sf::Sprite instruction2_bulletPoint_s;
+        sf::Sprite instruction3_bulletPoint_s;
+        sf::Sprite instruction4_bulletPoint_s;
+
+        sf::Texture bulletPoint1_t, bulletPoint2_t;
 };
 #endif // SCREENMANAGER_H

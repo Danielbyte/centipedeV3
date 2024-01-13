@@ -10,7 +10,8 @@ ScreenManager::ScreenManager():
     shoot_timer{2},
     isGameOver{false},
     playerBombed{false},
-    inMainMenu{true}
+    inMainMenu{true},
+    viewingInstructions{false}
 
 {
     cursorStartGamePos.y = 214.8f;
@@ -30,6 +31,9 @@ ScreenManager::ScreenManager():
     if (!lives2_t.loadFromFile("resources/2-lives.png")) throw CouldNotLoadPicture{};
     if (!lives3_t.loadFromFile("resources/3-lives.png")) throw CouldNotLoadPicture{};
     if (!menu_cursor_t.loadFromFile("resources/game-cursor.png")) throw CouldNotLoadPicture{};
+    if (!instructions_background_t.loadFromFile("resources/instructions-background.png")) throw CouldNotLoadPicture{};
+    if (!bulletPoint1_t.loadFromFile("resources/bulletPoint1.png")) throw CouldNotLoadPicture{};
+    if (!bulletPoint2_t.loadFromFile("resources/bulletPoint2.png")) throw CouldNotLoadPicture{};
 
     initialize_screen();
     initialize_player();
@@ -54,13 +58,17 @@ void ScreenManager::initialize_screen()
     splash_screenDisplay.setStyle(sf::Text::Regular);
     splash_screenDisplay.setFillColor(sf::Color::Red);
     splash_screenDisplay.setPosition(10,180);
-    splash_screenDisplay.setString("Welcome to Centipede++");
 
     main_menu_t.loadFromFile("resources/main-menu.png");
     main_menu_s.setOrigin(windowWidth / 2.0f, windowHeight / 2.0f);
     main_menu_s.setPosition(windowWidth / 2.0f, windowHeight / 2.0f);
     main_menu_s.setTexture(main_menu_t);
 
+    instructions_background_s.setOrigin(windowWidth / 2.0f, windowHeight / 2.0f);
+    instructions_background_s.setPosition(windowWidth / 2.0f, windowHeight / 2.0f);
+    instructions_background_s.setTexture(instructions_background_t);
+
+    //MAIN MENU TEXTS
     //Start game text setup
     start_Game_txt.setFont(splash_screenFont);
     start_Game_txt.setCharacterSize(12);
@@ -105,6 +113,15 @@ void ScreenManager::initialize_screen()
     highScore_display.setFillColor(sf::Color::Green);
     highScore_display.setPosition(300, 0);
 
+    game_instruction1_txt.setFont(splash_screenFont);
+    game_instruction1_txt.setCharacterSize(10);
+    game_instruction1_txt.setStyle(sf::Text::Regular);
+    game_instruction1_txt.setFillColor(sf::Color::Green);
+    game_instruction1_txt.setPosition(15.0f, 80.0f);
+    game_instruction1_txt.setString("Use arrow keys to move player.");
+
+    instruction1_bulletPoint_s.setTexture(bulletPoint1_t);
+    instruction1_bulletPoint_s.setPosition(0.0f, 80.0f);
 }
 
 void ScreenManager::run()
@@ -128,8 +145,7 @@ void ScreenManager::run()
 
         else
         {
-            window.draw(splash_screenDisplay);
-            if (!isGameOver)
+            if (inMainMenu && !viewingInstructions)
             {
                 window.draw(main_menu_s);
                 window.draw(menu_cursor_s);
@@ -137,6 +153,10 @@ void ScreenManager::run()
                 window.draw(game_instructions_txt);
                 window.draw(quit_Game_txt);
             }
+
+            if (inMainMenu && viewingInstructions)
+                displayGameInstructions();
+            
         }
 
         window.display();
@@ -258,7 +278,7 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
                 moveCursorDown();
             break;
         case sf::Keyboard::Enter:
-            processCursorEvents();
+                processCursorEvents();
             break;
         default:
             break;
@@ -562,11 +582,51 @@ void ScreenManager::processCursorEvents()
 {
     sf::Vector2f cursorPosition = menu_cursor_s.getPosition();
 
-    if (inMainMenu && cursorPosition == cursorStartGamePos)
+    if (inMainMenu)
     {
-        isPlaying = true;
-        inMainMenu = false;
+        if (cursorPosition == cursorStartGamePos)
+        {
+            isPlaying = true;
+            inMainMenu = false;
+        }
+        if (cursorPosition == cursorQuitGamePos)
+        {
+            window.close();
+        }
+        if (cursorPosition == cursorInstructionsPos)
+        {
+            viewingInstructions = true;
+            bulletPoint1_watch->restart();
+            bulletPoint2_watch->restart();
+            bulletPoint3_watch->restart();
+            bulletPoint4_watch->restart();
+
+            menu_cursor_s.setPosition(0.0f, 0.0f);
+        }
     }
+}
+
+void ScreenManager::bulletPointAnimation(sf::Sprite& bulletPoint_sprite, shared_ptr<StopWatch>& bulletPoint_watch)
+{
+    if (bulletPoint_watch->getTimeElapsed() > 0.3f)
+        bulletPoint_watch->restart();
+
+    auto time = bulletPoint_watch->getTimeElapsed();
+    if (time >= 0.0f && time <= 0.15f)
+        bulletPoint_sprite.setTexture(bulletPoint1_t);
+
+    if (time > 0.15f && time <= 0.3f)
+    {
+        bulletPoint_sprite.setTexture(bulletPoint2_t);
+    }    
+}
+
+void ScreenManager::displayGameInstructions()
+{
+    bulletPointAnimation(instruction1_bulletPoint_s, bulletPoint1_watch);
+    window.draw(instructions_background_s);
+    window.draw(game_instruction1_txt);
+    window.draw(instruction1_bulletPoint_s);
 }
 
 //Free up resources
