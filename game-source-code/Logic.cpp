@@ -734,7 +734,7 @@ void Logic::collision_between_bullet_and_bomb(vector<shared_ptr<sf::Sprite>>& bu
 
     bomb_controller.Explosion(vector_of_bomb_objects, bomb_sprite, mushField, mushroom_sprites, spider_object_vector,spider_sprite,centipede_objectVector,
                               centipede_sprite,scorpion_object_vector,scorpion_sprite,player_object, playerBombed, player_sprite, flea_object,
-                              flea_sprite,score);
+                              flea_sprite,score, segmentsShot);
 
     if (playerBombed)
     {

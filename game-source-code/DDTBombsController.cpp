@@ -53,7 +53,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                                    vector<shared_ptr<Centipede>>& centipedeobj, vector<shared_ptr<sf::Sprite>>& centipedeSpite,
                                    vector<shared_ptr<Scorpion>>& scorpionObj, vector<shared_ptr<sf::Sprite>>& scorpion_sprite,
                                    Player& player_obj, bool& playerBombed, sf::Sprite& player_sprite, vector<shared_ptr<Flea>>& fleaObj,
-                                   vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score)
+                                   vector<shared_ptr<sf::Sprite>>& flea_sprite, int& _score, int& segments_destroyed)
 {
     auto bombSprite_iter = bombSprite.begin();
     auto bomb_iter = bombObj.begin();
@@ -93,7 +93,7 @@ void DDTBombsController::Explosion(vector<shared_ptr<DDTBombs>>& bombObj, vector
                 //check collision between explosion and mushroom(final radius)
                 explosion_and_mush((*bombSprite_iter), mushField, mushroom_sprites, _score);
                 explosion_and_spider((*bombSprite_iter),spiderObj,spiderSprite,_score);
-                explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score);
+                explosion_and_centipede((*bombSprite_iter),centipedeobj,centipedeSpite, _score, segments_destroyed);
                 explosion_and_scorpion((*bombSprite_iter),scorpionObj,scorpion_sprite,_score);
                 explosion_and_player((*bombSprite_iter),player_obj,player_sprite, playerBombed);
                 explosion_and_flea((*bombSprite_iter),fleaObj,flea_sprite,_score);
@@ -212,7 +212,7 @@ void DDTBombsController::explosion_and_spider(shared_ptr<sf::Sprite>& bomb_sprit
 }
 
 void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sprite, vector<shared_ptr<Centipede>>& centipede_obj,
-        vector<shared_ptr<sf::Sprite>>& centipede_sprite, int& _score)
+        vector<shared_ptr<sf::Sprite>>& centipede_sprite, int& _score, int& segments_destroyed)
 {
     for(auto& segment : centipede_obj)
     {
@@ -237,6 +237,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sp
                 _score += bodyPoints;
             }
             segment -> is_hit(true);
+            ++segments_destroyed;
         }
 
         isCollided = second_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
@@ -251,6 +252,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sp
                 _score += bodyPoints;
             }
             segment -> is_hit(true);
+            ++segments_destroyed;
         }
 
         isCollided = third_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
@@ -265,6 +267,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sp
                 _score += bodyPoints;
             }
             segment -> is_hit(true);
+            ++segments_destroyed;
         }
 
         isCollided = fourth_quadrant_collisions(segment_pos,centWidth,centHeight,explosion_pos,explosion_width,explosion_height,isCollided);
@@ -279,6 +282,7 @@ void DDTBombsController::explosion_and_centipede(shared_ptr<sf::Sprite>& bomb_sp
                 _score += bodyPoints;
             }
             segment -> is_hit(true);
+            ++segments_destroyed;
         }
 
     }
