@@ -13,7 +13,9 @@ ScreenManager::ScreenManager():
     inMainMenu{true},
     viewingInstructions{false},
     animation_period{0.1f},
-    instructions_offset{60.0f}
+    instructions_offset{60.0f},
+    inEndMenu{false},
+    totalCentipedeSegments{12}
 
 {
     cursorStartGamePos.y = 214.8f;
@@ -214,6 +216,40 @@ void ScreenManager::initialize_screen()
     backToMainMenu_txt.setFillColor(sf::Color::Red);
     backToMainMenu_txt.setPosition(245.0f, 400.0f);
     backToMainMenu_txt.setString("Main menu (PRESS Enter)");
+
+    playerScoreTag.setFont(splash_screenFont);
+    playerScoreTag.setCharacterSize(12);
+    playerScoreTag.setStyle(sf::Text::Bold);
+    playerScoreTag.setFillColor(sf::Color::Green);
+    playerScoreTag.setString("YOUR SCORE");
+
+    playerScore.setFont(splash_screenFont);
+    playerScore.setCharacterSize(12);
+    playerScore.setStyle(sf::Text::Bold);
+    playerScore.setFillColor(sf::Color::Green);
+
+    highestScoreTag.setFont(splash_screenFont);
+    highestScoreTag.setCharacterSize(12);
+    highestScoreTag.setStyle(sf::Text::Bold);
+    highestScoreTag.setFillColor(sf::Color::Green);
+    highestScoreTag.setString("HIGH SCORE");
+
+    highestScore.setFont(splash_screenFont);
+    highestScore.setCharacterSize(12);
+    highestScore.setStyle(sf::Text::Bold);
+    highestScore.setFillColor(sf::Color::Green);
+
+    resetHighScore_txt.setFont(splash_screenFont);
+    resetHighScore_txt.setCharacterSize(12);
+    resetHighScore_txt.setStyle(sf::Text::Regular);
+    resetHighScore_txt.setFillColor(sf::Color::Green);
+    resetHighScore_txt.setString("reset high score");
+
+    endGameQuit_txt.setFont(splash_screenFont);
+    endGameQuit_txt.setCharacterSize(12);
+    endGameQuit_txt.setStyle(sf::Text::Regular);
+    endGameQuit_txt.setFillColor(sf::Color::Green);
+    endGameQuit_txt.setString("Quit game");
 }
 
 void ScreenManager::run()
@@ -248,6 +284,9 @@ void ScreenManager::run()
 
             if (inMainMenu && viewingInstructions)
                 displayGameInstructions();
+
+            if (inEndMenu)
+                displayWinningMenu();
             
         }
 
@@ -359,7 +398,7 @@ void ScreenManager::keyboard_handling(sf::Keyboard::Key key, bool isPressed)
     {
         shoot_timer++;
     }
-    if (inMainMenu && isPressed)
+    if ((inMainMenu || inEndMenu) && isPressed)
     {
         switch (key)
         {
@@ -570,25 +609,22 @@ void ScreenManager::update_game()
     {
         isPlaying = false;
         isGameOver = true;
+        inEndMenu = true;
+        menu_cursor_s.setPosition(130.0f, 264.8f);
+        resetHighScore_txt.setFillColor(sf::Color::Red);
         window.clear();
-        splash_screenDisplay.setString("YOU LOST!"
-                                       "\nGAME OVER"
-                                       "\nPress Escape(Esc) key to quit"
-                                       "\nPress R to reset highscore");
     }
 
     //if all centipede segments are killed, player wins
     auto killed_segments = logic.getNumberOfShotSegments();
-    if(killed_segments == bodiesToSpawn)
+    if(killed_segments == totalCentipedeSegments)
     {
         isPlaying = false;
         isGameOver = true;
+        inEndMenu = true;
+        menu_cursor_s.setPosition(130.0f, 264.8f);
+        resetHighScore_txt.setFillColor(sf::Color::Red);
         window.clear();
-        splash_screenDisplay.setFillColor(sf::Color::Green);
-        splash_screenDisplay.setString("YOU WIN!"
-                                       "\nGAME OVER"
-                                       "\nPress Escape(Esc) key to quit"
-                                       "\nPress R to reset highscore");
     }
 }
 
@@ -642,6 +678,31 @@ void ScreenManager::moveCursorDown()
         start_Game_txt.setFillColor(sf::Color::Green);
         game_instructions_txt.setFillColor(sf::Color::Red);
     }
+
+    if (inEndMenu)
+    {
+        sf::Vector2f quitEndMenu;
+        quitEndMenu.x = 173.0f;
+        quitEndMenu.y = 289.8f;
+
+        sf::Vector2f resetHighScrorePos;
+        resetHighScrorePos.x = 130.0f;
+        resetHighScrorePos.y = 264.8f;
+
+        if (cursorPosition == quitEndMenu)
+        {
+            menu_cursor_s.setPosition(resetHighScrorePos);
+            resetHighScore_txt.setFillColor(sf::Color::Red);
+            endGameQuit_txt.setFillColor(sf::Color::Green);
+        }
+
+        if (cursorPosition == resetHighScrorePos)
+        {
+            menu_cursor_s.setPosition(quitEndMenu);
+            resetHighScore_txt.setFillColor(sf::Color::Green);
+            endGameQuit_txt.setFillColor(sf::Color::Red);
+        }
+    }
 }
 
 void ScreenManager::moveCursorUp()
@@ -668,6 +729,31 @@ void ScreenManager::moveCursorUp()
         start_Game_txt.setFillColor(sf::Color::Red);
         game_instructions_txt.setFillColor(sf::Color::Green);
     }
+
+    if (inEndMenu)
+    {
+        sf::Vector2f quitEndMenu;
+        quitEndMenu.x = 173.0f;
+        quitEndMenu.y = 289.8f;
+
+        sf::Vector2f resetHighScrorePos;
+        resetHighScrorePos.x = 130.0f;
+        resetHighScrorePos.y = 264.8f;
+
+        if (cursorPosition == quitEndMenu)
+        {
+            menu_cursor_s.setPosition(resetHighScrorePos);
+            resetHighScore_txt.setFillColor(sf::Color::Red);
+            endGameQuit_txt.setFillColor(sf::Color::Green);
+        }
+
+        if (cursorPosition == resetHighScrorePos)
+        {
+            menu_cursor_s.setPosition(quitEndMenu);
+            resetHighScore_txt.setFillColor(sf::Color::Green);
+            endGameQuit_txt.setFillColor(sf::Color::Red);
+        }
+    }
 }
 
 void ScreenManager::processCursorEvents()
@@ -677,7 +763,11 @@ void ScreenManager::processCursorEvents()
     cursorInGameInstructions.x = 232.0f;
     cursorInGameInstructions.y = 400.0f;
 
-    if (inMainMenu)
+    sf::Vector2f quitGameEndMenu;
+    quitGameEndMenu.x = 173.0f;
+    quitGameEndMenu.y = 289.8f;
+
+    if (inMainMenu || inEndMenu)
     {
         if (viewingInstructions && cursorPosition == cursorInGameInstructions)
         {
@@ -707,6 +797,12 @@ void ScreenManager::processCursorEvents()
 
             menu_cursor_s.setPosition(cursorInGameInstructions);
         }
+    }
+
+    if (inEndMenu)
+    {
+        if (cursorPosition == quitGameEndMenu)
+            window.close();
     }
 }
 
@@ -870,6 +966,44 @@ void ScreenManager::displayFleaEnemy()
 
     window.draw(flea_enemy_s);
     window.draw(flea_instructions_txt);
+}
+
+void ScreenManager::displayWinningMenu()
+{
+    window.draw(instructions_background_s);
+
+    centerText(playerScoreTag, 170.0f);
+    window.draw(playerScoreTag);
+
+    auto current_score = logic.get_score();
+    std::string _currentScore = std::to_string(current_score);
+    playerScore.setString(_currentScore);
+    centerText(playerScore, 195.0f);
+    window.draw(playerScore);
+
+    centerText(highestScoreTag, 220.0f);
+    window.draw(highestScoreTag);
+
+    auto high_score = score_manager.highScoreDisplay(current_score);
+    std::string highScore = std::to_string(high_score);
+    highestScore.setString(highScore);
+    centerText(highestScore, 245.0f);
+    window.draw(highestScore);
+
+    centerText(resetHighScore_txt, 270);
+    window.draw(resetHighScore_txt);
+
+    centerText(endGameQuit_txt, 295.0f);
+    window.draw(endGameQuit_txt);
+
+    window.draw(menu_cursor_s);
+}
+
+void ScreenManager::centerText(sf::Text& text, float Yposition)
+{
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+    text.setPosition(sf::Vector2f(windowWidth / 2.0f, Yposition));
 }
 
 void ScreenManager::load_resources()

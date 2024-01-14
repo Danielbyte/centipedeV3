@@ -212,5 +212,20 @@ class ScreenManager
 
         sf::Text backToMainMenu_txt;
 
+        bool inEndMenu;
+
+        int totalCentipedeSegments;
+
+        void displayWinningMenu();
+        sf::Text playerScoreTag;
+        sf::Text highestScoreTag;
+        sf::Text playerScore;
+        sf::Text highestScore;
+
+        sf::Text endGameQuit_txt;
+        sf::Text resetHighScore_txt;
+
+        void centerText(sf::Text& text, float Yposition);
+
 };
 #endif // SCREENMANAGER_H
