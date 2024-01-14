@@ -1,6 +1,7 @@
 #include "soundManager.h"
 
-SoundManager::SoundManager()
+SoundManager::SoundManager():
+	initialPlay{true}
 {
 	//Load files in to buffers
 	laserSoundBuffer.loadFromFile("resources/laser-sound.wav");
@@ -13,6 +14,7 @@ SoundManager::SoundManager()
 	spiderMunchSoundBuffer.loadFromFile("resources/spider-munch.wav");
 	playerDeathSoundBuffer.loadFromFile("resources/player-death.wav");
 	mendMushroomSoundBuffer.loadFromFile("resources/mend-mushroom.wav");
+	scoreResetSoundBuffer.loadFromFile("resources/score_reset.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -44,6 +46,9 @@ SoundManager::SoundManager()
 
 	mendMushroomSound.setBuffer(mendMushroomSoundBuffer);
 	mendMushroomSound.setRelativeToListener(true);
+
+	scoreResetSound.setBuffer(scoreResetSoundBuffer);
+	scoreResetSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -97,4 +102,20 @@ void SoundManager::playPlayerDeathSound()
 void SoundManager::playMendMushroomSound()
 {
 	mendMushroomSound.play();
+}
+
+void SoundManager::playScoreResetSound()
+{
+	scorpionSound.stop();
+	backGroundSound.stop();
+	spiderSound.stop();
+
+	if (initialPlay)
+	{
+		scoreResetSound.play();
+		initialPlay = false;
+	}
+
+	if (scoreResetSound.getStatus() == sf::Sound::Stopped)
+		scoreResetSound.play();
 }

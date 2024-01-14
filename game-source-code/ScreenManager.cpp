@@ -836,6 +836,7 @@ void ScreenManager::processCursorEvents()
                     timer->restart();
                 }
                 
+                sound_manager->playScoreResetSound();
             }
         }
     }
