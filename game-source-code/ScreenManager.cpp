@@ -771,11 +771,13 @@ void ScreenManager::processCursorEvents()
         {
             viewingInstructions = false;
             menu_cursor_s.setPosition(cursorInstructionsPos);
+            sound_manager->playSelectionSound();
         }
         if (cursorPosition == cursorStartGamePos)
         {
             isPlaying = true;
             inMainMenu = false;
+            sound_manager->playSelectionSound();
         }
         if (cursorPosition == cursorQuitGamePos)
         {
@@ -794,6 +796,7 @@ void ScreenManager::processCursorEvents()
             flea_enemy_watch->restart();
 
             menu_cursor_s.setPosition(cursorInGameInstructions);
+            sound_manager->playSelectionSound();
         }
     }
 

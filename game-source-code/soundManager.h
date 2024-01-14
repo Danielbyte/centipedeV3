@@ -17,6 +17,7 @@ public:
     void playPlayerDeathSound();
     void playMendMushroomSound();
     void playScoreResetSound();
+    void playSelectionSound();
 
 private:
     sf::SoundBuffer laserSoundBuffer;
@@ -30,6 +31,7 @@ private:
     sf::SoundBuffer playerDeathSoundBuffer;
     sf::SoundBuffer mendMushroomSoundBuffer;
     sf::SoundBuffer scoreResetSoundBuffer;
+    sf::SoundBuffer selectionSoundBuffer;
 
     sf::Sound laserSound;
     sf::Sound spiderSound;
@@ -42,6 +44,7 @@ private:
     sf::Sound playerDeathSound;
     sf::Sound mendMushroomSound;
     sf::Sound scoreResetSound;
+    sf::Sound selectionSound;
 
     bool initialPlay;
 };

@@ -15,6 +15,7 @@ SoundManager::SoundManager():
 	playerDeathSoundBuffer.loadFromFile("resources/player-death.wav");
 	mendMushroomSoundBuffer.loadFromFile("resources/mend-mushroom.wav");
 	scoreResetSoundBuffer.loadFromFile("resources/score_reset.wav");
+	selectionSoundBuffer.loadFromFile("resources/cursor_select.wav");
 
 	//Load buffers into actual sounds
 	laserSound.setBuffer(laserSoundBuffer);
@@ -49,6 +50,9 @@ SoundManager::SoundManager():
 
 	scoreResetSound.setBuffer(scoreResetSoundBuffer);
 	scoreResetSound.setRelativeToListener(true);
+
+	selectionSound.setBuffer(selectionSoundBuffer);
+	selectionSound.setRelativeToListener(true);
 }
 
 void SoundManager::playLaserSound()
@@ -118,4 +122,9 @@ void SoundManager::playScoreResetSound()
 
 	if (scoreResetSound.getStatus() == sf::Sound::Stopped)
 		scoreResetSound.play();
+}
+
+void SoundManager::playSelectionSound()
+{
+	selectionSound.play();
 }
