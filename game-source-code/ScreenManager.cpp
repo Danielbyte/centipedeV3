@@ -364,12 +364,6 @@ void ScreenManager::process_events()
                 window.close();
             }
 
-            else if(event.key.code == sf::Keyboard::R && isGameOver)
-            {
-                reset_high_score = true;
-                //window.close();
-            }
-
             else
                 keyboard_handling(event.key.code, true);
             break;
@@ -767,7 +761,11 @@ void ScreenManager::processCursorEvents()
     quitGameEndMenu.x = 173.0f;
     quitGameEndMenu.y = 289.8f;
 
-    if (inMainMenu || inEndMenu)
+    sf::Vector2f resetHighScorePos;
+    resetHighScorePos.x = 130.0f;
+    resetHighScorePos.y = 264.8f;
+
+    if (inMainMenu)
     {
         if (viewingInstructions && cursorPosition == cursorInGameInstructions)
         {
@@ -803,6 +801,43 @@ void ScreenManager::processCursorEvents()
     {
         if (cursorPosition == quitGameEndMenu)
             window.close();
+
+        if (cursorPosition == resetHighScorePos)
+        {
+            auto high_score = score_manager.getHighScore();
+            score_manager.reset_high_score();
+            shared_ptr<StopWatch>timer = std::make_shared<StopWatch>();
+
+            while (high_score > 0)
+            {
+                scoreResetEndMenu();
+                auto time = timer->getTimeElapsed();
+                std::string highScore = std::to_string(high_score);
+                highestScore.setString(highScore);
+                centerText(highestScore, 245.0f);
+                window.draw(highestScore);
+                window.display();
+                window.clear();
+
+                if (time >= 0.03f)
+                {
+                    if (high_score > 1000)
+                    {
+                        high_score -= 500;
+                    }
+                    if (high_score > 50 && high_score <= 1000)
+                    {
+                        high_score -= 50;
+                    }
+                    if (high_score <= 50)
+                    {
+                        --high_score;
+                    }
+                    timer->restart();
+                }
+                
+            }
+        }
     }
 }
 
@@ -984,11 +1019,36 @@ void ScreenManager::displayWinningMenu()
     centerText(highestScoreTag, 220.0f);
     window.draw(highestScoreTag);
 
-    auto high_score = score_manager.highScoreDisplay(current_score);
+    auto high_score = score_manager.getHighScore();
     std::string highScore = std::to_string(high_score);
     highestScore.setString(highScore);
     centerText(highestScore, 245.0f);
     window.draw(highestScore);
+
+    centerText(resetHighScore_txt, 270);
+    window.draw(resetHighScore_txt);
+
+    centerText(endGameQuit_txt, 295.0f);
+    window.draw(endGameQuit_txt);
+
+    window.draw(menu_cursor_s);
+}
+
+void ScreenManager::scoreResetEndMenu()
+{
+    window.draw(instructions_background_s);
+
+    centerText(playerScoreTag, 170.0f);
+    window.draw(playerScoreTag);
+
+    auto current_score = logic.get_score();
+    std::string _currentScore = std::to_string(current_score);
+    playerScore.setString(_currentScore);
+    centerText(playerScore, 195.0f);
+    window.draw(playerScore);
+
+    centerText(highestScoreTag, 220.0f);
+    window.draw(highestScoreTag);
 
     centerText(resetHighScore_txt, 270);
     window.draw(resetHighScore_txt);

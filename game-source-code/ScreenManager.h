@@ -226,6 +226,7 @@ class ScreenManager
         sf::Text resetHighScore_txt;
 
         void centerText(sf::Text& text, float Yposition);
+        void scoreResetEndMenu();
 
 };
 #endif // SCREENMANAGER_H

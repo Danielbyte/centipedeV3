@@ -40,3 +40,8 @@ void Scoremanager::reset_high_score()
 
     output.close();
 }
+
+int Scoremanager::getHighScore() const
+{
+    return high_score;
+}

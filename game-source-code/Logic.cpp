@@ -1075,7 +1075,6 @@ void Logic::refresh_game_world(vector<shared_ptr<MushroomField>>& mushrooms, vec
         flea_object.clear();
         flea_sprite.clear();
     }
-        
 }
 
 int Logic::getNumberOfShotSegments() const
