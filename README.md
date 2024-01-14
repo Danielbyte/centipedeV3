@@ -18,7 +18,7 @@ If player shoots a bomb, it will begin to detonate and destroy everything within
 
 Player can reset High Score at the end of game.
 
-![image](resources/game-end-view)
+![image](resources/game-end-view.png)
 
 # How to Run Game
 Click on release link `(on the right)` and download `executables.zip` folder under the latest release. Unzip the file and run the `Centipede.exe` file.
